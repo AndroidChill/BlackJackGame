@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_news"
+            android:title="@string/nav_news"/>
+        <item
+            android:id="@+id/nav_profile"
+            android:title="@string/nav_profile"/>
+        <item
+            android:id="@+id/nav_rating"
+            android:title="@string/nav_rating"/>
+        <item
+            android:id="@+id/nav_friends"
+            android:title="@string/friends_title"/>
+        <item
+            android:id="@+id/nav_get_monet"
+            android:title="@string/get_monet"/>
+        <item
+            android:id="@+id/nav_rules"
+            android:title="@string/rules"/>
+        <item
+            android:id="@+id/nav_tournament"
+            android:title="@string/tournament"/>
+
+        <item
+            android:id="@+id/nav_start_game"
+            android:title="@string/start_game"/>
+    </group>
+</menu>

@@ -1,0 +1,62 @@
+<resources>
+    <string name="app_name">BlackJackGame</string>
+    <string name="title_activity_navigation">NavigationActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+
+    <string name="title_app">TwentyOne</string>
+    <string name="intro_description">Начнем игру поскорее? Но сначала надо войти...</string>
+
+    <string name="profile_edit">Редактировать</string>
+    <string name="profile_title">Профиль</string>
+
+    <string name="logo_app">Логотип приложения</string>
+    <string name="sign">Войти</string>
+    <string name="guest">Гость</string>
+    <string name="sign_up">Регистрация</string>
+    <string name="what_google">Есть Google - аккаунт?</string>
+    <string name="logo_google">Логотип гугл</string>
+    <string name="sign_please">Войдите</string>
+    <string name="private_term">Я соглашаюсь с политикой пользования MAZITOGAME</string>
+    <string name="nav_profile">Профиль</string>
+    <string name="nav_news">Новости</string>
+    <string name="nav_rating">Рейтинг</string>
+    <string name="edit_data">Изменить данные</string>
+    <string name="friends_title">Друзья</string>
+    <string name="name">Имя</string>
+    <string name="surname">Фамилия</string>
+    <string name="email">Email</string>
+    <string name="rating">Рейтинг</string>
+    <string name="position_in_rating">Позиция в рейтинге</string>
+    <string name="nickname">Никнейм</string>
+    <string name="yourself">О себе</string>
+    <string name="agree">Принять</string>
+    <string name="cancel">Отменить</string>
+    <string name="coast">Стоимость :</string>
+    <string name="give_money">Подарить монеты</string>
+    <string name="set_kol_money">Введите количество монет</string>
+    <string name="done">Подтвердить</string>
+    <string name="nick">NickName</string>
+    <string name="not">Отклонить</string>
+    <string name="add">Добавить</string>
+    <string name="get_monet">Получить монеты</string>
+    <string name="lets_go">Приступить</string>
+    <string name="description">DescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescription</string>
+    <string name="ost_start">До старта осталось :</string>
+    <string name="otklonit">Отклонить</string>
+    <string name="prinyat">Принять</string>
+    <string name="rules">Правила</string>
+    <string name="progress">Достижения</string>
+    <string name="active_task">Выполнение задания</string>
+    <string name="vipolnit">Выполнить</string>
+    <string name="tournament">Турниры</string>
+    <string name="start_game">Начать игру</string>
+</resources>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_news">
+
+    <fragment
+        android:id="@+id/nav_news"
+        android:name="com.example.blackjackgame.ui.fragment.news.NewsFragment"
+        android:label="@string/nav_news"
+        tools:layout="@layout/fragment_news"/>
+
+    <fragment
+        android:id="@+id/nav_profile"
+        android:name="com.example.blackjackgame.ui.fragment.profile.ProfileFragment"
+        android:label="@string/nav_profile"
+        tools:layout="@layout/fragment_profile"/>
+
+    <fragment
+        android:id="@+id/nav_rating"
+        android:name="com.example.blackjackgame.ui.fragment.rating.RatingFragment"
+        android:label="@string/nav_rating"
+        tools:layout="@layout/fragment_rating"/>
+
+    <fragment
+        android:id="@+id/nav_friends"
+        android:name="com.example.blackjackgame.ui.fragment.friends.FriendsFragment"
+        android:label="@string/friends_title"
+        tools:layout="@layout/fragment_friend"/>
+
+    <fragment
+        android:id="@+id/nav_get_monet"
+        android:name="com.example.blackjackgame.ui.fragment.getmonet.GetMonetFragment"
+        android:label="@string/get_monet"
+        tools:layout="@layout/fragment_get_monet"/>
+
+    <fragment
+        android:id="@+id/nav_rules"
+        android:name="com.example.blackjackgame.ui.fragment.rules.RulesFragment"
+        android:label="@string/rules"
+        tools:layout="@layout/fragment_rules"/>
+
+    <fragment
+        android:id="@+id/nav_tournament"
+        android:name="com.example.blackjackgame.ui.fragment.tournament.TournamentFragment"
+        android:label="@string/tournament"
+        tools:layout="@layout/fragment_tournament"/>
+
+    <fragment
+        android:id="@+id/nav_start_game"
+        android:name="com.example.blackjackgame.ui.fragment.game.StartGameFragment"
+        android:label="@string/start_game"
+        tools:layout="@layout/fragment_start_game"/>
+</navigation>
