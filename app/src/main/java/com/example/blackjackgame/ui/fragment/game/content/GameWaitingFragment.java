@@ -73,23 +73,23 @@ public class GameWaitingFragment extends Fragment {
         mAdView.setAdListener(new AdListener() {
             @Override
             public void onAdLoaded() {
-                // Code to be executed when an ad finishes loading.
+                // Code to be executed when an card_ad finishes loading.
             }
 
             @Override
             public void onAdFailedToLoad(LoadAdError adError) {
-                // Code to be executed when an ad request fails.
+                // Code to be executed when an card_ad request fails.
             }
 
             @Override
             public void onAdOpened() {
-                // Code to be executed when an ad opens an overlay that
+                // Code to be executed when an card_ad opens an overlay that
                 // covers the screen.
             }
 
             @Override
             public void onAdClicked() {
-                // Code to be executed when the user clicks on an ad.
+                // Code to be executed when the user clicks on an card_ad.
             }
 
             @Override
@@ -100,7 +100,7 @@ public class GameWaitingFragment extends Fragment {
             @Override
             public void onAdClosed() {
                 // Code to be executed when the user is about to return
-                // to the app after tapping on an ad.
+                // to the app after tapping on an card_ad.
             }
         });
 
