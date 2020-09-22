@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.cardview.widget.CardView android:id="@+id/card_player1"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="10dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#686767">
+
+            <View
+                android:layout_width="75dp"
+                android:layout_height="2dp"
+                android:layout_marginTop="4dp"
+                android:background="#000"
+                app:layout_constraintBottom_toTopOf="@+id/money_player3"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/info_player5"
+                app:layout_constraintTop_toBottomOf="@+id/nick_player3" />
+
+            <TextView
+                android:id="@+id/money_player3"
+                style="@style/NickText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="2465 $"
+                android:textColor="#EAD81F"
+                app:layout_constraintEnd_toEndOf="@+id/nick_player3"
+                app:layout_constraintStart_toStartOf="@+id/nick_player3"
+                app:layout_constraintTop_toBottomOf="@+id/nick_player3" />
+
+            <ImageView
+                android:id="@+id/info_player5"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="8dp"
+                android:clickable="true"
+                app:layout_constraintBottom_toBottomOf="@+id/constraintLayout5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/constraintLayout5"
+                app:layout_constraintVertical_bias="0.61"
+                app:srcCompat="@drawable/avatar1" />
+
+            <TextView
+                android:id="@+id/nick_player3"
+                style="@style/NickText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:singleLine="true"
+                android:text="nickname3"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/info_player5"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>

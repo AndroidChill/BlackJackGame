@@ -91,32 +91,45 @@
                     app:layout_constraintTop_toBottomOf="@+id/url"
                     app:srcCompat="@drawable/logo_game" />
 
-                <TextView
-                    android:id="@+id/secondTvDesc"
-                    android:layout_width="wrap_content"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_example"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginBottom="16dp"
-                    android:text="@string/ost_start"
-                    android:textColor="#000"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/description"
-                    app:layout_constraintTop_toBottomOf="@+id/imageView5" />
-
-                <TextView
-                    android:id="@+id/secondTvTimer"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="12:00:04"
-                    android:textColor="#000"
-                    android:textSize="26sp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="@+id/secondTvDesc"
+                    android:clickable="true"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/secondTvDesc"
-                    app:layout_constraintTop_toTopOf="@+id/secondTvDesc" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imageView5">
+
+                    <TextView
+                        android:id="@+id/secondTvDesc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:text="@string/ost_start"
+                        android:textColor="#000"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/description"
+                        app:layout_constraintTop_toBottomOf="@+id/imageView5" />
+
+                    <TextView
+                        android:id="@+id/secondTvTimer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="12:00:04"
+                        android:textColor="#000"
+                        android:textSize="26sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="@+id/secondTvDesc"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/secondTvDesc"
+                        app:layout_constraintTop_toTopOf="@+id/secondTvDesc" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
 
                 <Button
                     android:id="@+id/friendOtklonit"

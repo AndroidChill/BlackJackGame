@@ -69,6 +69,10 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             binding.description.setText(news.getText());
             binding.date.setText(String.valueOf(news.getTime()));
 
+            binding.clExample.setOnClickListener(v -> {
+
+            });
+
             DateFormat dataFormat = new SimpleDateFormat("dd.mm.yyyy");
             String str = dataFormat.format(new Date(news.getTime() * 1000));
 
