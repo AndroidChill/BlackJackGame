@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.example.blackjackgame.R;
 import com.example.blackjackgame.data.Constant;
@@ -43,6 +44,8 @@ public class TournamentListActivity extends AppCompatActivity {
                 1
         );
 
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
         binding.toolbar4.setNavigationOnClickListener(v -> {
             finish();
         });
@@ -50,8 +53,8 @@ public class TournamentListActivity extends AppCompatActivity {
         viewModel.getTournaments(request).observe(this, new Observer<TournamentBody>() {
             @Override
             public void onChanged(TournamentBody tournamentBody) {
-                binding.recyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext()));
-                binding.recyclerView.setAdapter(new TournamentListAdapter(tournamentBody.getTournament_menu(), getBaseContext()));
+                Log.d("tag", "onChanged: "+ tournamentBody.getStatus());
+                binding.recyclerView.setAdapter(new TournamentListAdapter(tournamentBody.getTournament_menu(), getApplicationContext()));
             }
         });
     }

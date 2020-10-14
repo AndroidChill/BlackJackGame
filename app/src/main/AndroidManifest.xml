@@ -14,14 +14,9 @@
         android:theme="@style/AppTheme.NoActionBar"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-        <activity android:name=".ui.activity.GameFiveActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".ui.activity.ActionGameActivity"></activity>
+        <activity android:name=".ui.activity.AdYandexActivity"></activity>
+        <activity android:name=".ui.activity.GameFiveActivity"></activity>
+        <activity android:name=".ui.activity.ActionGameActivity" />
         <activity android:name=".ui.activity.GameMotionActivity" />
         <activity android:name=".ui.activity.AdActivity" />
 
@@ -34,7 +29,13 @@
         <activity
             android:name=".ui.activity.NavigationActivity"
             android:label="@string/title_activity_navigation"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".ui.activity.MainActivity" />
     </application>
 

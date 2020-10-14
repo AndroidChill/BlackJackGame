@@ -2,6 +2,8 @@ package com.example.blackjackgame.ui.fragment.getmonet;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -31,11 +33,17 @@ public class GetMonetFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_get_monet, container, false);
-
+        setHasOptionsMenu(true);
         getFragmentManager().beginTransaction()
                 .add(R.id.container_get_monet, GetMonetContentFragment.newInstance())
                 .commit();
 
         return binding.getRoot();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        menu.clear();
+        super.onCreateOptionsMenu(menu, inflater);
     }
 }

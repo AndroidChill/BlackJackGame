@@ -24,7 +24,7 @@ public class ActionGameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_action_game);
 
-        idImages = CardUtil.getIdShakeCards(idImages);
+//        idImages = CardUtil.getIdShakeCards(idImages);
 
     }
 }

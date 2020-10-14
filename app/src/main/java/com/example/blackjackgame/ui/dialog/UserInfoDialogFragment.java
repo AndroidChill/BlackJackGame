@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -110,27 +111,33 @@ public class UserInfoDialogFragment extends DialogFragment {
         });
 
         binding.btnDone.setOnClickListener(v -> {
-            int money = Integer.parseInt(binding.countMoney.getText().toString());
+            int money = 0;
+            if (!binding.countMoney.getText().toString().isEmpty()){
+                money = Integer.parseInt(binding.countMoney.getText().toString());
+            }
 
-            GiveMonetRequest giveMonetRequest = new GiveMonetRequest(
-                    "coins_transfer",
-                    Constant.app_ver,
-                    Constant.ln,
-                    sharedPreferences.getString("token", "null"),
-                    getArguments().getInt("id"),
-                    money
-            );
+            if (money == 0){
+                Snackbar.make(getView(), "Введите число монет", BaseTransientBottomBar.LENGTH_LONG).show();
+            } else {
+                GiveMonetRequest giveMonetRequest = new GiveMonetRequest(
+                        "coins_transfer",
+                        Constant.app_ver,
+                        Constant.ln,
+                        sharedPreferences.getString("token", "null"),
+                        getArguments().getInt("id"),
+                        money
+                );
 
-            viewModel.giveMonet(giveMonetRequest).observe(getViewLifecycleOwner(), new Observer<GiveMonetBody>() {
-                @Override
-                public void onChanged(GiveMonetBody giveMonetBody) {
-                    if(giveMonetBody.getStatus().equals(Constant.success)){
-                        dismiss();
-                        Snackbar.make(getView(), "Монеты успешно переведены", BaseTransientBottomBar.LENGTH_LONG).show();
+                viewModel.giveMonet(giveMonetRequest).observe(getViewLifecycleOwner(), new Observer<GiveMonetBody>() {
+                    @Override
+                    public void onChanged(GiveMonetBody giveMonetBody) {
+                        if(giveMonetBody.getStatus().equals(Constant.success)){
+                            dismiss();
+                            Toast.makeText(getContext() , "Монеты успешно переведены", Toast.LENGTH_SHORT).show();
+                        }
                     }
-                }
-            });
-
+                });
+            }
         });
 
         binding.giveMoney.setOnClickListener(v -> {

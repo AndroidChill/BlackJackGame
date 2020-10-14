@@ -43,8 +43,6 @@ public class TournamentContentPagerFragment extends Fragment {
 
             Intent intent = new Intent(getContext(), TournamentListActivity.class);
             startActivity(intent);
-
-
         });
 
         return binding.getRoot();

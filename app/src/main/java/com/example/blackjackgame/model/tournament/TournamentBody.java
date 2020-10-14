@@ -2,6 +2,7 @@ package com.example.blackjackgame.model.tournament;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TournamentBody {
@@ -16,7 +17,7 @@ public class TournamentBody {
     private String toast;
 
     @SerializedName("tournament_menu")
-    private List<Tournament> tournament_menu;
+    private List<Tournament> tournament_menu = new ArrayList<>();
 
     @SerializedName("time_server")
     private long time_server;

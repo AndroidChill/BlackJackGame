@@ -3,6 +3,7 @@ package com.example.blackjackgame.util;
 import android.widget.ImageView;
 
 import com.example.blackjackgame.R;
+import com.example.blackjackgame.data.Card;
 
 import java.util.LinkedList;
 import java.util.Random;
@@ -47,15 +48,15 @@ public class CardUtil {
         return shufflet;
     }
 
-    public static Integer[] getIdShakeCards(Integer[] shuffled){
+    public static Card[] getIdShakeCards(Card[] shuffled){
 
-        Integer[] shufflet = shuffled;
+        Card[] shufflet = shuffled;
 
         Random random = new Random();
         for (int i = shuffled.length - 1; i >= 0; i--) {
             int j = random.nextInt(i + 1);
             /* swap cards i,j */
-            Integer card = shuffled[i];
+            Card card = shuffled[i];
             shuffled[i] = shuffled[j];
             shufflet[j] = card;
         }
@@ -81,8 +82,41 @@ public class CardUtil {
         };
     }
 
-    public static int getConvertIntToDp(int size){
-        return size * getResources().getDisplayMetrics().density;
+    public static Card[] getCards(){
+        Card[] cards = {
+                new Card(R.drawable.card_2d,2), new Card(R.drawable.card_2c,2),
+                new Card(R.drawable.card_2h,2), new Card(R.drawable.card_2s,2),
+                new Card(R.drawable.card_3d,3), new Card(R.drawable.card_3c,3),
+                new Card(R.drawable.card_3h,3), new Card(R.drawable.card_3s,3),
+                new Card(R.drawable.card_4d,4), new Card(R.drawable.card_4c,4),
+                new Card(R.drawable.card_4h,4), new Card(R.drawable.card_4s,4),
+                new Card(R.drawable.card_5d,5), new Card(R.drawable.card_5c,5),
+                new Card(R.drawable.card_5h,5), new Card(R.drawable.card_5s,5),
+                new Card(R.drawable.card_6d,6), new Card(R.drawable.card_6c,6),
+                new Card(R.drawable.card_6h,6), new Card(R.drawable.card_6s,6),
+                new Card(R.drawable.card_7d,7), new Card(R.drawable.card_7c,7),
+                new Card(R.drawable.card_7h,7), new Card(R.drawable.card_7s,7),
+                new Card(R.drawable.card_8d,8), new Card(R.drawable.card_8c,8),
+                new Card(R.drawable.card_8h,8), new Card(R.drawable.card_8s,8),
+                new Card(R.drawable.card_9d,9), new Card(R.drawable.card_9c,9),
+                new Card(R.drawable.card_9h,9), new Card(R.drawable.card_9s,9),
+                new Card(R.drawable.card_10d,10), new Card(R.drawable.card_10c,10),
+                new Card(R.drawable.card_10h,10), new Card(R.drawable.card_10s,10),
+                new Card(R.drawable.jd,2), new Card(R.drawable.jc,2),
+                new Card(R.drawable.jh,2), new Card(R.drawable.js,2),
+                new Card(R.drawable.qd,3), new Card(R.drawable.qc,3),
+                new Card(R.drawable.qh,3), new Card(R.drawable.qs,3),
+                new Card(R.drawable.kd,4), new Card(R.drawable.kc,4),
+                new Card(R.drawable.kh,4), new Card(R.drawable.ks,4),
+                new Card(R.drawable.card_ad,11, true), new Card(R.drawable.card_ac,11, true),
+                new Card(R.drawable.ah,11, true), new Card(R.drawable.as,11, true)
+        };
+
+        return cards;
     }
+
+//    public static int getConvertIntToDp(int size){
+//        return size * getResources().getDisplayMetrics().density;
+//    }
 
 }

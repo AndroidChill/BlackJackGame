@@ -25,6 +25,7 @@ import com.example.blackjackgame.databinding.DialogProfileEditAvatarBinding;
 import com.example.blackjackgame.model.profile.avatar.Avatar;
 import com.example.blackjackgame.model.profile.avatar.AvatarBody;
 import com.example.blackjackgame.network.responce.profile.avatar.AvatarChangeRequest;
+import com.example.blackjackgame.util.ConvertStringToImage;
 import com.example.blackjackgame.viewmodel.profile.ProfileFactory;
 import com.example.blackjackgame.viewmodel.profile.ProfileViewModel;
 
@@ -40,10 +41,13 @@ public class ProfileChangePhotoDialogFragment extends DialogFragment {
     private int[] images = new int[3];
 
     private SharedPreferences shared;
+    static ImageView view;
 
-    public static ProfileChangePhotoDialogFragment newInstance() {
+    public static ProfileChangePhotoDialogFragment newInstance(ImageView view) {
 
         Bundle args = new Bundle();
+
+        ProfileChangePhotoDialogFragment.view = view;
 
         ProfileChangePhotoDialogFragment fragment = new ProfileChangePhotoDialogFragment();
         fragment.setArguments(args);
@@ -104,7 +108,10 @@ public class ProfileChangePhotoDialogFragment extends DialogFragment {
 
                 binding.coinsItog.setText(String.valueOf(coast[0]));
 
+
                 select = "avatar1.png";
+
+
             }
         });
 
@@ -119,7 +126,7 @@ public class ProfileChangePhotoDialogFragment extends DialogFragment {
                 binding.coinsItog.setText(String.valueOf(coast[1]));
 
                 select = "avatar2.png";
-            }
+}
         });
 
         binding.layout3.setOnClickListener(new View.OnClickListener() {
@@ -133,6 +140,7 @@ public class ProfileChangePhotoDialogFragment extends DialogFragment {
                 binding.coinsItog.setText(String.valueOf(coast[2]));
 
                 select = "avatar3.png";
+
             }
         });
 
@@ -140,11 +148,19 @@ public class ProfileChangePhotoDialogFragment extends DialogFragment {
             @Override
             public void onClick(View v) {
 
+                shared.edit().putBoolean("isEditImage", true).apply();
                 shared.edit().putString("selectImage", select).apply();
                 onDismiss(getDialog());
             }
         });
 
         return binding.getRoot();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        ConvertStringToImage.convert(ProfileChangePhotoDialogFragment.view, select);
+        shared.edit().putString("selectImage", select).commit();
     }
 }

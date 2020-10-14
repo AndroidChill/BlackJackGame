@@ -7,6 +7,9 @@ public class ProfileChangeBody {
     @SerializedName("menu")
     private String menu;
 
+    @SerializedName("status_text")
+    private String status_text;
+
     @SerializedName("status")
     private String status;
 
@@ -17,6 +20,21 @@ public class ProfileChangeBody {
         this.menu = menu;
         this.status = status;
         this.time_server = time_server;
+    }
+
+    public ProfileChangeBody(String menu, String status_text, String status, long time_server) {
+        this.menu = menu;
+        this.status_text = status_text;
+        this.status = status;
+        this.time_server = time_server;
+    }
+
+    public String getStatus_text() {
+        return status_text;
+    }
+
+    public void setStatus_text(String status_text) {
+        this.status_text = status_text;
     }
 
     public String getMenu() {

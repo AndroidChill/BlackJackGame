@@ -32,8 +32,10 @@ import com.example.blackjackgame.ui.activity.MainActivity;
 import com.example.blackjackgame.ui.activity.NavigationActivity;
 import com.example.blackjackgame.ui.dialog.ProfileChangePhotoDialogFragment;
 import com.example.blackjackgame.ui.fragment.profile.content.ProfileContentFragment;
+import com.example.blackjackgame.util.ConvertStringToImage;
 import com.example.blackjackgame.viewmodel.profile.ProfileFactory;
 import com.example.blackjackgame.viewmodel.profile.ProfileViewModel;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Objects;
 
@@ -42,6 +44,7 @@ public class ProfileContentEditFragment extends Fragment {
     private FragmentProfileContentEditBinding binding;
     private ProfileViewModel viewModel;
     private Toolbar toolbar;
+    private long coins = -1;
     private ProfileChangePhotoDialogFragment profileChangePhotoDialogFragment;
     private SharedPreferences shared;
 
@@ -65,7 +68,7 @@ public class ProfileContentEditFragment extends Fragment {
         toolbar = (Toolbar)binding.toolbar;
         Objects.requireNonNull(((NavigationActivity) getActivity()).getSupportActionBar()).hide();
 
-        profileChangePhotoDialogFragment = ProfileChangePhotoDialogFragment.newInstance();
+        profileChangePhotoDialogFragment = ProfileChangePhotoDialogFragment.newInstance(binding.header1.circleImageView);
 
         viewModel = new ViewModelProvider(this, new ProfileFactory(getActivity().getApplication())).get(ProfileViewModel.class);
 
@@ -90,6 +93,8 @@ public class ProfileContentEditFragment extends Fragment {
 
                 setupLogo(o.getProfile().getUser_avatar());
 
+                coins = o.getProfile().getUser_coins();
+
                 //передаем модель
                 binding.info.setModel(o.getProfile());
             } else {
@@ -100,13 +105,19 @@ public class ProfileContentEditFragment extends Fragment {
                 }
             }
 
-
         });
 
         //изменяем фото
         binding.header1.changePhoto.setOnClickListener(v -> {
             assert getFragmentManager() != null;
             profileChangePhotoDialogFragment.show(getFragmentManager(), "dialog");
+
+        });
+
+        binding.info.cancel.setOnClickListener(v -> {
+            getFragmentManager().beginTransaction()
+                    .replace(R.id.container_profile, ProfileContentFragment.newInstance())
+                    .commit();
         });
 
         //от правляем измененные данные
@@ -128,11 +139,14 @@ public class ProfileContentEditFragment extends Fragment {
 
             //отправляем данные и получаем ответ
             viewModel.changeData(requestChange).observe(getViewLifecycleOwner(), o -> {
+                if(!o.getStatus().equals("success")){
+                    Snackbar.make(binding.main, o.getStatus_text(), Snackbar.LENGTH_LONG)
+                            .show();
+                }
                 getFragmentManager().beginTransaction()
                         .replace(R.id.container_profile, ProfileContentFragment.newInstance())
                         .commit();
             });
-
         });
 
         backToolbar();

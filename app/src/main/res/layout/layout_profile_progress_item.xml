@@ -15,7 +15,7 @@
         android:padding="16dp"
         android:focusable="true">
 
-        <de.hdodenhof.circleimageview.CircleImageView
+        <ImageView
             android:id="@+id/item"
             android:layout_width="64dp"
             android:layout_height="64dp"
