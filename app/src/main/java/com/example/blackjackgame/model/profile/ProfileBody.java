@@ -7,6 +7,9 @@ public class ProfileBody {
     @SerializedName("menu")
     private String menu;
 
+    @SerializedName("token")
+    private String token;
+
     @SerializedName("status")
     private String status;
 
@@ -22,6 +25,12 @@ public class ProfileBody {
     @SerializedName("error_text")
     private String error_text;
 
+    @SerializedName("popup")
+    private String popup;
+
+    @SerializedName("captcha_image_url")
+    private String captcha_image_url;
+
     public ProfileBody(String menu, String status, String toast, Profile profile, long time_server, String error_text) {
         this.menu = menu;
         this.status = status;
@@ -29,6 +38,63 @@ public class ProfileBody {
         this.profile = profile;
         this.time_server = time_server;
         this.error_text = error_text;
+    }
+
+    public ProfileBody(String menu, String status, String toast, Profile profile, long time_server, String error_text, String captcha_image_url) {
+        this.menu = menu;
+        this.status = status;
+        this.toast = toast;
+        this.profile = profile;
+        this.time_server = time_server;
+        this.error_text = error_text;
+        this.captcha_image_url = captcha_image_url;
+    }
+
+    public ProfileBody(String menu, String status, String toast, Profile profile, long time_server, String error_text, String popup, String captcha_image_url) {
+        this.menu = menu;
+        this.status = status;
+        this.toast = toast;
+        this.profile = profile;
+        this.time_server = time_server;
+        this.error_text = error_text;
+        this.popup = popup;
+        this.captcha_image_url = captcha_image_url;
+    }
+
+    public ProfileBody(String menu, String token, String status, String toast, Profile profile, long time_server, String error_text, String popup, String captcha_image_url) {
+        this.menu = menu;
+        this.token = token;
+        this.status = status;
+        this.toast = toast;
+        this.profile = profile;
+        this.time_server = time_server;
+        this.error_text = error_text;
+        this.popup = popup;
+        this.captcha_image_url = captcha_image_url;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public String getPopup() {
+        return popup;
+    }
+
+    public void setPopup(String popup) {
+        this.popup = popup;
+    }
+
+    public String getCaptcha_image_url() {
+        return captcha_image_url;
+    }
+
+    public void setCaptcha_image_url(String captcha_image_url) {
+        this.captcha_image_url = captcha_image_url;
     }
 
     public String getError_text() {

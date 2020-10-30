@@ -21,6 +21,15 @@ public class ProfileProgressAdapter extends RecyclerView.Adapter<ProfileProgress
         this.progress = progress;
     }
 
+    public ProfileProgressAdapter(){
+
+    }
+
+    public void setProgress(List<Progress> progress) {
+        this.progress = progress;
+        notifyDataSetChanged();
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

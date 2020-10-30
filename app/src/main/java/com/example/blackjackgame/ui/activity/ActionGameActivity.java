@@ -17,7 +17,7 @@ public class ActionGameActivity extends AppCompatActivity {
     /*
     * получаем id у списка карт по возрастанию
     * */
-    private Integer[] idImages = CardUtil.getCardMassiv();
+//    private Integer[] idImages = CardUtil.getCardMassiv();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

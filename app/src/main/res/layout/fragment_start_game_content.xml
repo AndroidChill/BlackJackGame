@@ -24,7 +24,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <include
-                    android:id="@+id/count123"
+                    android:id="@+id/count_player"
                     layout="@layout/layout_start_game_count" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -41,7 +41,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
 
                 <include
-                    android:id="@+id/stavka1"
+                    android:id="@+id/count_stavka"
                     layout="@layout/layout_start_game_stavka" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>

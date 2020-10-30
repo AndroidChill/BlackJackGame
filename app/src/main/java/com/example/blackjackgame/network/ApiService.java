@@ -7,9 +7,9 @@ import com.example.blackjackgame.model.friend.referrals.ReferralsBody;
 import com.example.blackjackgame.model.friend.request.add.FriendsAddBody;
 import com.example.blackjackgame.model.friend.request.del.FriendsDelBody;
 import com.example.blackjackgame.model.friend.request.output.FriendsZaprosBody;
+import com.example.blackjackgame.model.game.GameBody;
 import com.example.blackjackgame.model.getmonet.GetMonetBody;
 import com.example.blackjackgame.model.getmonet.finish.GetMonetFinishBody;
-import com.example.blackjackgame.model.news.News;
 import com.example.blackjackgame.model.news.NewsBody;
 import com.example.blackjackgame.model.profile.ProfileBody;
 import com.example.blackjackgame.model.profile.any.ProfileAnyBody;
@@ -19,6 +19,9 @@ import com.example.blackjackgame.model.rating.RatingCustom;
 import com.example.blackjackgame.model.rating.ratingLuck.RatingLuckBody;
 import com.example.blackjackgame.model.rating.ratingRich.RatingRichBody;
 import com.example.blackjackgame.model.sign.NewsGuest;
+import com.example.blackjackgame.network.responce.stattics.CaptchaRequest;
+import com.example.blackjackgame.model.statics.CaptchaBody;
+import com.example.blackjackgame.model.statics.ReviewBody;
 import com.example.blackjackgame.model.tournament.TournamentBody;
 import com.example.blackjackgame.network.responce.friend.FriendReferalsRequest;
 import com.example.blackjackgame.network.responce.friend.FriendRequest;
@@ -27,6 +30,7 @@ import com.example.blackjackgame.network.responce.friend.FriendsZaprosRequest;
 import com.example.blackjackgame.network.responce.friend.GiveMonetRequest;
 import com.example.blackjackgame.network.responce.friend.request.FriendsAddRequest;
 import com.example.blackjackgame.network.responce.friend.request.FriendsDelRequest;
+import com.example.blackjackgame.network.responce.game.GameRequest;
 import com.example.blackjackgame.network.responce.getmonet.GetMonetFinishRequest;
 import com.example.blackjackgame.network.responce.getmonet.GetMonetRequest;
 import com.example.blackjackgame.network.responce.news.NewsRequest;
@@ -38,13 +42,21 @@ import com.example.blackjackgame.network.responce.rating.RatingCoinsRequest;
 import com.example.blackjackgame.network.responce.rating.RatingRequest;
 import com.example.blackjackgame.network.responce.rating.RatingRichRequest;
 import com.example.blackjackgame.network.responce.sign.SignGuestRequest;
+import com.example.blackjackgame.network.responce.stattics.ReviewRequest;
 import com.example.blackjackgame.network.responce.tournament.TournamentListRequest;
 
 import io.reactivex.Observable;
+import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
 
 public interface ApiService {
+
+    @POST("json")
+    Observable<CaptchaBody> checkCaptcha(@Body CaptchaRequest captchaRequest);
+
+    @POST("json")
+    Observable<ReviewBody> checkReview(@Body ReviewRequest request);
 
     /*
     * ВХОД
@@ -67,7 +79,7 @@ public interface ApiService {
 
     //получаем профиль пользователя
     @POST("json")
-    Observable<ProfileBody> getProfile(@Body DataProfileRequest request);
+    Observable<Response<ProfileBody>> getProfile(@Body DataProfileRequest request);
 
     //изменяем данные профиля
     @POST("json")
@@ -144,6 +156,12 @@ public interface ApiService {
     //получение всех турниров
     @POST("json")
     Observable<TournamentBody> getTournaments(@Body TournamentListRequest request);
+
+    /*
+    * Игра
+    * */
+    @POST("json")
+    Observable<GameBody> getGameMain(@Body GameRequest request);
 
 //    @POST("/api/game/debug.php")
 //    Observable<NewsSignIn> getData(@Body RequestSignIn request);

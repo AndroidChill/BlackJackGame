@@ -44,7 +44,7 @@
             android:background="#000"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn" />
+            app:layout_constraintTop_toBottomOf="@+id/btn_to_pm" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv"

@@ -14,6 +14,7 @@ import com.example.blackjackgame.R;
 import com.example.blackjackgame.databinding.FragmentProfileBinding;
 import com.example.blackjackgame.ui.activity.NavigationActivity;
 import com.example.blackjackgame.ui.fragment.profile.content.ProfileContentFragment;
+import com.example.blackjackgame.ui.fragment.profile.content.RightProfileContentFragment;
 
 public class ProfileFragment extends Fragment {
 
@@ -34,7 +35,8 @@ public class ProfileFragment extends Fragment {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_profile, container, false);
 
         getActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.container_profile, ProfileContentFragment.newInstance())
+                .addToBackStack(null)
+                .replace(R.id.container_profile, RightProfileContentFragment.newInstance())
                 .commit();
 
         return binding.getRoot();

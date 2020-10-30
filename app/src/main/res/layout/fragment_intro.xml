@@ -67,7 +67,7 @@
             app:layout_constraintHorizontal_bias="0.494"
             app:layout_constraintStart_toStartOf="@+id/textView27"
             app:layout_constraintTop_toBottomOf="@+id/textView27"
-            app:layout_constraintVertical_bias="0.01999998" />
+            app:layout_constraintVertical_bias="0.19" />
 
         <Button
             android:id="@+id/guest"
@@ -99,6 +99,7 @@
             android:layout_marginTop="24dp"
             android:text="@string/what_google"
             android:textSize="16sp"
+            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/registration"
             app:layout_constraintHorizontal_bias="0.536"
@@ -110,6 +111,7 @@
             android:id="@+id/imageView9"
             android:layout_width="48dp"
             android:layout_height="48dp"
+            android:visibility="invisible"
             android:contentDescription="@string/logo_google"
             app:layout_constraintBottom_toBottomOf="@+id/textView28"
             app:layout_constraintEnd_toStartOf="@+id/textView28"
@@ -125,6 +127,7 @@
             android:text="@string/sign_please"
             android:textColor="#0181FF"
             android:textSize="16sp"
+            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="@+id/textView28"
             app:layout_constraintStart_toEndOf="@+id/textView28"
             app:layout_constraintTop_toTopOf="@+id/textView28" />
@@ -145,12 +148,13 @@
             android:id="@+id/checkBox"
             android:layout_width="wrap_content"
             android:layout_height="48dp"
-            android:text="@string/private_term"
             android:maxWidth="400dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:text="@string/private_term"
+            app:layout_constraintBottom_toTopOf="@+id/signIn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView9" />
+            app:layout_constraintTop_toBottomOf="@+id/textView27"
+            app:layout_constraintVertical_bias="0.59000003" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

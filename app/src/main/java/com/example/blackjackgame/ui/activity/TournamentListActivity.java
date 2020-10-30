@@ -53,7 +53,8 @@ public class TournamentListActivity extends AppCompatActivity {
         viewModel.getTournaments(request).observe(this, new Observer<TournamentBody>() {
             @Override
             public void onChanged(TournamentBody tournamentBody) {
-                Log.d("tag", "onChanged: "+ tournamentBody.getStatus());
+                Log.d("tag123", "onChanged: "+ tournamentBody.getStatus());
+                Log.d("tag123", "onChanged: "+ tournamentBody.getTournament_menu().size());
                 binding.recyclerView.setAdapter(new TournamentListAdapter(tournamentBody.getTournament_menu(), getApplicationContext()));
             }
         });

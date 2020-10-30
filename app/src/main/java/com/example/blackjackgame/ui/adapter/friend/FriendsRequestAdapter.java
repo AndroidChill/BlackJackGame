@@ -67,6 +67,7 @@ public class FriendsRequestAdapter extends RecyclerView.Adapter<FriendsRequestAd
         void bind(FriendsZapros request){
 
             binding.circleImageView.setOnClickListener(v -> {
+
                 Bundle args = new Bundle();
                 args.putInt("id", (int)request.getId());
 

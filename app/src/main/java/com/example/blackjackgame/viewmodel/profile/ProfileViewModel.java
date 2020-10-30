@@ -1,23 +1,26 @@
 package com.example.blackjackgame.viewmodel.profile;
 
 import android.app.Application;
+import android.widget.ImageView;
 
+import androidx.core.util.Pair;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 import com.example.blackjackgame.model.friend.getMonet.GiveMonetBody;
-import com.example.blackjackgame.model.friend.referrals.ReferralsBody;
 import com.example.blackjackgame.model.profile.ProfileBody;
 import com.example.blackjackgame.model.profile.any.ProfileAnyBody;
 import com.example.blackjackgame.model.profile.avatar.AvatarBody;
 import com.example.blackjackgame.model.profile.changeData.ProfileChangeBody;
-import com.example.blackjackgame.network.responce.friend.FriendReferalsRequest;
+import com.example.blackjackgame.network.responce.stattics.CaptchaRequest;
+import com.example.blackjackgame.model.statics.CaptchaBody;
+import com.example.blackjackgame.model.statics.ReviewBody;
 import com.example.blackjackgame.network.responce.friend.GiveMonetRequest;
 import com.example.blackjackgame.network.responce.profile.DataProfileRequest;
 import com.example.blackjackgame.network.responce.profile.any.ProfileAnyRequest;
 import com.example.blackjackgame.network.responce.profile.avatar.AvatarChangeRequest;
 import com.example.blackjackgame.network.responce.profile.change.ProfileChangeDataRequest;
+import com.example.blackjackgame.network.responce.stattics.ReviewRequest;
 
 import io.reactivex.annotations.NonNull;
 
@@ -31,7 +34,15 @@ public class ProfileViewModel extends AndroidViewModel {
         profileRepository = ProfileRepository.getInstance();
     }
 
-    public MutableLiveData<AvatarBody> getAvatarList(AvatarChangeRequest request){
+    public MutableLiveData<Pair<String, CaptchaBody>> checkCaptcha(CaptchaRequest captchaRequest){
+        return profileRepository.checkCaptcha(captchaRequest);
+    }
+
+    public MutableLiveData<Pair<String, ReviewBody>> checkReview(ReviewRequest request){
+        return profileRepository.checkReview(request);
+    }
+
+    public MutableLiveData<Pair<String, AvatarBody>> getAvatarList(AvatarChangeRequest request){
         return profileRepository.getAvatarList(request);
     }
 
@@ -39,8 +50,8 @@ public class ProfileViewModel extends AndroidViewModel {
         return profileRepository.changeData(request);
     }
 
-    public MutableLiveData<ProfileBody> getProfileData(DataProfileRequest request){
-        return profileRepository.getProfileData(request);
+    public MutableLiveData<ProfileBody> getProfileData(ImageView view, DataProfileRequest request){
+        return profileRepository.getProfileData(view, request);
     }
 
     public MutableLiveData<ProfileAnyBody> getProfileData(ProfileAnyRequest request){

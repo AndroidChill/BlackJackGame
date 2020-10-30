@@ -48,8 +48,6 @@ public class StartGameFragment extends Fragment {
                 .add(R.id.container_start_game, GameWaitingFragment.newInstance())
                 .commit();
 
-
-
         return binding.getRoot();
     }
 }

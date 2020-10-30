@@ -70,32 +70,41 @@ public class ProfileChangePhotoDialogFragment extends DialogFragment {
                 shared.getString("token", "null")
         );
 
-        viewModel.getAvatarList(request).observe(getViewLifecycleOwner(), o -> {
-            binding.coins1.setText(String.valueOf(o.getAvatar().get(0).getCoast()));
-            binding.coins2.setText(String.valueOf(o.getAvatar().get(1).getCoast()));
-            binding.coins.setText(String.valueOf(o.getAvatar().get(2).getCoast()));
-
-            for(int i = 0; i < 3; i++){
-                coast[i] = o.getAvatar().get(i).getCoast();
-
-                if(o.getAvatar().get(i).getImage().equals("avatar1.png")){
-                   images[i] = R.drawable.avatar1;
-                } else {
-                    if(o.getAvatar().get(i).getImage().equals("avatar2.png")){
-                        images[i] = R.drawable.avatar2;
-                    } else {
-                        images[i] = R.drawable.avatar3;
-                    }
-                }
-
+        viewModel.getAvatarList(request).observe(this, o -> {
+            Toast.makeText(getContext(), o.first, Toast.LENGTH_SHORT).show();
+            if(o.first.equals("Error")){
+                Toast.makeText(getContext(), "Нет соединения", Toast.LENGTH_SHORT).show();
             }
-
-            binding.avatar1.setImageResource(images[0]);
-            binding.avatar2.setImageResource(images[1]);
-            binding.avatar3.setImageResource(images[2]);
-
-            binding.coinsItog.setText(String.valueOf(coast[0]));
         });
+
+//        viewModel.getAvatarList(request).second.observe(this, o -> {
+//            binding.coins1.setText(String.valueOf(o.getAvatar().get(0).getCoast()));
+//            binding.coins2.setText(String.valueOf(o.getAvatar().get(1).getCoast()));
+//            binding.coins.setText(String.valueOf(o.getAvatar().get(2).getCoast()));
+//
+//            for(int i = 0; i < 3; i++){
+//                coast[i] = o.getAvatar().get(i).getCoast();
+//
+//                if(o.getAvatar().get(i).getImage().equals("avatar1.png")){
+//                    images[i] = R.drawable.avatar1;
+//                } else {
+//                    if(o.getAvatar().get(i).getImage().equals("avatar2.png")){
+//                        images[i] = R.drawable.avatar2;
+//                    } else {
+//                        images[i] = R.drawable.avatar3;
+//                    }
+//                }
+//
+//            }
+//
+//            binding.avatar1.setImageResource(images[0]);
+//            binding.avatar2.setImageResource(images[1]);
+//            binding.avatar3.setImageResource(images[2]);
+//
+//            binding.coinsItog.setText(String.valueOf(coast[0]));
+//        });
+
+
 
 
         binding.layout1.setOnClickListener(new View.OnClickListener() {

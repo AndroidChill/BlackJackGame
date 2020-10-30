@@ -84,32 +84,29 @@ public class RatingContentCustomFragment extends Fragment implements RatingItemO
                             sharedPreferences.getString("token", "null")
                     );
 
-                    profileViewModel.getProfileData(dataProfileRequest).observe(getViewLifecycleOwner(), new Observer<ProfileBody>() {
-                        @Override
-                        public void onChanged(ProfileBody profileBody) {
-
-                            if(profileBody.getStatus().equals(Constant.success)){
-                                Profile profile = profileBody.getProfile();
-
-                                for(RatingUserList user : ratingCustom.getRating()){
-                                    if(profile.getUser_nickname().equals(user.getNick())){
-                                        //TODO: добавить в вывод номер позиции(или как возможность сделать это в данном классе)
-                                        binding.currentPosition.number.setText(String.valueOf(profile.getUser_rating_position()));
-                                        ConvertStringToImage.convert(binding.currentPosition.imageView4, profile.getUser_avatar());
-                                        binding.currentPosition.name.setText(profile.getUser_nickname());
-                                        binding.currentPosition.money.setText(String.valueOf(profile.getUser_coins()));
-                                        binding.currentPosition.number.setText(getNumber(ratingCustom.getRatingUser().getPosition()));
-                                        user_id = user.getUser_id();
-                                    }
-                                }
-                            } else {
-                                if (profileBody.getError_text().equals(Constant.failed_token)){
-                                    failedToken();
-                                }
-                                //TODO: обработка ошибки с сервера
-                            }
-                        }
-                    });
+//                    profileViewModel.getProfileData(dataProfileRequest).observe(getViewLifecycleOwner(), (Observer<ProfileBody>) profileBody -> {
+//
+//                        if(profileBody.getStatus().equals(Constant.success)){
+//                            Profile profile = profileBody.getProfile();
+//
+//                            for(RatingUserList user : ratingCustom.getRating()){
+//                                if(profile.getUser_nickname().equals(user.getNick())){
+//                                    //TODO: добавить в вывод номер позиции(или как возможность сделать это в данном классе)
+//                                    binding.currentPosition.number.setText(String.valueOf(profile.getUser_rating_position()));
+//                                    ConvertStringToImage.convert(binding.currentPosition.imageView4, profile.getUser_avatar());
+//                                    binding.currentPosition.name.setText(profile.getUser_nickname());
+//                                    binding.currentPosition.money.setText(String.valueOf(profile.getUser_coins()));
+//                                    binding.currentPosition.number.setText(getNumber(ratingCustom.getRatingUser().getPosition()));
+//                                    user_id = user.getUser_id();
+//                                }
+//                            }
+//                        } else {
+//                            if (profileBody.getError_text().equals(Constant.failed_token)){
+//                                failedToken();
+//                            }
+//                            //TODO: обработка ошибки с сервера
+//                        }
+//                    });
 
                     binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                     binding.recyclerView.setAdapter(new RatingAdapter(ratingCustom.getRating(), RatingContentCustomFragment.this::onCLick));

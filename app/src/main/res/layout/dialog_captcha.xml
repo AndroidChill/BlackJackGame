@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/iv_captcha"
+            android:layout_width="320dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="8dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView51"
+            app:srcCompat="@drawable/logo_game" />
+
+        <EditText
+            android:id="@+id/et_captcha"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_captcha" />
+
+        <Button
+            android:id="@+id/btn_ok"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Ok"
+            app:layout_constraintEnd_toEndOf="@+id/iv_captcha"
+            app:layout_constraintTop_toBottomOf="@+id/tv_error_hint" />
+
+        <Button
+            android:id="@+id/btn_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            app:layout_constraintStart_toStartOf="@+id/iv_captcha"
+            app:layout_constraintTop_toTopOf="@+id/btn_ok" />
+
+        <TextView
+            android:id="@+id/tv_error_hint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Вы ввели неверное значение, попробуйте еще раз"
+            android:maxWidth="200dp"
+            android:visibility="gone"
+            android:gravity="center"
+            android:textColor="#AA0B19"
+            app:layout_constraintEnd_toEndOf="@+id/et_captcha"
+            app:layout_constraintStart_toStartOf="@+id/et_captcha"
+            app:layout_constraintTop_toBottomOf="@+id/et_captcha" />
+
+        <TextView
+            android:id="@+id/textView51"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textStyle="bold"
+            style="@style/BaseTextView"
+            android:textSize="22sp"
+            android:text="Введите значение капчи"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

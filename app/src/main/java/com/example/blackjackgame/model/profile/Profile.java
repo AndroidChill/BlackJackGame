@@ -37,8 +37,8 @@ public class Profile {
     @SerializedName("user_avatar")
     private String user_avatar;
 
-    @SerializedName("ref_url")
-    private String ref_url;
+    @SerializedName("ref")
+    private List<Ref> ref;
 
     @SerializedName("progress")
     private List<Progress> progress = new ArrayList<>();
@@ -54,11 +54,11 @@ public class Profile {
         this.user_rating = 0;
         this.user_rating_position = 0;
         this.user_avatar = "";
-        this.ref_url = "";
+        this.ref = new ArrayList<>();
         this.progress = null;
     }
 
-    public Profile(long user_id, long user_coins, String user_nickname, String user_name, String user_surname, String user_email, String user_info, long user_rating, long user_rating_position, String user_avatar, String ref_url, List<Progress> progress) {
+    public Profile(long user_id, long user_coins, String user_nickname, String user_name, String user_surname, String user_email, String user_info, long user_rating, long user_rating_position, String user_avatar, List<Ref> ref, List<Progress> progress) {
         this.user_id = user_id;
         this.user_coins = user_coins;
         this.user_nickname = user_nickname;
@@ -69,7 +69,7 @@ public class Profile {
         this.user_rating = user_rating;
         this.user_rating_position = user_rating_position;
         this.user_avatar = user_avatar;
-        this.ref_url = ref_url;
+        this.ref = ref;
         this.progress = progress;
     }
 
@@ -153,12 +153,12 @@ public class Profile {
         this.user_avatar = user_avatar;
     }
 
-    public String getRef_url() {
-        return ref_url;
+    public List<Ref> getRef() {
+        return ref;
     }
 
-    public void setRef_url(String ref_url) {
-        this.ref_url = ref_url;
+    public void setRef_url(List<Ref> ref) {
+        this.ref = ref;
     }
 
     public List<Progress> getProgress() {

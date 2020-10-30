@@ -118,14 +118,23 @@
                 android:id="@+id/textView55"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginTop="16dp"
                 android:text="@string/position_in_rating"
                 style="@style/BaseTextView"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/tv3"
                 app:layout_constraintTop_toBottomOf="@+id/tv3" />
+
+            <TextView
+                android:id="@+id/tv_user_info_head"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="О себе"
+                android:textStyle="bold"
+                style="@style/BaseTextView"
+                app:layout_constraintTop_toBottomOf="@id/textView55"
+                app:layout_constraintStart_toStartOf="@id/textView55"/>
 
             <TextView
                 android:id="@+id/textView58"
@@ -137,6 +146,67 @@
                 app:layout_constraintBottom_toBottomOf="@+id/textView55"
                 app:layout_constraintStart_toStartOf="@+id/userrating"
                 app:layout_constraintTop_toTopOf="@+id/textView55" />
+
+            <TextView
+                android:id="@+id/tv_user_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                style="@style/BaseTextView"
+                android:textStyle="bold"
+                android:text="@{profile.user_info}"
+                app:layout_constraintStart_toStartOf="@id/tv_user_info_head"
+                app:layout_constraintTop_toBottomOf="@id/tv_user_info_head"/>
+
+            <TextView
+                android:id="@+id/tv_ref_head"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                style="@style/BaseTextView"
+                android:textStyle="bold"
+                android:text="Реферальные ссылки "
+                app:layout_constraintStart_toStartOf="@id/tv_user_info"
+                app:layout_constraintTop_toBottomOf="@id/tv_user_info"/>
+
+            <View
+                android:id="@+id/iv_ref"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:background="@drawable/question"
+                app:layout_constraintStart_toEndOf="@id/tv_ref_head"
+                app:layout_constraintBottom_toBottomOf="@id/tv_ref_head"
+                app:layout_constraintTop_toTopOf="@id/tv_ref_head"
+                android:layout_marginStart="8dp"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_hint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:visibility="gone"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_ref_head">
+
+                <include
+                    android:id="@+id/hint"
+                    layout="@layout/layout_profile_ref_hint" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_ref"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                app:layout_constraintStart_toStartOf="@id/tv_ref_head"
+                app:layout_constraintTop_toBottomOf="@+id/cl_hint" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

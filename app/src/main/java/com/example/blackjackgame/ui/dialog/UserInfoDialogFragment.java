@@ -111,33 +111,37 @@ public class UserInfoDialogFragment extends DialogFragment {
         });
 
         binding.btnDone.setOnClickListener(v -> {
-            int money = 0;
-            if (!binding.countMoney.getText().toString().isEmpty()){
-                money = Integer.parseInt(binding.countMoney.getText().toString());
-            }
 
-            if (money == 0){
-                Snackbar.make(getView(), "Введите число монет", BaseTransientBottomBar.LENGTH_LONG).show();
-            } else {
-                GiveMonetRequest giveMonetRequest = new GiveMonetRequest(
-                        "coins_transfer",
-                        Constant.app_ver,
-                        Constant.ln,
-                        sharedPreferences.getString("token", "null"),
-                        getArguments().getInt("id"),
-                        money
-                );
+            TransferMonetDialogFragment dialogFragment = new TransferMonetDialogFragment();
+            dialogFragment.show(getFragmentManager(), "dialog");
 
-                viewModel.giveMonet(giveMonetRequest).observe(getViewLifecycleOwner(), new Observer<GiveMonetBody>() {
-                    @Override
-                    public void onChanged(GiveMonetBody giveMonetBody) {
-                        if(giveMonetBody.getStatus().equals(Constant.success)){
-                            dismiss();
-                            Toast.makeText(getContext() , "Монеты успешно переведены", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-            }
+//            int money = 0;
+//            if (!binding.countMoney.getText().toString().isEmpty()){
+//                money = Integer.parseInt(binding.countMoney.getText().toString());
+//            }
+//
+//            if (money == 0){
+//                Snackbar.make(getView(), "Введите число монет", BaseTransientBottomBar.LENGTH_LONG).show();
+//            } else {
+//                GiveMonetRequest giveMonetRequest = new GiveMonetRequest(
+//                        "coins_transfer",
+//                        Constant.app_ver,
+//                        Constant.ln,
+//                        sharedPreferences.getString("token", "null"),
+//                        getArguments().getInt("id"),
+//                        money
+//                );
+//
+//                viewModel.giveMonet(giveMonetRequest).observe(getViewLifecycleOwner(), new Observer<GiveMonetBody>() {
+//                    @Override
+//                    public void onChanged(GiveMonetBody giveMonetBody) {
+//                        if(giveMonetBody.getStatus().equals(Constant.success)){
+//                            dismiss();
+//                            Toast.makeText(getContext() , "Монеты успешно переведены", Toast.LENGTH_SHORT).show();
+//                        }
+//                    }
+//                });
+//            }
         });
 
         binding.giveMoney.setOnClickListener(v -> {

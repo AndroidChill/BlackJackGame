@@ -5,9 +5,12 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.core.view.ViewCompat;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.transition.AutoTransition;
 import androidx.transition.TransitionManager;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
@@ -21,13 +24,22 @@ import android.widget.TextView;
 import com.example.blackjackgame.R;
 import com.example.blackjackgame.data.Card;
 import com.example.blackjackgame.databinding.ActivityGameFiveBinding;
+import com.example.blackjackgame.model.game.GameBody;
+import com.example.blackjackgame.network.responce.game.GameRequest;
 import com.example.blackjackgame.util.CardUtil;
+import com.example.blackjackgame.util.ConvertStringToImage;
+import com.example.blackjackgame.viewmodel.game.GameFactory;
+import com.example.blackjackgame.viewmodel.game.GameViewModel;
+import com.example.blackjackgame.viewmodel.tournament.TournamentFactory;
+import com.example.blackjackgame.viewmodel.tournament.TournamentViewModel;
 
 import java.util.concurrent.TimeUnit;
 
 public class GameFiveActivity extends AppCompatActivity {
 
     private ActivityGameFiveBinding binding;
+
+    private GameViewModel gameViewModel;
 
     private Card[] cards = CardUtil.getCards();
 
@@ -60,6 +72,8 @@ public class GameFiveActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
          binding = DataBindingUtil.setContentView(this, R.layout.activity_game_five);
 
+         gameViewModel = new ViewModelProvider(this, new GameFactory(getApplication())).get(GameViewModel.class);
+
          cards = CardUtil.getIdShakeCards(cards);
 
         ConstraintSet set = new ConstraintSet();
@@ -88,69 +102,39 @@ public class GameFiveActivity extends AppCompatActivity {
              imageViews[i] = iv;
          }
 
-         binding.infoPlayer2.setClickable(true);
-         binding.infoPlayer2.setOnClickListener(new View.OnClickListener() {
+         gameViewModel.getGameMain(new GameRequest("game_start")).observe(this, new Observer<GameBody>() {
              @Override
-             public void onClick(View v) {
-                 moveToSecondPlayer(imageViews[countImageView], imageViews[countImageView].getId(), set, currentCard);
-                 currentCard++;
-                 countImageView--;
+             public void onChanged(GameBody gameBody) {
 
-                 binding.player2.mfProgressBar.setProgress(100);
-                 binding.player2.mfProgressBar.setVisibility(View.VISIBLE);
-                 binding.player2.view.setVisibility(View.GONE);
-                 mCountDownTimer=new CountDownTimer(10000,100) {
+                 /*
+                 * установка ника
+                 * */
+                 binding.player1.nickPlayer3.setText(gameBody.getGame().getUsers().get(0).getName());
+                 binding.player2.nickPlayer3.setText(gameBody.getGame().getUsers().get(1).getName());
+                 binding.player3.nickPlayer3.setText(gameBody.getGame().getUsers().get(2).getName());
+                 binding.player4.nickPlayer3.setText(gameBody.getGame().getUsers().get(3).getName());
+                 binding.player5.nickPlayer3.setText(gameBody.getGame().getUsers().get(4).getName());
 
-                     @Override
-                     public void onTick(long millisUntilFinished) {
-                         i++;
-                         binding.player2.mfProgressBar.setProgress((int)(millisUntilFinished/100));
-                         
+                 /*
+                 * установка монет
+                 * */
+                 binding.player1.moneyPlayer3.setText(gameBody.getGame().getUsers().get(0).getCoins() + " $");
+                 binding.player2.moneyPlayer3.setText(gameBody.getGame().getUsers().get(1).getCoins() + " $");
+                 binding.player3.moneyPlayer3.setText(gameBody.getGame().getUsers().get(2).getCoins() + " $");
+                 binding.player4.moneyPlayer3.setText(gameBody.getGame().getUsers().get(3).getCoins() + " $");
+                 binding.player5.moneyPlayer3.setText(gameBody.getGame().getUsers().get(4).getCoins() + " $");
 
-                     }
-
-                     @Override
-                     public void onFinish() {
-                         //Do what you want
-                         binding.player2.mfProgressBar.setVisibility(View.GONE);
-                         binding.player2.view.setVisibility(View.VISIBLE);
-                     }
-                 };
-                 mCountDownTimer.start();
+                 /*
+                 * установка аватарки
+                 * */
+                 ConvertStringToImage.convert(binding.player1.infoPlayer5, gameBody.getGame().getUsers().get(0).getAvatar());
+                 ConvertStringToImage.convert(binding.player2.infoPlayer5, gameBody.getGame().getUsers().get(1).getAvatar());
+                 ConvertStringToImage.convert(binding.player3.infoPlayer5, gameBody.getGame().getUsers().get(2).getAvatar());
+                 ConvertStringToImage.convert(binding.player4.infoPlayer5, gameBody.getGame().getUsers().get(3).getAvatar());
+                 ConvertStringToImage.convert(binding.player5.infoPlayer5, gameBody.getGame().getUsers().get(4).getAvatar());
 
              }
          });
-
-        binding.infoPlayer3.setClickable(true);
-        binding.infoPlayer3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                moveToThirdPlayer(imageViews[countImageView], imageViews[countImageView].getId(), set, currentCard);
-                currentCard++;
-                countImageView--;
-            }
-        });
-
-
-        binding.infoPlayer4.setClickable(true);
-        binding.infoPlayer4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                moveToFourthPlayer(imageViews[countImageView], imageViews[countImageView].getId(), set, currentCard);
-                currentCard++;
-                countImageView--;
-            }
-        });
-
-        binding.infoPlayer5.setClickable(true);
-        binding.infoPlayer5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                moveToFifthPlayer(imageViews[countImageView], imageViews[countImageView].getId(), set, currentCard);
-                currentCard++;
-                countImageView--;
-            }
-        });
 
         binding.materialButton3.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -330,22 +314,6 @@ public class GameFiveActivity extends AppCompatActivity {
 
                             Animation animation121 = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim_to_visible);
                             binding.player2.tvPlus.startAnimation(animation121);
-
-                            if(counts[0] > 21){
-                                binding.infoPlayer1.setClickable(false);
-                            }
-                            if(counts[1] > 21){
-                                binding.infoPlayer2.setClickable(false);
-                            }
-                            if(counts[2] > 21){
-                                binding.infoPlayer3.setClickable(false);
-                            }
-                            if(counts[3] > 21){
-                                binding.infoPlayer4.setClickable(false);
-                            }
-                            if(counts[4] > 21){
-                                binding.infoPlayer5.setClickable(false);
-                            }
                         }
 
                         @Override

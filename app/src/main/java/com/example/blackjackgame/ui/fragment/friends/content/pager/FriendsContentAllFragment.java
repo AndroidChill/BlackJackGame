@@ -86,6 +86,8 @@ public class FriendsContentAllFragment extends Fragment implements MyFriendOnCli
 
             binding.btnSearch.setOnClickListener(v -> {
 
+                binding.cvGlobal.setVisibility(View.VISIBLE);
+
                 String search = binding.search.getText().toString();
 
                 friends = o.getFriends();
@@ -164,7 +166,7 @@ public class FriendsContentAllFragment extends Fragment implements MyFriendOnCli
             }
         });
 
-        binding.cardView3.setOnClickListener(new View.OnClickListener() {
+        binding.cvGlobal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 

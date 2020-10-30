@@ -83,29 +83,29 @@ public class ProfileContentEditFragment extends Fragment {
         );
 
         //получаем данные
-        viewModel.getProfileData(request).observe(getViewLifecycleOwner(), o -> {
-
-            if(o.getStatus().equals(Constant.success)){
-                //скрываем прогрессбар и показываем данные
-                binding.progressBar.setVisibility(View.GONE);
-                binding.layoutHeader.setVisibility(View.VISIBLE);
-                binding.layoutInfo.setVisibility(View.VISIBLE);
-
-                setupLogo(o.getProfile().getUser_avatar());
-
-                coins = o.getProfile().getUser_coins();
-
-                //передаем модель
-                binding.info.setModel(o.getProfile());
-            } else {
-                if(o.getError_text().equals(Constant.failed_token)){
-                    failedToken();
-                } else {
-                    //TODO: обработка ошибки с сервера
-                }
-            }
-
-        });
+//        viewModel.getProfileData(, request).observe(getViewLifecycleOwner(), o -> {
+//
+//            if(o.second.getStatus().equals(Constant.success)){
+//                //скрываем прогрессбар и показываем данные
+//                binding.progressBar.setVisibility(View.GONE);
+//                binding.layoutHeader.setVisibility(View.VISIBLE);
+//                binding.layoutInfo.setVisibility(View.VISIBLE);
+//
+//                setupLogo(o.second.getProfile().getUser_avatar());
+//
+//                coins = o.second.getProfile().getUser_coins();
+//
+//                //передаем модель
+//                binding.info.setModel(o.second.getProfile());
+//            } else {
+//                if(o.second.getError_text().equals(Constant.failed_token)){
+//                    failedToken();
+//                } else {
+//                    //TODO: обработка ошибки с сервера
+//                }
+//            }
+//
+//        });
 
         //изменяем фото
         binding.header1.changePhoto.setOnClickListener(v -> {

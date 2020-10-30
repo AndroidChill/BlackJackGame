@@ -1,16 +1,22 @@
 package com.example.blackjackgame.ui.activity;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
+import android.widget.Toast;
 
 import com.example.blackjackgame.R;
+import com.example.blackjackgame.databinding.ActivityNavigationBinding;
 import com.example.blackjackgame.ui.fragment.profile.ProfileFragment;
 import com.example.blackjackgame.ui.fragment.profile.content.ProfileContentFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -24,13 +30,15 @@ import androidx.appcompat.widget.Toolbar;
 
 public class NavigationActivity extends AppCompatActivity {
 
+    private ActivityNavigationBinding binding;
+
     private AppBarConfiguration mAppBarConfiguration;
     public static FragmentManager fragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_navigation);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_navigation);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -39,8 +47,8 @@ public class NavigationActivity extends AppCompatActivity {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
 
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
+        // Passing each menu ID card_as a set of Ids because each
+        // menu should be considered card_as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_news,
                 R.id.nav_profile,
@@ -61,7 +69,20 @@ public class NavigationActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        switch (item.getItemId()){
+            case R.id.nav_rules:
+                Log.d("tag", "onOptionsItemSelected: 123");
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
