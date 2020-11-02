@@ -1,5 +1,6 @@
 package com.example.blackjackgame.ui.dialog;
 
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -24,16 +25,19 @@ import com.example.blackjackgame.data.Constant;
 import com.example.blackjackgame.databinding.DialogProfileEditAvatarBinding;
 import com.example.blackjackgame.model.profile.avatar.Avatar;
 import com.example.blackjackgame.model.profile.avatar.AvatarBody;
+import com.example.blackjackgame.network.responce.profile.DataProfileRequest;
 import com.example.blackjackgame.network.responce.profile.avatar.AvatarChangeRequest;
 import com.example.blackjackgame.util.ConvertStringToImage;
 import com.example.blackjackgame.viewmodel.profile.ProfileFactory;
 import com.example.blackjackgame.viewmodel.profile.ProfileViewModel;
+import com.example.blackjackgame.viewmodel.rigthProfile.RightProfileFactory;
+import com.example.blackjackgame.viewmodel.rigthProfile.RightProfileViewModel;
 
 public class ProfileChangePhotoDialogFragment extends DialogFragment {
 
     private DialogProfileEditAvatarBinding binding;
 
-    private ProfileViewModel viewModel;
+    private RightProfileViewModel viewModel;
 
     private String select = "";
 
@@ -61,8 +65,6 @@ public class ProfileChangePhotoDialogFragment extends DialogFragment {
 
         shared = getActivity().getSharedPreferences("shared", Context.MODE_PRIVATE);
 
-        viewModel = new ViewModelProvider(this, new ProfileFactory(getActivity().getApplication())).get(ProfileViewModel.class);
-
         AvatarChangeRequest request = new AvatarChangeRequest(
                 "avatar_change",
                 Constant.app_ver,
@@ -70,39 +72,34 @@ public class ProfileChangePhotoDialogFragment extends DialogFragment {
                 shared.getString("token", "null")
         );
 
-        viewModel.getAvatarList(request).observe(this, o -> {
-            Toast.makeText(getContext(), o.first, Toast.LENGTH_SHORT).show();
-            if(o.first.equals("Error")){
-                Toast.makeText(getContext(), "Нет соединения", Toast.LENGTH_SHORT).show();
-            }
-        });
+        viewModel = new ViewModelProvider(this, new RightProfileFactory(initRequestProfile())).get(RightProfileViewModel.class);
 
-//        viewModel.getAvatarList(request).second.observe(this, o -> {
-//            binding.coins1.setText(String.valueOf(o.getAvatar().get(0).getCoast()));
-//            binding.coins2.setText(String.valueOf(o.getAvatar().get(1).getCoast()));
-//            binding.coins.setText(String.valueOf(o.getAvatar().get(2).getCoast()));
-//
-//            for(int i = 0; i < 3; i++){
-//                coast[i] = o.getAvatar().get(i).getCoast();
-//
-//                if(o.getAvatar().get(i).getImage().equals("avatar1.png")){
-//                    images[i] = R.drawable.avatar1;
-//                } else {
-//                    if(o.getAvatar().get(i).getImage().equals("avatar2.png")){
-//                        images[i] = R.drawable.avatar2;
-//                    } else {
-//                        images[i] = R.drawable.avatar3;
-//                    }
-//                }
-//
-//            }
-//
-//            binding.avatar1.setImageResource(images[0]);
-//            binding.avatar2.setImageResource(images[1]);
-//            binding.avatar3.setImageResource(images[2]);
-//
-//            binding.coinsItog.setText(String.valueOf(coast[0]));
-//        });
+        viewModel.getAvatarList(request).observe(this, o -> {
+            binding.coins1.setText(String.valueOf(o.getAvatar().get(0).getCoast()));
+            binding.coins2.setText(String.valueOf(o.getAvatar().get(1).getCoast()));
+            binding.coins.setText(String.valueOf(o.getAvatar().get(2).getCoast()));
+
+            for(int i = 0; i < 3; i++){
+                coast[i] = o.getAvatar().get(i).getCoast();
+
+                if(o.getAvatar().get(i).getImage().equals("avatar1.png")){
+                    images[i] = R.drawable.avatar1;
+                } else {
+                    if(o.getAvatar().get(i).getImage().equals("avatar2.png")){
+                        images[i] = R.drawable.avatar2;
+                    } else {
+                        images[i] = R.drawable.avatar3;
+                    }
+                }
+
+            }
+
+            binding.avatar1.setImageResource(images[0]);
+            binding.avatar2.setImageResource(images[1]);
+            binding.avatar3.setImageResource(images[2]);
+
+            binding.coinsItog.setText(String.valueOf(coast[0]));
+        });
 
 
 
@@ -164,6 +161,16 @@ public class ProfileChangePhotoDialogFragment extends DialogFragment {
         });
 
         return binding.getRoot();
+    }
+
+    //создание запроса с инфой о пользователе
+    private DataProfileRequest initRequestProfile(){
+        return new DataProfileRequest(
+                "profile",
+                Constant.app_ver,
+                Constant.ln,
+                shared.getString("token", "null")
+        );
     }
 
     @Override

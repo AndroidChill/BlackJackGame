@@ -10,9 +10,14 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.blackjackgame.model.profile.ProfileBody;
+import com.example.blackjackgame.model.profile.avatar.AvatarBody;
 import com.example.blackjackgame.model.profile.changeData.ProfileChangeBody;
 import com.example.blackjackgame.network.responce.profile.DataProfileRequest;
+import com.example.blackjackgame.network.responce.profile.avatar.AvatarChangeRequest;
 import com.example.blackjackgame.network.responce.profile.change.ProfileChangeDataRequest;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 public class RightProfileViewModel extends ViewModel {
 
@@ -33,6 +38,9 @@ public class RightProfileViewModel extends ViewModel {
     //изменение данных пользователя
     public MutableLiveData<ProfileChangeBody> changeData(ProfileChangeDataRequest request){
         return repository.changeData(request);
+    }
+    public MutableLiveData<AvatarBody> getAvatarList(AvatarChangeRequest request){
+        return repository.getAvatarList(request);
     }
 
     public void swipeRefresh(DataProfileRequest request){

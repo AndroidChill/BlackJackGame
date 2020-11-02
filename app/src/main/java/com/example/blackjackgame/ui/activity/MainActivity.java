@@ -24,15 +24,18 @@ public class MainActivity extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences("shared", MODE_PRIVATE);
 
+        Intent intent = new Intent(MainActivity.this, RegistrationActivity.class);
+        startActivity(intent);
+
         //проверка на то, входил уже пользователь или нет
-        if(sharedPreferences.getBoolean(Constant.isSign, false)){
-            Intent intent = new Intent(MainActivity.this, NavigationActivity.class);
-            startActivity(intent);
-        } else {
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, IntroFragment.newInstance())
-                    .commit();
-        }
+//        if(sharedPreferences.getBoolean(Constant.isSign, false)){
+//            Intent intent = new Intent(MainActivity.this, NavigationActivity.class);
+//            startActivity(intent);
+//        } else {
+//            getSupportFragmentManager().beginTransaction()
+//                    .add(R.id.container, IntroFragment.newInstance())
+//                    .commit();
+//        }
 
 
 

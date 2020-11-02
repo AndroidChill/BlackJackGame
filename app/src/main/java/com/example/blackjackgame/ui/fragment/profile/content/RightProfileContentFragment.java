@@ -78,18 +78,16 @@ public class RightProfileContentFragment extends Fragment {
         initHintRef();
         initRvRef();
 
+        //кнопка редактировать данные
         binding.includeHeader.edit.setOnClickListener(v -> {
-
             Intent intent = new Intent(getContext(), ProfileEditActivity.class);
             startActivity(intent);
 
-//            getFragmentManager().beginTransaction()
-//                    .add(R.id.container_profile, RightProfileContentEditFragment.newInstance())
-//                    .commit();
         });
 
         return binding.getRoot();
     }
+
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -97,6 +95,7 @@ public class RightProfileContentFragment extends Fragment {
         updateInfoUi();
     }
 
+    //создание запроса с инфой о пользователе
     private DataProfileRequest initRequestProfile(){
         return new DataProfileRequest(
                 "profile",
@@ -106,6 +105,7 @@ public class RightProfileContentFragment extends Fragment {
         );
     }
 
+    //инициализация реферальных ссылок(подсказок)
     private void initHintRef(){
         binding.info.ivRef.setOnClickListener(v -> {
             if(isActiveHintRef){
@@ -122,6 +122,7 @@ public class RightProfileContentFragment extends Fragment {
         });
     }
 
+    //обновление свайпом
     private void initRefresh(){
         binding.refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -134,6 +135,7 @@ public class RightProfileContentFragment extends Fragment {
         });
     }
 
+    //инициализация реферальных списков и списков с достижениями
     private void initRvRef(){
 
         binding.info.rvRef.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -146,6 +148,7 @@ public class RightProfileContentFragment extends Fragment {
         binding.info.rvRef.setAdapter(adapterRef);
     }
 
+    //обновление пользовательского интерфейса новыми данными
     private void updateInfoUi(){
         viewModel.getProfile().observe(getViewLifecycleOwner(), profileBody -> {
             binding.info.setProfile(profileBody.getProfile());
@@ -153,33 +156,34 @@ public class RightProfileContentFragment extends Fragment {
             //проверка на ошибочный статус
             if(profileBody.getStatus().equals("error")){
                 Toast.makeText(getContext(), profileBody.getError_text(), Toast.LENGTH_SHORT).show();
-            }
-
-//            проверка на токен
-            if (profileBody.getToken() != null){
-                if(profileBody.getToken().equals("error")){
-                    Intent intent = new Intent(getContext(), MainActivity.class);
-                    startActivity(intent);
-                    ((NavigationActivity)getActivity()).finish();
-                }
-            }
-
-            //проверка на отзывы
-            if (profileBody.getPopup() != null)
-                if(profileBody.getPopup().equals("comment")){
-                  createReviewDialog();
+            } else {
+                //проверка на токен
+                if (profileBody.getToken() != null){
+                    if(profileBody.getToken().equals("error")){
+                        Intent intent = new Intent(getContext(), MainActivity.class);
+                        startActivity(intent);
+                        ((NavigationActivity)getActivity()).finish();
+                    }
                 }
 
-            //проверка на кпчу
-            if(profileBody.getCaptcha_image_url() != null){
-                createCaptchaDialog(profileBody);
-            }
+                //проверка на отзывы
+                if (profileBody.getPopup() != null)
+                    if(profileBody.getPopup().equals("comment")){
+                        createReviewDialog();
+                    }
 
-            adapterProgress.setProgress(profileBody.getProfile().getProgress());
-            adapterRef.setList(profileBody.getProfile().getRef());
+                //проверка на капчу
+                if(profileBody.getCaptcha_image_url() != null){
+                    createCaptchaDialog(profileBody);
+                }
+
+                adapterProgress.setProgress(profileBody.getProfile().getProgress());
+                adapterRef.setList(profileBody.getProfile().getRef());
+            }
         });
     }
 
+    //создание диалога с капчей
     private void createCaptchaDialog(ProfileBody profileBody){
         CaptchaDialog.createCaptchaDialog(
                 getContext(),
@@ -190,6 +194,7 @@ public class RightProfileContentFragment extends Fragment {
         );
     }
 
+    //создание диалога с отзывами
     private void createReviewDialog(){
         ReviewDialogHelper.buildReview(
                 getContext(),
@@ -199,6 +204,7 @@ public class RightProfileContentFragment extends Fragment {
         );
     }
 
+    //очистка меню в тулбаре
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         menu.clear();

@@ -61,95 +61,95 @@ public class ProfileContentEditFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_profile_content_edit, container, false);
-
-        setHasOptionsMenu(true);
-
-        toolbar = (Toolbar)binding.toolbar;
-        Objects.requireNonNull(((NavigationActivity) getActivity()).getSupportActionBar()).hide();
-
-        profileChangePhotoDialogFragment = ProfileChangePhotoDialogFragment.newInstance(binding.header1.circleImageView);
-
-        viewModel = new ViewModelProvider(this, new ProfileFactory(getActivity().getApplication())).get(ProfileViewModel.class);
-
-        shared = getActivity().getSharedPreferences("shared", Context.MODE_PRIVATE);
-
-        //составляем запрос
-        DataProfileRequest request = new DataProfileRequest(
-                "profile",
-                Constant.app_ver,
-                Constant.ln,
-                shared.getString("token", "null")
-        );
-
-        //получаем данные
-//        viewModel.getProfileData(, request).observe(getViewLifecycleOwner(), o -> {
+//        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_profile_content_edit, container, false);
 //
-//            if(o.second.getStatus().equals(Constant.success)){
-//                //скрываем прогрессбар и показываем данные
-//                binding.progressBar.setVisibility(View.GONE);
-//                binding.layoutHeader.setVisibility(View.VISIBLE);
-//                binding.layoutInfo.setVisibility(View.VISIBLE);
+//        setHasOptionsMenu(true);
 //
-//                setupLogo(o.second.getProfile().getUser_avatar());
+//        toolbar = (Toolbar)binding.toolbar;
+//        Objects.requireNonNull(((NavigationActivity) getActivity()).getSupportActionBar()).hide();
 //
-//                coins = o.second.getProfile().getUser_coins();
+//        profileChangePhotoDialogFragment = ProfileChangePhotoDialogFragment.newInstance(binding.header1.circleImageView);
 //
-//                //передаем модель
-//                binding.info.setModel(o.second.getProfile());
-//            } else {
-//                if(o.second.getError_text().equals(Constant.failed_token)){
-//                    failedToken();
-//                } else {
-//                    //TODO: обработка ошибки с сервера
-//                }
-//            }
+//        viewModel = new ViewModelProvider(this, new ProfileFactory(getActivity().getApplication())).get(ProfileViewModel.class);
+//
+//        shared = getActivity().getSharedPreferences("shared", Context.MODE_PRIVATE);
+//
+//        //составляем запрос
+//        DataProfileRequest request = new DataProfileRequest(
+//                "profile",
+//                Constant.app_ver,
+//                Constant.ln,
+//                shared.getString("token", "null")
+//        );
+//
+//        //получаем данные
+////        viewModel.getProfileData(, request).observe(getViewLifecycleOwner(), o -> {
+////
+////            if(o.second.getStatus().equals(Constant.success)){
+////                //скрываем прогрессбар и показываем данные
+////                binding.progressBar.setVisibility(View.GONE);
+////                binding.layoutHeader.setVisibility(View.VISIBLE);
+////                binding.layoutInfo.setVisibility(View.VISIBLE);
+////
+////                setupLogo(o.second.getProfile().getUser_avatar());
+////
+////                coins = o.second.getProfile().getUser_coins();
+////
+////                //передаем модель
+////                binding.info.setModel(o.second.getProfile());
+////            } else {
+////                if(o.second.getError_text().equals(Constant.failed_token)){
+////                    failedToken();
+////                } else {
+////                    //TODO: обработка ошибки с сервера
+////                }
+////            }
+////
+////        });
+//
+//        //изменяем фото
+//        binding.header1.changePhoto.setOnClickListener(v -> {
+//            assert getFragmentManager() != null;
+//            profileChangePhotoDialogFragment.show(getFragmentManager(), "dialog");
 //
 //        });
-
-        //изменяем фото
-        binding.header1.changePhoto.setOnClickListener(v -> {
-            assert getFragmentManager() != null;
-            profileChangePhotoDialogFragment.show(getFragmentManager(), "dialog");
-
-        });
-
-        binding.info.cancel.setOnClickListener(v -> {
-            getFragmentManager().beginTransaction()
-                    .replace(R.id.container_profile, ProfileContentFragment.newInstance())
-                    .commit();
-        });
-
-        //от правляем измененные данные
-        binding.info.done.setOnClickListener(v -> {
-            ProfileChangeDataRequest requestChange = new ProfileChangeDataRequest(
-                    "profile_save",
-                    Constant.app_ver,
-                    Constant.ln,
-                    shared.getString("token", "null"),
-                    new Profile(
-                            binding.info.nickname.getText().toString(),
-                            binding.info.name.getText().toString(),
-                            binding.info.surname.getText().toString(),
-                            binding.info.email.getText().toString(),
-                            binding.info.info.getText().toString(),
-                            shared.getString("selectImage", "avatarNone")
-                    )
-            );
-
-            //отправляем данные и получаем ответ
-            viewModel.changeData(requestChange).observe(getViewLifecycleOwner(), o -> {
-                if(!o.getStatus().equals("success")){
-                    Snackbar.make(binding.main, o.getStatus_text(), Snackbar.LENGTH_LONG)
-                            .show();
-                }
-                getFragmentManager().beginTransaction()
-                        .replace(R.id.container_profile, ProfileContentFragment.newInstance())
-                        .commit();
-            });
-        });
-
-        backToolbar();
+//
+//        binding.info.cancel.setOnClickListener(v -> {
+//            getFragmentManager().beginTransaction()
+//                    .replace(R.id.container_profile, ProfileContentFragment.newInstance())
+//                    .commit();
+//        });
+//
+//        //от правляем измененные данные
+//        binding.info.done.setOnClickListener(v -> {
+////            ProfileChangeDataRequest requestChange = new ProfileChangeDataRequest(
+////                    "profile_save",
+////                    Constant.app_ver,
+////                    Constant.ln,
+////                    shared.getString("token", "null"),
+////                    new (
+////                            binding.info.nickname.getText().toString(),
+////                            binding.info.name.getText().toString(),
+////                            binding.info.surname.getText().toString(),
+////                            binding.info.email.getText().toString(),
+////                            binding.info.info.getText().toString(),
+////                            shared.getString("selectImage", "avatarNone")
+////                    )
+////            );
+//
+//            //отправляем данные и получаем ответ
+////            viewModel.changeData(requestChange).observe(getViewLifecycleOwner(), o -> {
+////                if(!o.getStatus().equals("success")){
+////                    Snackbar.make(binding.main, o.getStatus_text(), Snackbar.LENGTH_LONG)
+////                            .show();
+////                }
+////                getFragmentManager().beginTransaction()
+////                        .replace(R.id.container_profile, ProfileContentFragment.newInstance())
+////                        .commit();
+////            });
+//        });
+//
+//        backToolbar();
 
         return binding.getRoot();
     }
@@ -183,15 +183,15 @@ public class ProfileContentEditFragment extends Fragment {
 
     //установка изображения(конвертация строки в ссылку)
     private void setupLogo(String image){
-        if(image.equals("avatar1.png")){
-            binding.header1.circleImageView.setImageResource(R.drawable.avatar1);
-        } else {
-            if(image.equals("avatar2.png")){
-                binding.header1.circleImageView.setImageResource(R.drawable.avatar2);
-            } else {
-                binding.header1.circleImageView.setImageResource(R.drawable.avatar3);
-            }
-        }
+//        if(image.equals("avatar1.png")){
+//            binding.header1.circleImageView.setImageResource(R.drawable.avatar1);
+//        } else {
+//            if(image.equals("avatar2.png")){
+//                binding.header1.circleImageView.setImageResource(R.drawable.avatar2);
+//            } else {
+//                binding.header1.circleImageView.setImageResource(R.drawable.avatar3);
+//            }
+//        }
     }
 
     @Override

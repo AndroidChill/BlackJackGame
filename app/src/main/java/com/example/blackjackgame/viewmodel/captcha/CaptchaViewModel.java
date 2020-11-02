@@ -1,5 +1,6 @@
 package com.example.blackjackgame.viewmodel.captcha;
 
+import androidx.databinding.ObservableInt;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -19,6 +20,18 @@ public class CaptchaViewModel extends ViewModel {
 
     public MutableLiveData<CaptchaBody> checkCaptcha(CaptchaRequest request){
         return repository.checkCaptcha(request);
+    }
+
+    public ObservableInt getError(){
+        return repository.getError();
+    }
+
+    public ObservableInt getLoading(){
+        return repository.getLoading();
+    }
+
+    public ObservableInt getShow(){
+        return repository.getShow();
     }
 
 }

@@ -18,7 +18,9 @@ import com.example.blackjackgame.model.profile.changeData.ProfileChangeBody;
 import com.example.blackjackgame.model.rating.RatingCustom;
 import com.example.blackjackgame.model.rating.ratingLuck.RatingLuckBody;
 import com.example.blackjackgame.model.rating.ratingRich.RatingRichBody;
+import com.example.blackjackgame.model.registration.RegistrationBody;
 import com.example.blackjackgame.model.sign.NewsGuest;
+import com.example.blackjackgame.network.responce.registration.RegistrationRequest;
 import com.example.blackjackgame.network.responce.stattics.CaptchaRequest;
 import com.example.blackjackgame.model.statics.CaptchaBody;
 import com.example.blackjackgame.model.statics.ReviewBody;
@@ -163,11 +165,10 @@ public interface ApiService {
     @POST("json")
     Observable<GameBody> getGameMain(@Body GameRequest request);
 
-//    @POST("/api/game/debug.php")
-//    Observable<NewsSignIn> getData(@Body RequestSignIn request);
-//
-//    @POST("/api/game/debug.php")
-//    Observable<ProfileBody> getProfile(@Body ProfileRequest request);
 
-
+    /*
+    * регистрация
+    * */
+    @POST("json")
+    Observable<RegistrationBody> getRegistration(@Body RegistrationRequest request);
 }

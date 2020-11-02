@@ -1,18 +1,28 @@
 package com.example.blackjackgame.network.responce.profile.change;
 
+import com.example.blackjackgame.model.profile.Profile;
+
 public class ProfileChangeDataRequest {
 
     private String menu;
     private String app_ver;
     private String ln;
     private String token;
-    private Profile profile;
+    private com.example.blackjackgame.model.profile.Profile profile;
 
     public ProfileChangeDataRequest(String menu, String app_ver, String ln, String token, Profile profile) {
         this.menu = menu;
         this.app_ver = app_ver;
         this.ln = ln;
         this.token = token;
+        this.profile = profile;
+    }
+
+    public Profile getProfile() {
+        return profile;
+    }
+
+    public void setProfile(Profile profile) {
         this.profile = profile;
     }
 
@@ -48,11 +58,4 @@ public class ProfileChangeDataRequest {
         this.token = token;
     }
 
-    public Profile getProfile() {
-        return profile;
-    }
-
-    public void setProfile(Profile profile) {
-        this.profile = profile;
-    }
 }

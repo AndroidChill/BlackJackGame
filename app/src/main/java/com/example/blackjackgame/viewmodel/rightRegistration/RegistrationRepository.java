@@ -1,100 +1,96 @@
-package com.example.blackjackgame.viewmodel.captcha;
+package com.example.blackjackgame.viewmodel.rightRegistration;
 
-import android.annotation.SuppressLint;
 import android.view.View;
 
 import androidx.databinding.ObservableInt;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.blackjackgame.model.statics.CaptchaBody;
+import com.example.blackjackgame.model.registration.RegistrationBody;
 import com.example.blackjackgame.network.ApiFactory;
 import com.example.blackjackgame.network.ApiService;
-import com.example.blackjackgame.network.responce.stattics.CaptchaRequest;
+import com.example.blackjackgame.network.responce.registration.RegistrationRequest;
 
 import org.jetbrains.annotations.NotNull;
 
 import io.reactivex.Observer;
+import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class CaptchaRepository {
+public class RegistrationRepository {
 
-    private static CaptchaRepository instance;
+    private static RegistrationRepository instance;
     private CompositeDisposable compositeDisposable;
-    private ApiService apiService;
     private ObservableInt error;
     private ObservableInt loading;
-    private ObservableInt show;
+    private ObservableInt showContent;
+    private ApiService apiService;
 
-    private CaptchaRepository(){
-        compositeDisposable = new CompositeDisposable();
+    private RegistrationRepository(){
         apiService = ApiFactory.getInstance().getJSONApi();
-
         error = new ObservableInt(View.GONE);
         loading = new ObservableInt(View.VISIBLE);
-        show = new ObservableInt(View.GONE);
+        showContent = new ObservableInt(View.GONE);
     }
 
-    public static CaptchaRepository getInstance() {
+    static RegistrationRepository getInstance(){
         if(instance == null){
-            instance = new CaptchaRepository();
+            instance = new RegistrationRepository();
         }
         return instance;
     }
 
-    @SuppressLint("CheckResult")
-    public MutableLiveData<CaptchaBody> checkCaptcha(CaptchaRequest request){
+    public MutableLiveData<RegistrationBody> getRegistration(RegistrationRequest request){
 
-        MutableLiveData<CaptchaBody> liveData = new MutableLiveData<>();
+        MutableLiveData<RegistrationBody> liveData = new MutableLiveData<>();
 
         error.set(View.GONE);
         loading.set(View.VISIBLE);
-        show.set(View.GONE);
+        showContent.set(View.GONE);
 
-        apiService.checkCaptcha(request)
+        apiService.getRegistration(request)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<CaptchaBody>() {
+                .subscribe(new Observer<RegistrationBody>() {
                     @Override
                     public void onSubscribe(@NotNull Disposable d) {
-
                     }
 
                     @Override
-                    public void onNext(@NotNull CaptchaBody captchaBody) {
-                        liveData.setValue(captchaBody);
+                    public void onNext(@NotNull RegistrationBody registrationBody) {
+                        liveData.setValue(registrationBody);
                         error.set(View.GONE);
                         loading.set(View.GONE);
-                        show.set(View.VISIBLE);
+                        showContent.set(View.VISIBLE);
                     }
 
                     @Override
                     public void onError(@NotNull Throwable e) {
                         error.set(View.VISIBLE);
                         loading.set(View.GONE);
-                        show.set(View.GONE);
+                        showContent.set(View.GONE);
                     }
 
                     @Override
                     public void onComplete() {
-
                     }
                 });
 
         return liveData;
-    }
 
-    public ObservableInt getLoading() {
-        return loading;
     }
 
     public ObservableInt getError() {
         return error;
     }
 
-    public ObservableInt getShow() {
-        return show;
+    public ObservableInt getLoading() {
+        return loading;
+    }
+
+    public ObservableInt getShowContent() {
+        return showContent;
     }
 }
