@@ -6,10 +6,13 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.blackjackgame.R;
@@ -29,6 +32,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private CaptchaViewModel viewModel;
     private RegistrationRequest request;
     private RegistrationViewModel viewModelRegistr;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +41,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
         viewModel = new ViewModelProvider(this, new CaptchaFactory()).get(CaptchaViewModel.class);
 
+        sharedPreferences = getSharedPreferences("shared", MODE_PRIVATE);
 
         binding.setViewModel(viewModel);
 
@@ -82,7 +87,13 @@ public class RegistrationActivity extends AppCompatActivity {
             viewModelRegistr.getRegistr().observe(this, new Observer<RegistrationBody>() {
                 @Override
                 public void onChanged(RegistrationBody registrationBody) {
-
+                    if(registrationBody.getStatus().equals("error")){
+                        Toast.makeText(RegistrationActivity.this, registrationBody.getErrorText(), Toast.LENGTH_LONG).show();
+                    } else {
+                        sharedPreferences.edit().putString("token", registrationBody.getToken()).apply();
+                        startActivity(new Intent(RegistrationActivity.this, NavigationActivity.class));
+                        finish();
+                    }
                 }
             });
 

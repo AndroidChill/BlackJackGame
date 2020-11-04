@@ -22,13 +22,17 @@ public class MainActivity extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences("shared", MODE_PRIVATE);
 
-        if(sharedPreferences.getBoolean(Constant.isSign, false)){
-            Intent intent = new Intent(MainActivity.this, NavigationActivity.class);
-            startActivity(intent);
-        } else {
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, IntroFragment.newInstance())
-                    .commit();
-        }
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.container, IntroFragment.newInstance())
+                .commit();
+
+//        if(sharedPreferences.getBoolean(Constant.isSign, false)){
+//            Intent intent = new Intent(MainActivity.this, NavigationActivity.class);
+//            startActivity(intent);
+//        } else {
+//            getSupportFragmentManager().beginTransaction()
+//                    .add(R.id.container, IntroFragment.newInstance())
+//                    .commit();
+//        }
     }
 }

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@null">
+
+
+        <TextView
+            android:id="@+id/textView66"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
+            android:text="Ваш Email :"
+            android:textColor="@color/white"
+            android:textSize="17sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/textView67"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/border_edit"
+            android:enabled="false"
+            android:text="mr.dark051@yandex.ru"
+            android:textColor="@color/black"
+            android:padding="16dp"
+            android:textSize="17sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/textView66"
+            app:layout_constraintTop_toBottomOf="@+id/textView66" />
+
+        <TextView
+            android:id="@+id/textView68"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Введите код подтверждения"
+            android:textColor="@color/white"
+            android:textSize="17sp"
+            app:layout_constraintStart_toStartOf="@+id/textView66"
+            app:layout_constraintTop_toBottomOf="@+id/textView67" />
+
+        <EditText
+            android:id="@+id/editText2"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:padding="16dp"
+            android:textCursorDrawable="@color/black"
+            android:background="@drawable/border_edit"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/textView68"
+            app:layout_constraintTop_toBottomOf="@+id/textView68" />
+
+        <Button
+            android:id="@+id/btn_done"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/separator_button"
+            android:padding="16dp"
+            android:textSize="17sp"
+            android:text="Принять"
+            android:textAllCaps="false"
+            app:layout_constraintEnd_toEndOf="@+id/editText2"
+            app:layout_constraintTop_toBottomOf="@+id/editText2" />
+
+        <Button
+            android:id="@+id/btn_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:background="@null"
+            android:textColor="@color/white"
+            android:padding="16dp"
+            android:textSize="17sp"
+            android:text="Назад"
+            android:textAllCaps="false"
+            app:layout_constraintBottom_toBottomOf="@+id/btn_done"
+            app:layout_constraintEnd_toStartOf="@+id/btn_done"
+            app:layout_constraintTop_toTopOf="@+id/btn_done" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

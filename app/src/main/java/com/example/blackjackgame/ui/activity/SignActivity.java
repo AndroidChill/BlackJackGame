@@ -2,11 +2,14 @@ package com.example.blackjackgame.ui.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import com.example.blackjackgame.R;
 import com.example.blackjackgame.databinding.ActivitySignBinding;
+import com.example.blackjackgame.ui.fragment.sign.SignCodeFragment;
+import com.example.blackjackgame.ui.fragment.sign.SignEmailFragment;
 import com.example.blackjackgame.ui.fragment.sign.SignInFragment;
 
 public class SignActivity extends AppCompatActivity {
@@ -21,10 +24,31 @@ public class SignActivity extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences("shared", MODE_PRIVATE);
 
-        if(!sharedPreferences.getBoolean("isRegister", false)){
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container_sign, SignInFragment.newInstance())
-                    .commit();
-        }
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.container_sign_email, SignEmailFragment.newInstance())
+                .commit();
+    }
+
+
+    public void changeInCodeFragment(String email){
+
+        Fragment fragment = SignCodeFragment.newInstance();
+        Bundle args = new Bundle();
+        args.putCharSequence("email", email);
+        fragment.setArguments(args);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.container_sign_email, fragment)
+                .commit();
+    }
+
+    public void changeInEmailFragment(){
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.container_sign_email, SignEmailFragment.newInstance())
+                .commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+
     }
 }

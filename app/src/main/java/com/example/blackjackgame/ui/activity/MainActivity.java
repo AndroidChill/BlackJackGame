@@ -23,9 +23,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         sharedPreferences = getSharedPreferences("shared", MODE_PRIVATE);
+//
+//        Intent intent = new Intent(MainActivity.this, RegistrationActivity.class);
+//        startActivity(intent);
 
-        Intent intent = new Intent(MainActivity.this, RegistrationActivity.class);
-        startActivity(intent);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.container, IntroFragment.newInstance())
+                .commit();
 
         //проверка на то, входил уже пользователь или нет
 //        if(sharedPreferences.getBoolean(Constant.isSign, false)){

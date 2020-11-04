@@ -24,6 +24,15 @@ public class GetMonetBody {
     @SerializedName("time_server")
     private long time_server;
 
+    @SerializedName("image_captcha_url")
+    private String image_captcha_url;
+
+    @SerializedName("popup")
+    private String popup;
+
+    @SerializedName("token")
+    private String token;
+
     public GetMonetBody(String menu, String status, String toast, List<CoinsGet> coins_get, String error_text, long time_server) {
         this.menu = menu;
         this.status = status;
@@ -31,6 +40,53 @@ public class GetMonetBody {
         this.coins_get = coins_get;
         this.error_text = error_text;
         this.time_server = time_server;
+    }
+
+    public GetMonetBody(String menu, String status, String toast, List<CoinsGet> coins_get, String error_text, long time_server, String image_captcha_url, String popup) {
+        this.menu = menu;
+        this.status = status;
+        this.toast = toast;
+        this.coins_get = coins_get;
+        this.error_text = error_text;
+        this.time_server = time_server;
+        this.image_captcha_url = image_captcha_url;
+        this.popup = popup;
+    }
+
+    public GetMonetBody(String menu, String status, String toast, List<CoinsGet> coins_get, String error_text, long time_server, String image_captcha_url, String popup, String token) {
+        this.menu = menu;
+        this.status = status;
+        this.toast = toast;
+        this.coins_get = coins_get;
+        this.error_text = error_text;
+        this.time_server = time_server;
+        this.image_captcha_url = image_captcha_url;
+        this.popup = popup;
+        this.token = token;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public String getImage_captcha_url() {
+        return image_captcha_url;
+    }
+
+    public void setImage_captcha_url(String image_captcha_url) {
+        this.image_captcha_url = image_captcha_url;
+    }
+
+    public String getPopup() {
+        return popup;
+    }
+
+    public void setPopup(String popup) {
+        this.popup = popup;
     }
 
     public void setError_text(String error_text) {
