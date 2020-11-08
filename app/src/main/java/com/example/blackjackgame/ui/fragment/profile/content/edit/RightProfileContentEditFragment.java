@@ -39,16 +39,16 @@ public class RightProfileContentEditFragment extends AppCompatActivity {
         super.onCreate(savedInstanceState, persistentState);
         binding = DataBindingUtil.setContentView(this, R.layout.fragment_profile_content_edit);
 
-        setSupportActionBar((Toolbar)binding.toolbar);
+//        setSupportActionBar((Toolbar)binding.toolbar);
 
-        initToolbar();
+//        initToolbar();
 
         shared = getSharedPreferences("shared", Context.MODE_PRIVATE);
         viewModel = new ViewModelProvider(getViewModelStore(), new RightProfileFactory(initRequest())).get(RightProfileViewModel.class);
-        binding.setViewModel(viewModel);
+//        binding.setViewModel(viewModel);
 
         viewModel.getProfile().observe(this, observer -> {
-            binding.info.setModel(observer.getProfile());
+            binding.setModel(observer.getProfile());
         });
     }
 
@@ -63,12 +63,12 @@ public class RightProfileContentEditFragment extends AppCompatActivity {
     }
 
     private void initToolbar(){
-        ((Toolbar)(binding.toolbar)).setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(RightProfileContentEditFragment.this, "click", Toast.LENGTH_SHORT).show();
-
-            }
-        });
+//        ((Toolbar)(binding.toolbar)).setNavigationOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Toast.makeText(RightProfileContentEditFragment.this, "click", Toast.LENGTH_SHORT).show();
+//
+//            }
+//        });
     }
 }

@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelStore;
 
 import com.bumptech.glide.Glide;
 import com.example.blackjackgame.R;
+import com.example.blackjackgame.data.Constant;
 import com.example.blackjackgame.databinding.DialogCaptchaBinding;
 import com.example.blackjackgame.network.responce.stattics.CaptchaRequest;
 import com.example.blackjackgame.viewmodel.captcha.CaptchaFactory;
@@ -47,7 +48,7 @@ public class CaptchaDialog {
         });
 
         binding.btnOk.setOnClickListener(v -> {
-            CaptchaRequest request = new CaptchaRequest("captcha", binding.etCaptcha.getText().toString());
+            CaptchaRequest request = new CaptchaRequest("captcha", Constant.app_ver, binding.etCaptcha.getText().toString());
             viewModel.checkCaptcha(request).observe(owner, observer -> {
                 if(observer.getStatus().equals("success")){
                     dialog.dismiss();

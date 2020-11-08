@@ -14,7 +14,8 @@
         android:theme="@style/AppTheme.NoActionBar"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-        <activity android:name=".ui.activity.RegistrationActivity"></activity>
+        <activity android:name=".ui.activity.InfoGetMonetActivity"></activity>
+        <activity android:name=".ui.activity.RegistrationActivity" />
         <activity android:name=".ui.activity.ProfileEditActivity" />
         <activity android:name=".ui.activity.Game4Activity" />
         <activity android:name=".ui.fragment.profile.content.edit.RightProfileContentEditFragment" />
@@ -35,14 +36,14 @@
         <activity
             android:name=".ui.activity.NavigationActivity"
             android:label="@string/title_activity_navigation"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ui.activity.MainActivity">
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.activity.MainActivity"></activity>
     </application>
 
 </manifest>

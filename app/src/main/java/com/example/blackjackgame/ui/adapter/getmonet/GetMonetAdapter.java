@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.blackjackgame.R;
 import com.example.blackjackgame.databinding.FragmentGetMonetContentItemBinding;
-import com.example.blackjackgame.model.getmonet.CoinsGet;
+import com.example.blackjackgame.rModel.coinsGet.CoinsGet;
 import com.example.blackjackgame.ui.interfaceClick.getmonet.GetMonetOnClick;
 
 import java.util.ArrayList;

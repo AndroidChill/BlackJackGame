@@ -4,106 +4,249 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
+
+        <variable
+            name="model"
+            type="com.example.blackjackgame.model.profile.Profile" />
+
         <variable
             name="viewModel"
-            type="com.example.blackjackgame.viewmodel.rigthProfile.RightProfileViewModel" />
+            type="com.example.blackjackgame.rViewModel.profile.ProfileViewModel" />
 
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/main"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <include
-            android:id="@+id/toolbar"
-            layout="@layout/toolbar_with_back"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="match_parent"
+        android:background="@drawable/separator">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_header"
-            android:visibility="@{viewModel.isShowContent}"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar"
-            app:layout_constraintVertical_bias="0.01999998">
-
-            <include
-                android:id="@+id/header1"
-                layout="@layout/layout_profile_edit_header"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.050000012" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_info"
-            android:visibility="@{viewModel.isShowContent}"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layout_header"
-            app:layout_constraintVertical_bias="0.01999998">
-
-            <include
-                android:id="@+id/info"
-                layout="@layout/layout_profile_edit_content"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.050000012" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <ProgressBar
-            android:id="@+id/progressBar"
-            style="?android:attr/progressBarStyle"
-            android:visibility="@{viewModel.loading}"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.25" />
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:gravity="center"
+            android:id="@+id/main"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-
-            <ImageView
-                android:id="@+id/iv_error"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:src="@drawable/ic_baseline_error_24"
-                android:visibility="@{viewModel.error}" />
-
-            <TextView
-                android:id="@+id/tv_error"
-                android:layout_width="303dp"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_header"
+                android:visibility="@{viewModel.showContent}"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:gravity="center"
-                android:maxWidth="300dp"
-                android:text="Ошибка сервера. Проверьте подключение к сети интернет."
-                android:textColor="#DE0204"
-                android:visibility="@{viewModel.error}" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/textView5"
+                    style="@style/BaseTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/name"
+                    android:textColor="@color/white"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.11"
+                    app:layout_constraintStart_toStartOf="@+id/layout_header"
+                    app:layout_constraintTop_toTopOf="@+id/layout_header" />
+
+                <EditText
+                    android:id="@+id/name"
+                    android:layout_width="300dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="8dp"
+                    android:text="@={model.user_name}"
+                    style="@style/BaseTextView"
+                    android:padding="16dp"
+                    android:singleLine="true"
+                    android:background="@drawable/border_edit"
+                    android:textCursorDrawable="@color/white"
+                    app:layout_constraintStart_toStartOf="@+id/textView5"
+                    app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
+                <TextView
+                    android:id="@+id/textView6"
+                    style="@style/BaseTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Фамилия"
+                    android:textColor="@color/white"
+                    app:layout_constraintStart_toStartOf="@+id/name"
+                    app:layout_constraintTop_toBottomOf="@+id/name" />
+
+                <TextView
+                    android:id="@+id/textView12"
+                    style="@style/BaseTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/nickname"
+                    android:textColor="@color/white"
+                    app:layout_constraintStart_toStartOf="@+id/surname"
+                    app:layout_constraintTop_toBottomOf="@+id/surname" />
+
+                <TextView
+                    android:id="@+id/textView13"
+                    style="@style/BaseTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/email"
+                    android:textColor="@color/white"
+                    app:layout_constraintStart_toStartOf="@+id/nickname"
+                    app:layout_constraintTop_toBottomOf="@+id/info" />
+
+                <TextView
+                    android:id="@+id/textView14"
+                    style="@style/BaseTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:textColor="@color/white"
+                    android:text="@string/yourself"
+                    app:layout_constraintStart_toStartOf="@+id/email"
+                    app:layout_constraintTop_toBottomOf="@+id/nickname" />
+
+                <EditText
+                    android:id="@+id/surname"
+                    android:layout_width="300dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="8dp"
+                    android:text="@={model.user_surname}"
+                    android:singleLine="true"
+                    style="@style/BaseTextView"
+                    android:padding="16dp"
+                    android:background="@drawable/border_edit"
+                    android:textCursorDrawable="@color/white"
+                    app:layout_constraintStart_toStartOf="@+id/textView6"
+                    app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+                <EditText
+                    android:id="@+id/nickname"
+                    android:layout_width="300dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="8dp"
+                    android:text="@={model.user_nickname}"
+                    android:singleLine="true"
+                    style="@style/BaseTextView"
+                    android:padding="16dp"
+                    android:background="@drawable/border_edit"
+                    android:textCursorDrawable="@color/white"
+                    app:layout_constraintStart_toStartOf="@+id/textView12"
+                    app:layout_constraintTop_toBottomOf="@+id/textView12" />
+
+                <EditText
+                    android:id="@+id/email"
+                    android:layout_width="300dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="8dp"
+                    android:text="@={model.user_email}"
+                    android:enabled="false"
+                    android:padding="16dp"
+                    android:singleLine="true"
+                    style="@style/BaseTextView"
+                    android:background="@drawable/border_edit"
+                    android:textCursorDrawable="@color/white"
+                    app:layout_constraintStart_toStartOf="@+id/textView13"
+                    app:layout_constraintTop_toBottomOf="@+id/textView13" />
+
+                <EditText
+                    android:id="@+id/info"
+                    android:layout_width="300dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="8dp"
+                    android:text="@={model.user_info}"
+                    android:singleLine="true"
+                    android:padding="16dp"
+                    style="@style/BaseTextView"
+                    android:background="@drawable/border_edit"
+                    android:textCursorDrawable="@color/white"
+                    app:layout_constraintStart_toStartOf="@+id/textView13"
+                    app:layout_constraintTop_toBottomOf="@+id/textView14" />
+
+                <Button
+                    android:id="@+id/done"
+                    android:background="@drawable/separator_button"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:text="@string/agree"
+                    android:textAllCaps="false"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/info"
+                    app:layout_constraintHorizontal_bias="0.95"
+                    app:layout_constraintStart_toStartOf="@+id/email"
+                    app:layout_constraintTop_toBottomOf="@+id/email_check" />
+
+                <Button
+                    android:id="@+id/cancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/cancel"
+                    android:background="@null"
+                    android:textAllCaps="false"
+                    app:layout_constraintBottom_toBottomOf="@+id/done"
+                    app:layout_constraintEnd_toStartOf="@+id/done"
+                    app:layout_constraintHorizontal_bias="0.8"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/done" />
+
+                <CheckBox
+                    android:id="@+id/email_check"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:textColor="@color/white"
+                    android:shadowColor="@color/white"
+                    android:text="Я хочу сменить email"
+                    app:layout_constraintStart_toStartOf="@+id/email"
+                    app:layout_constraintTop_toBottomOf="@+id/email" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyle"
+                android:visibility="@{viewModel.loading}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.25" />
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:gravity="center"
+                android:background="@null"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+                <ImageView
+                    android:id="@+id/iv_error"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:src="@drawable/ic_baseline_error_24"
+                    android:visibility="@{viewModel.error}" />
+
+                <TextView
+                    android:id="@+id/tv_error"
+                    android:layout_width="303dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center"
+                    android:maxWidth="300dp"
+                    android:text="Ошибка сервера. Проверьте подключение к сети интернет."
+                    android:textColor="#DE0204"
+                    android:visibility="@{viewModel.error}" />
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 </layout>

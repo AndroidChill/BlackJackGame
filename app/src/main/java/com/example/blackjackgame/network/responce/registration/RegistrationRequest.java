@@ -3,7 +3,7 @@ package com.example.blackjackgame.network.responce.registration;
 public class RegistrationRequest {
 
     private String menu;
-    private String app_ver;
+    private int app_ver;
     private String email;
     private String captcha_value;
     private String ref_code;
@@ -13,7 +13,7 @@ public class RegistrationRequest {
     private String manufacturer;
     private String market_name;
 
-    public RegistrationRequest(String menu, String app_ver, String email, String captcha_value, String ref_code, String user_nickname, String sdk, String model, String manufacturer, String market_name) {
+    public RegistrationRequest(String menu, int app_ver, String email, String captcha_value, String ref_code, String user_nickname, String sdk, String model, String manufacturer, String market_name) {
         this.menu = menu;
         this.app_ver = app_ver;
         this.email = email;
@@ -34,11 +34,11 @@ public class RegistrationRequest {
         this.menu = menu;
     }
 
-    public String getApp_ver() {
+    public int getApp_ver() {
         return app_ver;
     }
 
-    public void setApp_ver(String app_ver) {
+    public void setApp_ver(int app_ver) {
         this.app_ver = app_ver;
     }
 

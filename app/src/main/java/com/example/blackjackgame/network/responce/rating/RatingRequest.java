@@ -3,22 +3,22 @@ package com.example.blackjackgame.network.responce.rating;
 public class RatingRequest {
 
     private String menu;
-    private String app_ver;
+    private int app_ver;
     private String ln;
     private String token;
 
-    public RatingRequest(String menu, String app_ver, String ln, String token) {
+    public RatingRequest(String menu, int app_ver, String ln, String token) {
         this.menu = menu;
         this.app_ver = app_ver;
         this.ln = ln;
         this.token = token;
     }
 
-    public String getApp_ver() {
+    public int getApp_ver() {
         return app_ver;
     }
 
-    public void setApp_ver(String app_ver) {
+    public void setApp_ver(int app_ver) {
         this.app_ver = app_ver;
     }
 

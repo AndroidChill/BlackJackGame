@@ -2,7 +2,7 @@ package com.example.blackjackgame.data;
 
 public class Constant {
 
-    public static String app_ver = "1.0.0";
+    public static int app_ver = 20201105;
     public static String ln = "ru";
 
     //статусы

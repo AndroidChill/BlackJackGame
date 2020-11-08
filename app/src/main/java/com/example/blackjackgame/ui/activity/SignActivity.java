@@ -47,8 +47,4 @@ public class SignActivity extends AppCompatActivity {
                 .commit();
     }
 
-    @Override
-    public void onBackPressed() {
-
-    }
 }

@@ -3,13 +3,13 @@ package com.example.blackjackgame.network.responce.friend;
 public class GiveMonetRequest {
 
     private String menu;
-    private String app_ver;
+    private int app_ver;
     private String ln;
     private String token;
     private int coins_transfer_user_id;
     private int coins;
 
-    public GiveMonetRequest(String menu, String app_ver, String ln, String token, int coins_transfer_user_id, int coins) {
+    public GiveMonetRequest(String menu, int app_ver, String ln, String token, int coins_transfer_user_id, int coins) {
         this.menu = menu;
         this.app_ver = app_ver;
         this.ln = ln;
@@ -26,11 +26,11 @@ public class GiveMonetRequest {
         this.menu = menu;
     }
 
-    public String getApp_ver() {
+    public int getApp_ver() {
         return app_ver;
     }
 
-    public void setApp_ver(String app_ver) {
+    public void setApp_ver(int app_ver) {
         this.app_ver = app_ver;
     }
 

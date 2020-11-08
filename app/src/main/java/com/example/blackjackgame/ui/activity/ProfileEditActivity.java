@@ -19,12 +19,18 @@ import android.widget.Toast;
 import com.example.blackjackgame.R;
 import com.example.blackjackgame.data.Constant;
 import com.example.blackjackgame.databinding.ActivityProfileEditBinding;
-import com.example.blackjackgame.model.profile.Profile;
-import com.example.blackjackgame.model.profile.ProfileBody;
+import com.example.blackjackgame.rModel.profile.Profile;
 import com.example.blackjackgame.model.profile.changeData.ProfileChangeBody;
 import com.example.blackjackgame.network.responce.profile.DataProfileRequest;
 import com.example.blackjackgame.network.responce.profile.change.ProfileChangeDataRequest;
-import com.example.blackjackgame.ui.MainActivity;
+import com.example.blackjackgame.rModel.profile.ProfileBody;
+import com.example.blackjackgame.rModel.profileSend.ProfileSendBody;
+import com.example.blackjackgame.rNetwork.request.profile.ProfileRequest;
+import com.example.blackjackgame.rNetwork.request.profileSend.ProfileSendRequest;
+import com.example.blackjackgame.rViewModel.profile.ProfileFactory;
+import com.example.blackjackgame.rViewModel.profile.ProfileViewModel;
+import com.example.blackjackgame.ui.adapter.profile.ProfileProgressAdapter;
+import com.example.blackjackgame.ui.adapter.profile.ProfileReferalsAdapter;
 import com.example.blackjackgame.ui.dialog.CaptchaDialog;
 import com.example.blackjackgame.ui.dialog.ProfileChangePhotoDialogFragment;
 import com.example.blackjackgame.ui.dialog.ReviewDialogHelper;
@@ -36,30 +42,23 @@ public class ProfileEditActivity extends AppCompatActivity {
 
     private ActivityProfileEditBinding binding;
     private SharedPreferences shared;
-    private RightProfileViewModel   viewModel;
-    private DataProfileRequest request;
-    private ProfileChangeDataRequest newRequest;
+    private ProfileRequest request;
+    private ProfileSendRequest sendRequest;
     private Profile profile;
+
+    private ProfileViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_profile_edit);
-
-        Log.d("tag", "onCreate: ");
-
-        setSupportActionBar((Toolbar)binding.toolbar);
-        Toast.makeText(ProfileEditActivity.this, "click", Toast.LENGTH_SHORT).show();
-        initToolbar();
-
         shared = getSharedPreferences("shared", Context.MODE_PRIVATE);
-        viewModel = new ViewModelProvider(getViewModelStore(), new RightProfileFactory(initRequest())).get(RightProfileViewModel.class);
+        initRequest();
+        viewModel = new ViewModelProvider(this, new ProfileFactory(request)).get(ProfileViewModel.class);
         binding.setViewModel(viewModel);
-
-        updateUI();
-
+        binding.info.setViewModel(viewModel);
         binding.info.done.setOnClickListener(v -> {
-            sendEditData();
+            sendData();
             finish();
         });
 
@@ -83,136 +82,175 @@ public class ProfileEditActivity extends AppCompatActivity {
             }
         });
 
-        initRefresh();
+        refresh();
+        updateUI();
 
     }
 
-    private void initRefresh(){
+    private void sendData(){
+        if(shared != null && profile != null){
+            if(shared.getBoolean("isEditImage", false)){
+                String ava = shared.getString("selectImage", profile.getAvatar());
+                chooseAvatar(ava);
+                profile.setAvatar(ava);
+                shared.edit().putBoolean("isEditImage", false).apply();
+            }
+        }
+        initSendRequest();
+        viewModel.sendProfile(sendRequest).observe(this, new Observer<ProfileSendBody>() {
+            @Override
+            public void onChanged(ProfileSendBody profileSendBody) {
+                //проверка на токен
+                if(profileSendBody.getToken() != null){
+                    if(profileSendBody.getToken().equals("error")){
+                        startBaseActivity();
+                    }
+                }
+
+                if(profileSendBody.getStatus().equals("success")){
+
+                    //проверка на капчу
+                    if(profileSendBody.getCaptchaImageUrl() != null){
+                        createCaptchaDialog(profileSendBody.getCaptchaImageUrl());
+                    }
+
+                    //проверка на отзывы
+                    if(profileSendBody.getPopup() != null){
+                        if(profileSendBody.getPopup().equals("comment")){
+                            createReviewDialog();
+                        }
+                    }
+
+                    Toast.makeText(ProfileEditActivity.this, "Успешно", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    Toast.makeText(ProfileEditActivity.this, profileSendBody.getStatusText(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void initSendRequest(){
+        sendRequest = new ProfileSendRequest(
+                "profile_save",
+                Constant.app_ver,
+                Constant.ln,
+                shared.getString("token", ""),
+                profile
+        );
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(shared != null && profile != null){
+            if(shared.getBoolean("isEditImage", false)){
+                String ava = shared.getString("selectImage", profile.getAvatar());
+                chooseAvatar(ava);
+                profile.setAvatar(ava);
+                shared.edit().putBoolean("isEditImage", false).apply();
+            }
+        }
+    }
+
+    private void refresh(){
         binding.refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                request = initRequestProfile();
-                viewModel.swipeRefresh(request);
+                initRequest();
+                viewModel.update(request);
                 updateUI();
                 binding.refresh.setRefreshing(false);
             }
         });
     }
 
-    //обновление пользовательского интерфейса
-    private void updateUI(){
-        viewModel.getProfile().observe(this, new Observer<ProfileBody>() {
-            @Override
-            public void onChanged(ProfileBody profileBody) {
-
-                profile = profileBody.getProfile();
-
-                binding.info.setModel(profile);
-
-                //проверка на ошибочный статус
-                if(profileBody.getStatus().equals("error")){
-                    Toast.makeText(ProfileEditActivity.this, profileBody.getError_text(), Toast.LENGTH_SHORT).show();
-                } else {
-
-                    //проверка на токен
-                    if (profileBody.getToken() != null){
-                        if(profileBody.getToken().equals("error")){
-                            Intent intent = new Intent(ProfileEditActivity.this, MainActivity.class);
-                            startActivity(intent);
-                            finish();
-                        }
-                    }
-
-                    //проверка на отзывы
-                    if (profileBody.getPopup() != null)
-                        if(profileBody.getPopup().equals("comment")){
-                            createReviewDialog();
-                        }
-
-                    //проверка на капчу
-                    if(profileBody.getCaptcha_image_url() != null){
-                        createCaptchaDialog(profileBody.getCaptcha_image_url());
-                    }
-
-                }
-            }
-        });
-    }
-
-    private void sendEditData(){
-
-        newRequest = initRequestData();
-
-        viewModel.changeData(newRequest).observe(this, new Observer<ProfileChangeBody>() {
-            @Override
-            public void onChanged(ProfileChangeBody profileChangeBody) {
-                //проверка на ошибочный статус
-                if(profileChangeBody.getStatus().equals("error")){
-                    Toast.makeText(ProfileEditActivity.this, profileChangeBody.getStatus_text(), Toast.LENGTH_SHORT).show();
-                } else {
-                    //проверка на токен
-                    if (profileChangeBody.getToken() != null){
-                        if(profileChangeBody.getToken().equals("error")){
-                            Intent intent = new Intent(ProfileEditActivity.this, MainActivity.class);
-                            startActivity(intent);
-                            finish();
-                        }
-                    }
-                    //проверка на отзывы
-                    if (profileChangeBody.getPopup() != null)
-                        if(profileChangeBody.getPopup().equals("comment")){
-                            createReviewDialog();
-                        }
-                    //проверка на капчу
-                    if(profileChangeBody.getCaptchaImageUrl() != null){
-                        createCaptchaDialog(profileChangeBody.getCaptchaImageUrl());
-                    }
-                }
-            }
-        });
-    }
-
-    private ProfileChangeDataRequest initRequestData(){
-
-        profile.setUser_avatar(shared.getString("selectImage", profile.getUser_avatar()));
-
-        return new ProfileChangeDataRequest(
-                "change_data",
-                Constant.app_ver,
-                Constant.ln,
-                shared.getString("token", "null"),
-                profile
-        );
-    }
-
-    //инициализация создания запроса на данные пользователя
-    private DataProfileRequest initRequest(){
-        return new DataProfileRequest(
+    private void initRequest(){
+        request = new ProfileRequest(
                 "profile",
                 Constant.app_ver,
                 Constant.ln,
-                shared.getString("token", "null")
+                shared.getString("token", "")
         );
     }
 
-    //закрыть изменение данных
-    private void initToolbar(){
-        ((Toolbar)(binding.toolbar)).setNavigationOnClickListener(new View.OnClickListener() {
+    private void updateUI(){
+        viewModel.getLiveData().observe(this, new Observer<com.example.blackjackgame.rModel.profile.ProfileBody>() {
             @Override
-            public void onClick(View view) {
+            public void onChanged(ProfileBody profileBody) {
 
-                finish();
+                //проверка на токен
+                if(profileBody.getToken() != null){
+                    if(profileBody.getToken().equals("error")){
+                        startBaseActivity();
+                    }
+                }
 
+                if(profileBody.getStatus().equals("success")){
+
+                    //проверка на капчу
+                    if(profileBody.getCaptchaImageUrl() != null){
+                        createCaptchaDialog(profileBody.getCaptchaImageUrl());
+                    }
+
+                    //проверка на отзывы
+                    if(profileBody.getPopup() != null){
+                        if(profileBody.getPopup().equals("comment")){
+                            createReviewDialog();
+                        }
+                    }
+
+                    profile = profileBody.getProfile();
+                    binding.info.setViewModel(viewModel);
+                    binding.info.setModel(profile);
+                    initAvatar();
+
+                } else {
+                    Toast.makeText(ProfileEditActivity.this, profileBody.getStatusText(), Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
 
+    private void startBaseActivity(){
+        startActivity(new Intent(this, MainActivity.class));
+        finish();
+    }
+
+    private void initAvatar(){
+        switch (profile.getAvatar()){
+            case "avatar1.png":
+                binding.header1.circleImageView.setImageResource(R.drawable.avatar1);
+                break;
+            case "avatar2.png":
+                binding.header1.circleImageView.setImageResource(R.drawable.avatar2);
+                break;
+            case "avatar3.png":
+                binding.header1.circleImageView.setImageResource(R.drawable.avatar3);
+                break;
+        }
+    }
+
+    private void chooseAvatar(String ava){
+        switch (ava){
+            case "avatar1.png":
+                binding.header1.circleImageView.setImageResource(R.drawable.avatar1);
+                break;
+            case "avatar2.png":
+                binding.header1.circleImageView.setImageResource(R.drawable.avatar2);
+                break;
+            case "avatar3.png":
+                binding.header1.circleImageView.setImageResource(R.drawable.avatar3);
+                break;
+        }
+    }
+
     //создание диалога с капчей
-    private void createCaptchaDialog(String image_url){
+    private void createCaptchaDialog(String url){
         CaptchaDialog.createCaptchaDialog(
-                ProfileEditActivity.this,
+                this,
                 getLayoutInflater(),
-                image_url,
+                url,
                 getViewModelStore(),
                 this
         );
@@ -221,20 +259,10 @@ public class ProfileEditActivity extends AppCompatActivity {
     //создание диалога с отзывами
     private void createReviewDialog(){
         ReviewDialogHelper.buildReview(
-                ProfileEditActivity.this,
+                this,
                 getLayoutInflater(),
                 getViewModelStore(),
                 this
-        );
-    }
-
-    //создание запроса с инфой о пользователе
-    private DataProfileRequest initRequestProfile(){
-        return new DataProfileRequest(
-                "profile",
-                Constant.app_ver,
-                Constant.ln,
-                shared.getString("token", "null")
         );
     }
 }

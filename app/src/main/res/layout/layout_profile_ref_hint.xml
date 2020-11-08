@@ -29,13 +29,12 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/textView53"
+                android:id="@+id/ref_hint_text"
                 style="@style/HeadTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="Реферальный ссылки вам помогут дополнительно заработать и для этого надо всего лишь\n\t\t\t* Вам поделиться ссылкой с другом\n\t\t\t* Друг должен установить приложение\n\t\t\t* Друг должен выполнить задания  "
                 android:textColor="#A39090"
                 app:layout_constraintStart_toStartOf="@+id/textView54"
                 app:layout_constraintTop_toBottomOf="@+id/textView54" />
@@ -50,7 +49,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView53" />
+                app:layout_constraintTop_toBottomOf="@+id/ref_hint_text" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

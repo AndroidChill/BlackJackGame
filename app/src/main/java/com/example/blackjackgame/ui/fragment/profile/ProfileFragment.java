@@ -12,9 +12,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.blackjackgame.R;
 import com.example.blackjackgame.databinding.FragmentProfileBinding;
-import com.example.blackjackgame.ui.activity.NavigationActivity;
 import com.example.blackjackgame.ui.fragment.profile.content.ProfileContentFragment;
-import com.example.blackjackgame.ui.fragment.profile.content.RightProfileContentFragment;
 
 public class ProfileFragment extends Fragment {
 
@@ -36,7 +34,7 @@ public class ProfileFragment extends Fragment {
 
         getActivity().getSupportFragmentManager().beginTransaction()
                 .addToBackStack(null)
-                .replace(R.id.container_profile, RightProfileContentFragment.newInstance())
+                .replace(R.id.container_profile, ProfileContentFragment.newInstance())
                 .commit();
 
         return binding.getRoot();

@@ -7,12 +7,13 @@
 
         <variable
             name="viewModel"
-            type="com.example.blackjackgame.viewmodel.rightGetMonet.GetMonetViewModel" />
+            type="com.example.blackjackgame.rViewModel.getMonet.GetMonetViewModel" />
 
     </data>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/refresh"
+        android:background="@drawable/separator"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -21,11 +22,29 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout9"
                 android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="@{viewModel.showContent}">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="8dp"
+                android:layout_marginTop="150dp"
+                android:visibility="@{viewModel.loading}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -35,6 +54,7 @@
                 android:layout_height="150dp"
                 android:gravity="center"
                 android:orientation="vertical"
+                android:visibility="@{viewModel.error}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -46,8 +66,7 @@
                     android:id="@+id/iv_error"
                     android:layout_width="64dp"
                     android:layout_height="64dp"
-                    android:src="@drawable/ic_baseline_error_24"
-                    android:visibility="@{viewModel.error}" />
+                    android:src="@drawable/ic_baseline_error_24" />
 
                 <TextView
                     android:id="@+id/tv_error"
@@ -57,8 +76,7 @@
                     android:gravity="center"
                     android:maxWidth="300dp"
                     android:text="Ошибка сервера. Проверьте подключение к сети интернет."
-                    android:textColor="#DE0204"
-                    android:visibility="@{viewModel.error}" />
+                    android:textColor="@color/white" />
 
             </LinearLayout>
 

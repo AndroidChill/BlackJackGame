@@ -4,6 +4,10 @@
 
     <data>
 
+        <variable
+            name="model"
+            type="com.example.blackjackgame.rModel.profile.Profile" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -26,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Василий Пупкин"
+            android:text="@{model.nickname}"
             android:textColor="@color/white"
             android:textSize="17sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -50,7 +54,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="23467347342"
+            android:text="@{model.id}"
             android:textColor="@color/white"
             android:textSize="17sp"
             app:layout_constraintBottom_toBottomOf="@+id/textView3"

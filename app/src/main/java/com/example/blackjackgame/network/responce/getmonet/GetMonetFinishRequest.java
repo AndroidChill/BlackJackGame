@@ -4,7 +4,7 @@ public class GetMonetFinishRequest {
 
     private String menu;
 
-    private String app_ver;
+    private int app_ver;
 
     private String ln;
 
@@ -12,7 +12,7 @@ public class GetMonetFinishRequest {
 
     private int id;
 
-    public GetMonetFinishRequest(String menu, String app_ver, String ln, String token, int id) {
+    public GetMonetFinishRequest(String menu, int app_ver, String ln, String token, int id) {
         this.menu = menu;
         this.app_ver = app_ver;
         this.ln = ln;
@@ -28,11 +28,11 @@ public class GetMonetFinishRequest {
         this.menu = menu;
     }
 
-    public String getApp_ver() {
+    public int getApp_ver() {
         return app_ver;
     }
 
-    public void setApp_ver(String app_ver) {
+    public void setApp_ver(int app_ver) {
         this.app_ver = app_ver;
     }
 

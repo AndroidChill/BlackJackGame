@@ -26,8 +26,8 @@ import com.example.blackjackgame.R;
 import com.example.blackjackgame.data.Constant;
 import com.example.blackjackgame.databinding.FragmentProfileContentEditBinding;
 import com.example.blackjackgame.network.responce.profile.DataProfileRequest;
-import com.example.blackjackgame.network.responce.profile.change.Profile;
 import com.example.blackjackgame.network.responce.profile.change.ProfileChangeDataRequest;
+import com.example.blackjackgame.rModel.profile.Profile;
 import com.example.blackjackgame.ui.activity.MainActivity;
 import com.example.blackjackgame.ui.activity.NavigationActivity;
 import com.example.blackjackgame.ui.dialog.ProfileChangePhotoDialogFragment;
@@ -48,10 +48,12 @@ public class ProfileContentEditFragment extends Fragment {
     private ProfileChangePhotoDialogFragment profileChangePhotoDialogFragment;
     private SharedPreferences shared;
 
-    public static ProfileContentEditFragment newInstance() {
+    private Profile profile;
+
+    public static ProfileContentEditFragment newInstance(Profile profile) {
 
         Bundle args = new Bundle();
-
+        args.putParcelable("profile", profile);
         ProfileContentEditFragment fragment = new ProfileContentEditFragment();
         fragment.setArguments(args);
         return fragment;
@@ -61,7 +63,12 @@ public class ProfileContentEditFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-//        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_profile_content_edit, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_profile_content_edit, container, false);
+
+        profile = getArguments().getParcelable("profile");
+
+
+
 //
 //        setHasOptionsMenu(true);
 //
@@ -170,15 +177,15 @@ public class ProfileContentEditFragment extends Fragment {
 
     private void backToolbar(){
 
-        ((Toolbar)(binding.toolbar)).setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getFragmentManager().beginTransaction()
-                        .replace(R.id.container_profile, ProfileContentFragment.newInstance())
-                        .commit();
-
-            }
-        });
+//        ((Toolbar)(binding.toolbar)).setNavigationOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                getFragmentManager().beginTransaction()
+//                        .replace(R.id.container_profile, ProfileContentFragment.newInstance())
+//                        .commit();
+//
+//            }
+//        });
     }
 
     //установка изображения(конвертация строки в ссылку)

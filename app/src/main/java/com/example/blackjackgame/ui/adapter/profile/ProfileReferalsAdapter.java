@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.blackjackgame.R;
 import com.example.blackjackgame.data.ReferralLink;
 import com.example.blackjackgame.databinding.FragmentProfileInfoRefBinding;
-import com.example.blackjackgame.model.profile.Ref;
+import com.example.blackjackgame.rModel.profile.Ref;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,9 +53,9 @@ public class ProfileReferalsAdapter extends RecyclerView.Adapter<ProfileReferals
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        String present = "Я выбрал тебя для участия в этой игре !!!\n" + list.get(position).getRef_url() + "\nНо тебе придется выполнить некоторые задания...";
+        String present = "Я выбрал тебя для участия в этой игре !!!\n" + list.get(position).getText() + "\nНо тебе придется выполнить некоторые задания...";
 
-        holder.binding.tvDesc.setText(list.get(position).getRef_text());
+        holder.binding.tvDesc.setText(list.get(position).getText());
 
         holder.binding.ivShare.setOnClickListener(v -> {
             Intent sendIntent = new Intent();
@@ -69,7 +69,7 @@ public class ProfileReferalsAdapter extends RecyclerView.Adapter<ProfileReferals
 
         holder.binding.ivCopy.setOnClickListener(v -> {
             ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-            ClipData clip = ClipData.newPlainText("", list.get(position).getRef_url());
+            ClipData clip = ClipData.newPlainText("", list.get(position).getUrl());
             clipboard.setPrimaryClip(clip);
 
             Toast.makeText(context, "Реферальная ссылка скопирована", Toast.LENGTH_SHORT).show();

@@ -1,6 +1,7 @@
 package com.example.blackjackgame.ui.interfaceClick.getmonet;
 
-import com.example.blackjackgame.model.getmonet.CoinsGet;
+
+import com.example.blackjackgame.rModel.coinsGet.CoinsGet;
 
 public interface GetMonetOnClick {
 

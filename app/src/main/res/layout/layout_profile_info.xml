@@ -6,7 +6,7 @@
     <data>
         <variable
             name="profile"
-            type="com.example.blackjackgame.model.profile.Profile" />
+            type="com.example.blackjackgame.rModel.profile.Profile" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -23,7 +23,7 @@
                 android:id="@+id/surname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@={profile.user_surname}"
+                android:text="@={profile.surname}"
                 android:textStyle="bold"
                 style="@style/BaseTextView"
                 app:layout_constraintBottom_toBottomOf="@+id/textView5"
@@ -34,7 +34,7 @@
                 android:id="@+id/textView10"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{profile.user_email}"
+                android:text="@{profile.email}"
                 android:textStyle="bold"
                 style="@style/BaseTextView"
                 app:layout_constraintBottom_toBottomOf="@+id/textView6"
@@ -47,7 +47,7 @@
                 android:id="@+id/userrating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{String.valueOf(profile.user_rating)}"
+                android:text="@{String.valueOf(profile.rating)}"
                 android:textStyle="bold"
                 style="@style/BaseTextView"
                 app:layout_constraintBottom_toBottomOf="@+id/tv3"
@@ -106,7 +106,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="64dp"
-                android:text="@{profile.user_name}"
+                android:text="@{profile.name}"
                 style="@style/BaseTextView"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/txtMonet"
@@ -140,7 +140,7 @@
                 android:id="@+id/textView58"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{String.valueOf(profile.user_rating_position)}"
+                android:text="@{String.valueOf(profile.ratingPosition)}"
                 style="@style/BaseTextView"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/textView55"
@@ -157,7 +157,7 @@
                 android:layout_marginBottom="16dp"
                 style="@style/BaseTextView"
                 android:textStyle="bold"
-                android:text="@{profile.user_info}"
+                android:text="@{profile.info}"
                 app:layout_constraintStart_toStartOf="@id/tv_user_info_head"
                 app:layout_constraintTop_toBottomOf="@id/tv_user_info_head"/>
 

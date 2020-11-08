@@ -5,12 +5,12 @@ import com.example.blackjackgame.model.profile.Profile;
 public class ProfileChangeDataRequest {
 
     private String menu;
-    private String app_ver;
+    private int app_ver;
     private String ln;
     private String token;
     private com.example.blackjackgame.model.profile.Profile profile;
 
-    public ProfileChangeDataRequest(String menu, String app_ver, String ln, String token, Profile profile) {
+    public ProfileChangeDataRequest(String menu, int app_ver, String ln, String token, Profile profile) {
         this.menu = menu;
         this.app_ver = app_ver;
         this.ln = ln;
@@ -34,11 +34,11 @@ public class ProfileChangeDataRequest {
         this.menu = menu;
     }
 
-    public String getApp_ver() {
+    public int getApp_ver() {
         return app_ver;
     }
 
-    public void setApp_ver(String app_ver) {
+    public void setApp_ver(int app_ver) {
         this.app_ver = app_ver;
     }
 

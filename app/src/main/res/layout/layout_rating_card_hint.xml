@@ -28,7 +28,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/textView53"
+                android:id="@+id/ref_hint_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxWidth="350dp"
@@ -60,7 +60,7 @@
                 android:text="Больше не показывать"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView53" />
+                app:layout_constraintTop_toBottomOf="@+id/ref_hint_text" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.blackjackgame.R;
 import com.example.blackjackgame.databinding.LayoutProfileProgressItemBinding;
-import com.example.blackjackgame.model.profile.Progress;
+import com.example.blackjackgame.rModel.profile.Progress;
 
 import java.util.List;
 

@@ -17,6 +17,7 @@ import androidx.lifecycle.Observer;
 
 import com.bumptech.glide.Glide;
 import com.example.blackjackgame.R;
+import com.example.blackjackgame.data.Constant;
 import com.example.blackjackgame.model.statics.CaptchaBody;
 import com.example.blackjackgame.network.responce.stattics.CaptchaRequest;
 import com.example.blackjackgame.viewmodel.profile.ProfileViewModel;
@@ -46,7 +47,7 @@ public class Captcha {
 
                     btnOk.setOnClickListener(v -> {
 
-                        viewModel.checkCaptcha(new CaptchaRequest("captcha", etCaptcha.getText().toString())).observe(owner, new Observer<Pair<String, CaptchaBody>>() {
+                        viewModel.checkCaptcha(new CaptchaRequest("captcha", Constant.app_ver,  etCaptcha.getText().toString())).observe(owner, new Observer<Pair<String, CaptchaBody>>() {
                             @Override
                             public void onChanged(Pair<String, CaptchaBody> stringCaptchaBodyPair) {
                                 if(stringCaptchaBodyPair.first.equals("success")){

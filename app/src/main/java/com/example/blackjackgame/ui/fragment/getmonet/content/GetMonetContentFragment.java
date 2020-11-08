@@ -16,23 +16,29 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.blackjackgame.R;
 import com.example.blackjackgame.data.Constant;
 import com.example.blackjackgame.databinding.FragmentGetMonetContentBinding;
-import com.example.blackjackgame.model.getmonet.CoinsGet;
 import com.example.blackjackgame.model.getmonet.GetMonetBody;
 import com.example.blackjackgame.model.getmonet.finish.GetMonetFinishBody;
 import com.example.blackjackgame.network.responce.getmonet.GetMonetFinishRequest;
 import com.example.blackjackgame.network.responce.getmonet.GetMonetRequest;
+import com.example.blackjackgame.rModel.coinsGet.CoinsGet;
+import com.example.blackjackgame.rModel.coinsGet.CoinsGetBody;
+import com.example.blackjackgame.rNetwork.request.coinsGet.CoinsGetRequest;
+import com.example.blackjackgame.rViewModel.getMonet.GetMonetFactory;
+import com.example.blackjackgame.rViewModel.getMonet.GetMonetViewModel;
 import com.example.blackjackgame.ui.activity.AdActivity;
+import com.example.blackjackgame.ui.activity.InfoGetMonetActivity;
 import com.example.blackjackgame.ui.activity.MainActivity;
 import com.example.blackjackgame.ui.activity.NavigationActivity;
 import com.example.blackjackgame.ui.adapter.getmonet.GetMonetAdapter;
+import com.example.blackjackgame.ui.dialog.CaptchaDialog;
+import com.example.blackjackgame.ui.dialog.ReviewDialogHelper;
 import com.example.blackjackgame.ui.fragment.getmonet.content.info.GetTaskMonetFragment;
 import com.example.blackjackgame.ui.interfaceClick.getmonet.GetMonetOnClick;
-import com.example.blackjackgame.viewmodel.getmonet.GetMonetFactory;
-import com.example.blackjackgame.viewmodel.getmonet.GetMonetViewModel;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -40,6 +46,8 @@ public class GetMonetContentFragment extends Fragment implements GetMonetOnClick
 
     private FragmentGetMonetContentBinding binding;
     private GetMonetViewModel viewModel;
+    private CoinsGetRequest request;
+    private GetMonetAdapter adapter;
 
     private SharedPreferences sharedPreferences;
 
@@ -57,88 +65,110 @@ public class GetMonetContentFragment extends Fragment implements GetMonetOnClick
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_get_monet_content, container, false);
 
-        viewModel = new ViewModelProvider(this, new GetMonetFactory(getActivity().getApplication())).get(GetMonetViewModel.class);
         sharedPreferences = getActivity().getSharedPreferences("shared", Context.MODE_PRIVATE);
+        initRequest();
+        viewModel = new ViewModelProvider(getViewModelStore(), new GetMonetFactory(request)).get(GetMonetViewModel.class);
 
-        GetMonetRequest request = new GetMonetRequest(
-                "coins_get",
-                Constant.app_ver,
-                Constant.ln,
-                sharedPreferences.getString("token", "null")
-        );
+        binding.setViewModel(viewModel);
 
-        viewModel.getTasks(request).observe(getViewLifecycleOwner(), new Observer<GetMonetBody>() {
-            @Override
-            public void onChanged(GetMonetBody getMonetBody) {
-
-                if(getMonetBody.getStatus().equals(Constant.success)){
-                    binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-                    binding.recyclerView.setAdapter(new GetMonetAdapter(getMonetBody.getCoins_get(), GetMonetContentFragment.this::onClick));
-                } else {
-                    if(getMonetBody.getError_text().equals(Constant.failed_token)){
-                        tokenFailed();
-                    }
-                    //TODO: обработка ошибки с сервера
-                }
-            }
-        });
+        refresh();
+        updateUI();
+        initRecyclerView();
 
         return binding.getRoot();
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        ((NavigationActivity)getActivity()).getSupportActionBar().show();
+    private void initRecyclerView(){
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+    }
 
-        //обработка выполненного задания
+    private void refresh(){
+        binding.refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                initRequest();
+                viewModel.update(request);
+                updateUI();
+                binding.refresh.setRefreshing(false);
+            }
+        });
+    }
 
-        if(sharedPreferences.getBoolean(Constant.isCompleteTask, false)){
-
-            int idTask = sharedPreferences.getInt(Constant.idCompleteTask, 0);
-
-            GetMonetFinishRequest request = new GetMonetFinishRequest(
-                    "coins_get_finish",
-                    Constant.app_ver,
-                    Constant.ln,
-                    sharedPreferences.getString("token", "null"),
-                    idTask
-            );
-
-            viewModel.postFinishTask(request).observe(getViewLifecycleOwner(), new Observer<GetMonetFinishBody>() {
-                @Override
-                public void onChanged(GetMonetFinishBody getMonetFinishBody) {
-                    if(getMonetFinishBody.getStatus().equals(Constant.success)){
-
-                        Snackbar.make(binding.recyclerView, "Получено монет " + sharedPreferences.getLong("coins_task", 0), Snackbar.LENGTH_LONG)
-                                .show();
-
-                        sharedPreferences.edit().putBoolean(Constant.isCompleteTask, false).apply();
-                    } else {
-                        if(getMonetFinishBody.getError_text().equals(Constant.failed_token)){
-                            tokenFailed();
-                        }
-                        //TODO: обработка ошибки с сервера
+    private void updateUI(){
+        viewModel.getLiveData().observe(getViewLifecycleOwner(), new Observer<CoinsGetBody>() {
+            @Override
+            public void onChanged(CoinsGetBody coinsGetBody) {
+                //проверка на токен
+                if(coinsGetBody.getToken() != null){
+                    if(coinsGetBody.getToken().equals("error")){
+                        startBaseActivity();
                     }
                 }
-            });
-        }
 
+                if(coinsGetBody.getStatus().equals("success")){
+
+                    //проверка на капчу
+                    if(coinsGetBody.getImageCaptchaUrl() != null){
+                        createCaptchaDialog(coinsGetBody.getImageCaptchaUrl());
+                    }
+
+                    //проверка на отзывы
+                    if(coinsGetBody.getPopup() != null){
+                        if(coinsGetBody.getPopup().equals("comment")){
+                            createReviewDialog();
+                        }
+                    }
+
+                    adapter = new GetMonetAdapter(coinsGetBody.getCoinsGets(), GetMonetContentFragment.this::onClick);
+                    binding.recyclerView.setAdapter(adapter);
+
+            } else {
+                    Toast.makeText(getContext(), coinsGetBody.getStatusText(), Toast.LENGTH_SHORT).show();
+                }
+        }});
+    }
+
+    private void startBaseActivity(){
+        startActivity(new Intent(getContext(), MainActivity.class));
+        ((NavigationActivity)getActivity()).finish();
+    }
+
+    //создание диалога с капчей
+    private void createCaptchaDialog(String url){
+        CaptchaDialog.createCaptchaDialog(
+                getContext(),
+                getLayoutInflater(),
+                url,
+                getViewModelStore(),
+                getViewLifecycleOwner()
+        );
+    }
+
+    //создание диалога с отзывами
+    private void createReviewDialog(){
+        ReviewDialogHelper.buildReview(
+                getContext(),
+                getLayoutInflater(),
+                getViewModelStore(),
+                getViewLifecycleOwner()
+        );
+    }
+
+    private void initRequest(){
+        request = new CoinsGetRequest(
+                "coins_get",
+                Constant.app_ver,
+                Constant.ln,
+                sharedPreferences.getString("token", "")
+        );
     }
 
     @Override
     public void onClick(CoinsGet task) {
-        sharedPreferences.edit().putLong("coins_task", task.getCoins()).apply();
-        sharedPreferences.edit().putInt(Constant.idCompleteTask, (int)task.getCoins()).apply();
-
-        Intent intent = new Intent(getContext(), AdActivity.class);
+        Intent intent = new Intent(getContext(), InfoGetMonetActivity.class);
+        Bundle args = new Bundle();
+        args.putParcelable("task", task);
+        intent.putExtras(args);
         startActivity(intent);
-    }
-
-    private void tokenFailed(){
-        sharedPreferences.edit().putBoolean(Constant.isSign, false).apply();
-        Intent intent = new Intent(getContext(), MainActivity.class);
-        startActivity(intent);
-        ((NavigationActivity)getActivity()).finish();
     }
 }

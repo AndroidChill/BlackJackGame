@@ -3,11 +3,11 @@ package com.example.blackjackgame.network.responce.profile.avatar;
 public class AvatarChangeRequest {
 
     private String menu;
-    private String app_ver;
+    private int app_ver;
     private String ln;
     private String token;
 
-    public AvatarChangeRequest(String menu, String app_ver, String ln, String token) {
+    public AvatarChangeRequest(String menu, int app_ver, String ln, String token) {
         this.menu = menu;
         this.app_ver = app_ver;
         this.ln = ln;
@@ -22,11 +22,11 @@ public class AvatarChangeRequest {
         this.menu = menu;
     }
 
-    public String getApp_ver() {
+    public int getApp_ver() {
         return app_ver;
     }
 
-    public void setApp_ver(String app_ver) {
+    public void setApp_ver(int app_ver) {
         this.app_ver = app_ver;
     }
 
