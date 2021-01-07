@@ -21,6 +21,31 @@ public class RegistrationRequest {
     private String refCode;
     @SerializedName("captcha_value")
     private String captchaValue;
+    private String country;
+
+    public RegistrationRequest(String menu, int appVer, String ln, String token, int sdk, String model, String marketName, String manufacturer, String email, String nickname, String refCode, String captchaValue, String country) {
+        this.menu = menu;
+        this.appVer = appVer;
+        this.ln = ln;
+        this.token = token;
+        this.sdk = sdk;
+        this.model = model;
+        this.marketName = marketName;
+        this.manufacturer = manufacturer;
+        this.email = email;
+        this.nickname = nickname;
+        this.refCode = refCode;
+        this.captchaValue = captchaValue;
+        this.country = country;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
 
     public RegistrationRequest(String menu, int appVer, String ln, String token, int sdk, String model, String marketName, String manufacturer, String email, String nickname) {
         this.menu = menu;

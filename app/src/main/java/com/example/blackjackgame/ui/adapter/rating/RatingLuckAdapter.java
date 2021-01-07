@@ -11,6 +11,8 @@ import com.example.blackjackgame.R;
 import com.example.blackjackgame.databinding.FragmentRatingContentItemBinding;
 import com.example.blackjackgame.model.rating.RatingUserList;
 import com.example.blackjackgame.model.rating.ratingLuck.RatingUserItem;
+import com.example.blackjackgame.rModel.ratingLucky.RatingOtherUser;
+import com.example.blackjackgame.rModel.ratingLucky.RatingUser;
 import com.example.blackjackgame.ui.interfaceClick.rating.RatingItemOnClick;
 import com.example.blackjackgame.util.ConvertStringToImage;
 
@@ -18,10 +20,10 @@ import java.util.List;
 
 public class RatingLuckAdapter extends RecyclerView.Adapter<RatingLuckAdapter.ViewHolder>{
 
-    private List<RatingUserItem> list;
+    private List<RatingOtherUser> list;
     private RatingItemOnClick listener;
 
-    public RatingLuckAdapter(List<RatingUserItem> list,RatingItemOnClick listener){
+    public RatingLuckAdapter(List<RatingOtherUser> list, RatingItemOnClick listener){
         this.list = list;
         this.listener = listener;
     }
@@ -37,11 +39,13 @@ public class RatingLuckAdapter extends RecyclerView.Adapter<RatingLuckAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.bind(list.get(position), position + 1);
-        holder.itemView.setOnClickListener(v -> listener.onCLick(list.get(position).getUser_id()));
+//        holder.bind(null, position + 1);
+        holder.itemView.setOnClickListener(v -> listener.onCLick(list.get(position).getId()));
     }
 
     @Override
     public int getItemCount() {
+//        return list.size();
         return list.size();
     }
 
@@ -54,12 +58,14 @@ public class RatingLuckAdapter extends RecyclerView.Adapter<RatingLuckAdapter.Vi
             this.binding = binding;
         }
 
-        void bind(RatingUserItem rating, int position){
-
+        void bind(RatingOtherUser rating, int position){
+//
             ConvertStringToImage.convert(binding.imageView4, rating.getAvatar());
 
+            binding.imageView7.setImageResource(R.drawable.money);
+
             binding.name.setText(rating.getNick());
-            binding.money.setText(String.valueOf(rating.getCoins()));
+            binding.money.setText(String.valueOf(rating.getRating()));
             binding.number.setText(String.valueOf(position));
         }
 

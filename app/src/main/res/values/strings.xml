@@ -25,7 +25,7 @@
     <string name="what_google">Есть Google - аккаунт?</string>
     <string name="logo_google">Логотип гугл</string>
     <string name="sign_please">Войдите</string>
-    <string name="private_term">Я соглашаюсь с политикой пользования MAZITOGAME</string>
+    <string name="private_term"><u>Я соглашаюсь с политикой пользования MAZITOGAME</u></string>
     <string name="nav_profile">Профиль</string>
     <string name="nav_news">Новости</string>
     <string name="nav_rating">Рейтинг</string>

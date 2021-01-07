@@ -7,10 +7,13 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -19,12 +22,15 @@ import android.widget.Toast;
 import com.example.blackjackgame.R;
 import com.example.blackjackgame.data.Constant;
 import com.example.blackjackgame.databinding.ActivityProfileEditBinding;
+import com.example.blackjackgame.rModel.Avatar;
+import com.example.blackjackgame.rModel.AvatarChangeBody;
 import com.example.blackjackgame.rModel.profile.Profile;
 import com.example.blackjackgame.model.profile.changeData.ProfileChangeBody;
 import com.example.blackjackgame.network.responce.profile.DataProfileRequest;
 import com.example.blackjackgame.network.responce.profile.change.ProfileChangeDataRequest;
 import com.example.blackjackgame.rModel.profile.ProfileBody;
 import com.example.blackjackgame.rModel.profileSend.ProfileSendBody;
+import com.example.blackjackgame.rNetwork.request.ChangePhotoRequest;
 import com.example.blackjackgame.rNetwork.request.profile.ProfileRequest;
 import com.example.blackjackgame.rNetwork.request.profileSend.ProfileSendRequest;
 import com.example.blackjackgame.rViewModel.profile.ProfileFactory;
@@ -35,8 +41,13 @@ import com.example.blackjackgame.ui.dialog.CaptchaDialog;
 import com.example.blackjackgame.ui.dialog.ProfileChangePhotoDialogFragment;
 import com.example.blackjackgame.ui.dialog.ReviewDialogHelper;
 import com.example.blackjackgame.ui.fragment.profile.content.edit.RightProfileContentEditFragment;
+import com.example.blackjackgame.util.ConvertStringToImage;
 import com.example.blackjackgame.viewmodel.rigthProfile.RightProfileFactory;
 import com.example.blackjackgame.viewmodel.rigthProfile.RightProfileViewModel;
+import com.google.gson.Gson;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProfileEditActivity extends AppCompatActivity {
 
@@ -45,6 +56,8 @@ public class ProfileEditActivity extends AppCompatActivity {
     private ProfileRequest request;
     private ProfileSendRequest sendRequest;
     private Profile profile;
+
+    private Avatar avatar;
 
     private ProfileViewModel viewModel;
 
@@ -62,14 +75,13 @@ public class ProfileEditActivity extends AppCompatActivity {
             finish();
         });
 
+        changeAvatar();
+
         binding.info.cancel.setOnClickListener(v -> {
             finish();
         });
 
-        binding.header1.changePhoto.setOnClickListener(v -> {
-            ProfileChangePhotoDialogFragment dialogFragment = ProfileChangePhotoDialogFragment.newInstance(binding.header1.circleImageView);
-            dialogFragment.show(getSupportFragmentManager().beginTransaction(), "dialog");
-        });
+
 
         binding.info.emailCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -88,14 +100,6 @@ public class ProfileEditActivity extends AppCompatActivity {
     }
 
     private void sendData(){
-        if(shared != null && profile != null){
-            if(shared.getBoolean("isEditImage", false)){
-                String ava = shared.getString("selectImage", profile.getAvatar());
-                chooseAvatar(ava);
-                profile.setAvatar(ava);
-                shared.edit().putBoolean("isEditImage", false).apply();
-            }
-        }
         initSendRequest();
         viewModel.sendProfile(sendRequest).observe(this, new Observer<ProfileSendBody>() {
             @Override
@@ -120,17 +124,95 @@ public class ProfileEditActivity extends AppCompatActivity {
                             createReviewDialog();
                         }
                     }
-
+                    Log.d("tag", "onChanged: " + profileSendBody.getStatusText());
                     Toast.makeText(ProfileEditActivity.this, "Успешно", Toast.LENGTH_SHORT).show();
-
+                    Toast.makeText(ProfileEditActivity.this, profileSendBody.getStatusText(), Toast.LENGTH_LONG).show();
                 } else {
+                    Log.d("tag", "onChanged: " + profileSendBody.getStatusText());
                     Toast.makeText(ProfileEditActivity.this, profileSendBody.getStatusText(), Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
 
+    private void changeHeader(Avatar avatar){
+        this.avatar = avatar;
+        choiceAvatar(avatar.getImage());
+    }
+
+    private List<Avatar> avatars = new ArrayList<>();
+
+    private void choiceAvatar(String avatar){
+        ConvertStringToImage.convert(binding.header1.circleImageView, avatar);
+    }
+
+    private void changeAvatar(){
+        binding.header1.changePhoto.setOnClickListener(v -> {
+            viewModel.getChangeAvatar(ProfileEditActivity.this, initPhotoRequest()).observe(ProfileEditActivity.this, new Observer<AvatarChangeBody>() {
+                @Override
+                public void onChanged(AvatarChangeBody avatarChangeBody) {
+                    //проверка на токен
+                    if(avatarChangeBody.getToken() != null){
+                        if(avatarChangeBody.getToken().equals("error")){
+                            startBaseActivity();
+                        }
+                    }
+
+                    if(avatarChangeBody.getStatus().equals("success")){
+
+                        //проверка на капчу
+                        if(avatarChangeBody.getCaptchaImageUrl() != null){
+                            createCaptchaDialog(avatarChangeBody.getCaptchaImageUrl());
+                        }
+
+                        //проверка на отзывы
+                        if(avatarChangeBody.getPopup() != null){
+                            if(avatarChangeBody.getPopup().equals("comment")){
+                                createReviewDialog();
+                            }
+                        }
+
+                        if(avatarChangeBody.getAvatars() != null){
+                            avatars = avatarChangeBody.getAvatars();
+
+                            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                            Fragment prev = getSupportFragmentManager().findFragmentByTag("dialog");
+                            if (prev != null) {
+                                ft.remove(prev);
+                            }
+                            ft.addToBackStack(null);
+
+                            ProfileChangePhotoDialogFragment dialog = new ProfileChangePhotoDialogFragment();
+                            dialog.show(ft, "dialog");
+                        } else {
+                            Toast.makeText(ProfileEditActivity.this, "Вам пока не доступны новые фотографии для профиля", Toast.LENGTH_SHORT).show();
+                        }
+
+                    } else {
+                        Toast.makeText(ProfileEditActivity.this, avatarChangeBody.getStatusText(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        });
+    }
+
+    public List<Avatar> getAvatar(){
+        return avatars;
+    }
+
+
+    private ChangePhotoRequest initPhotoRequest(){
+        return new ChangePhotoRequest(
+                "avatar_change",
+                Constant.app_ver,
+                Constant.ln,
+                shared.getString("token", "")
+        );
+    }
+
     private void initSendRequest(){
+        if (avatar != null)
+            profile.setAvatar(avatar.getImage());
         sendRequest = new ProfileSendRequest(
                 "profile_save",
                 Constant.app_ver,
@@ -138,19 +220,6 @@ public class ProfileEditActivity extends AppCompatActivity {
                 shared.getString("token", ""),
                 profile
         );
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if(shared != null && profile != null){
-            if(shared.getBoolean("isEditImage", false)){
-                String ava = shared.getString("selectImage", profile.getAvatar());
-                chooseAvatar(ava);
-                profile.setAvatar(ava);
-                shared.edit().putBoolean("isEditImage", false).apply();
-            }
-        }
     }
 
     private void refresh(){
@@ -200,11 +269,14 @@ public class ProfileEditActivity extends AppCompatActivity {
                         }
                     }
 
-                    profile = profileBody.getProfile();
-                    binding.info.setViewModel(viewModel);
-                    binding.info.setModel(profile);
-                    initAvatar();
-
+                    if(profileBody.getProfile() != null){
+                        profile = profileBody.getProfile();
+                        binding.info.setViewModel(viewModel);
+                        binding.info.setModel(profile);
+                        if(profileBody.getProfile().getAvatar() != null){
+                            initAvatar();
+                        }
+                    }
                 } else {
                     Toast.makeText(ProfileEditActivity.this, profileBody.getStatusText(), Toast.LENGTH_SHORT).show();
                 }
@@ -218,31 +290,7 @@ public class ProfileEditActivity extends AppCompatActivity {
     }
 
     private void initAvatar(){
-        switch (profile.getAvatar()){
-            case "avatar1.png":
-                binding.header1.circleImageView.setImageResource(R.drawable.avatar1);
-                break;
-            case "avatar2.png":
-                binding.header1.circleImageView.setImageResource(R.drawable.avatar2);
-                break;
-            case "avatar3.png":
-                binding.header1.circleImageView.setImageResource(R.drawable.avatar3);
-                break;
-        }
-    }
-
-    private void chooseAvatar(String ava){
-        switch (ava){
-            case "avatar1.png":
-                binding.header1.circleImageView.setImageResource(R.drawable.avatar1);
-                break;
-            case "avatar2.png":
-                binding.header1.circleImageView.setImageResource(R.drawable.avatar2);
-                break;
-            case "avatar3.png":
-                binding.header1.circleImageView.setImageResource(R.drawable.avatar3);
-                break;
-        }
+        ConvertStringToImage.convert(binding.header1.circleImageView, profile.getAvatar());
     }
 
     //создание диалога с капчей
@@ -265,4 +313,16 @@ public class ProfileEditActivity extends AppCompatActivity {
                 this
         );
     }
+
+    public boolean setAvatar(Avatar avatar) {
+
+        if(profile.getCoins() < avatar.getCoast()){
+            return false;
+        } else {
+            this.avatar = avatar;
+            ConvertStringToImage.convert(binding.header1.circleImageView, avatar.getImage());
+            return true;
+        }
+    }
+
 }

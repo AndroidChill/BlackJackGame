@@ -32,6 +32,8 @@ import com.example.blackjackgame.rViewModel.registrationStart.RegistrationStartV
 import com.example.blackjackgame.ui.activity.NavigationActivity;
 import com.example.blackjackgame.util.ImageLoader;
 
+import java.util.Locale;
+
 public class RegistrationFragment extends Fragment {
 
     private RFragmentRegistrationBinding binding;
@@ -121,7 +123,8 @@ public class RegistrationFragment extends Fragment {
                 email,
                 nick,
                 "",
-                captcha
+                captcha,
+                Locale.getDefault().getCountry()
         );
     }
 

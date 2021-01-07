@@ -11,7 +11,7 @@ import java.util.List;
 public class Profile implements Parcelable {
 
     @SerializedName("user_id")
-    private String id;
+    private int id;
 
     @SerializedName("user_coins")
     private int coins;
@@ -49,7 +49,7 @@ public class Profile implements Parcelable {
     @SerializedName("progress")
     private List<Progress> progresses;
 
-    public Profile(String id, int coins, String nickname, String name, String surname, String email, String info, int rating, int ratingPosition, String avatar, List<Ref> refs, String refFaq, List<Progress> progresses) {
+    public Profile(int id, int coins, String nickname, String name, String surname, String email, String info, int rating, int ratingPosition, String avatar, List<Ref> refs, String refFaq, List<Progress> progresses) {
         this.id = id;
         this.coins = coins;
         this.nickname = nickname;
@@ -65,11 +65,11 @@ public class Profile implements Parcelable {
         this.progresses = progresses;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -170,7 +170,7 @@ public class Profile implements Parcelable {
     }
 
     protected Profile(Parcel in) {
-        id = in.readString();
+        id = in.readInt();
         coins = in.readInt();
         nickname = in.readString();
         name = in.readString();
@@ -202,7 +202,7 @@ public class Profile implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(id);
+        dest.writeInt(id);
         dest.writeInt(coins);
         dest.writeString(nickname);
         dest.writeString(name);

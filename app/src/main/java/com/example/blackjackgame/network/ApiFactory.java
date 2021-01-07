@@ -11,7 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ApiFactory<T> {
 
     private static ApiFactory  mInstance;
-    private static final String BASE_URL = "http://mazit.ru/api/game21/debug4.php/";
+    private static final String BASE_URL = "http://mazit.ru/api/game21/debug6.php/";
     private Retrofit retrofit;
 
     private ApiFactory() {

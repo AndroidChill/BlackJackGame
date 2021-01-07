@@ -16,6 +16,29 @@ public class SignInEmailCodeRequest {
     @SerializedName("market_name")
     private String marketName;
     private String token;
+    private String country;
+
+    public SignInEmailCodeRequest(String menu, int appVer, String ln, String email, String code, String sdk, String model, String manufacturer, String marketName, String token, String country) {
+        this.menu = menu;
+        this.appVer = appVer;
+        this.ln = ln;
+        this.email = email;
+        this.code = code;
+        this.sdk = sdk;
+        this.model = model;
+        this.manufacturer = manufacturer;
+        this.marketName = marketName;
+        this.token = token;
+        this.country = country;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
 
     public SignInEmailCodeRequest(String menu, int appVer, String ln, String email, String code, String sdk, String model, String manufacturer, String marketName, String token) {
         this.menu = menu;

@@ -12,6 +12,7 @@ import com.example.blackjackgame.R;
 import com.example.blackjackgame.databinding.FragmentFriendsContentItemBinding;
 import com.example.blackjackgame.databinding.FragmentStartGameContentItemBinding;
 import com.example.blackjackgame.model.friend.Friend;
+import com.example.blackjackgame.rModel.friends.all.Friends;
 import com.example.blackjackgame.ui.interfaceClick.startGame.FriendsOnClick;
 import com.example.blackjackgame.util.ConvertStringToImage;
 
@@ -20,21 +21,21 @@ import java.util.List;
 
 public class StartGameFriendsAdapter extends RecyclerView.Adapter<StartGameFriendsAdapter.ViewHolder> {
 
-    private List<Friend> friends;
+    private List<Friends> friends;
     private FriendsOnClick listener;
     private boolean isSelected = false;
 
-    public StartGameFriendsAdapter(List<Friend> friends, FriendsOnClick listener){
+    public StartGameFriendsAdapter(List<Friends> friends, FriendsOnClick listener){
         this.friends = friends;
         this.listener = listener;
     }
 
-    public void selectAll(){
-        isSelected=true;
-        notifyDataSetChanged();
+    public StartGameFriendsAdapter(FriendsOnClick listener) {
+        this.listener = listener;
     }
-    public void unselectall(){
-        isSelected=false;
+
+    public void setFriends(List<Friends> friends){
+        this.friends = friends;
         notifyDataSetChanged();
     }
 
@@ -76,6 +77,10 @@ public class StartGameFriendsAdapter extends RecyclerView.Adapter<StartGameFrien
         return friends != null ? friends.size() : 0 ;
     }
 
+    public void allChecked(){
+
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder{
 
         private FragmentStartGameContentItemBinding binding;
@@ -85,9 +90,13 @@ public class StartGameFriendsAdapter extends RecyclerView.Adapter<StartGameFrien
             this.binding = binding;
         }
 
-        void bind(Friend friend){
+        void bind(Friends friend){
             binding.nick.setText(friend.getNick());
-            ConvertStringToImage.convert(binding.image, friend.getUserAvatar());
+            ConvertStringToImage.convert(binding.image, friend.getAvatar());
+        }
+
+        void allCheck(){
+            binding.check.setChecked(true);
         }
 
     }

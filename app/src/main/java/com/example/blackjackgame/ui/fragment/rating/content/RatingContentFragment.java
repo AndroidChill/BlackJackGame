@@ -18,6 +18,9 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import com.example.blackjackgame.R;
 import com.example.blackjackgame.data.Constant;
 import com.example.blackjackgame.databinding.FragmentRatingContentBinding;
+import com.example.blackjackgame.ui.fragment.friends.content.pager.FriendsContentAllFragment;
+import com.example.blackjackgame.ui.fragment.friends.content.pager.FriendsContentReferralsFragment;
+import com.example.blackjackgame.ui.fragment.friends.content.pager.FriendsRequestFragment;
 import com.example.blackjackgame.ui.fragment.rating.content.pager.RatingContentCustomFragment;
 import com.example.blackjackgame.ui.fragment.rating.content.pager.RatingContentLuckFragment;
 import com.example.blackjackgame.ui.fragment.rating.content.pager.RatingContentRichFragment;
@@ -29,11 +32,13 @@ public class RatingContentFragment extends Fragment {
     private FragmentRatingContentBinding binding;
     private SharedPreferences sharedPreferences;
 
-    private String[] titles = {
-            " Удаливые ",
-            " Богачи ",
-            " Рейтинг "
-    };
+    private int type = 2;
+
+    private final int NEVER_SHOW_HINT = 0;
+    private final int HIDE_HINT = 1;
+    private final int SHOW_HINT = 2;
+
+    private int position;
 
     public static RatingContentFragment newInstance() {
 
@@ -49,53 +54,83 @@ public class RatingContentFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_rating_content, container, false);
 
-        binding.viewPager.setAdapter(new ViewPagerFragmentAdapter(getActivity()));
-
         sharedPreferences = getActivity().getSharedPreferences("shared", Context.MODE_PRIVATE);
 
-        new TabLayoutMediator(binding.tabLayout, binding.viewPager,
-                (tab,position) -> tab.setText(titles[position])).attach();
+        binding.hint.neverHint.setOnClickListener(v -> {
+            sharedPreferences.edit().putInt(Constant.isShowHintRating, NEVER_SHOW_HINT).apply();
+            binding.constraintLayout4.setVisibility(View.GONE);
+        });
 
         binding.hint.hideHint.setOnClickListener(v -> {
+            sharedPreferences.edit().putInt(Constant.isShowHintRating, HIDE_HINT).apply();
             binding.constraintLayout4.setVisibility(View.GONE);
         });
 
-        binding.hint.neverHint.setOnClickListener(v -> {
-            binding.constraintLayout4.setVisibility(View.GONE);
-            sharedPreferences.edit().putBoolean(Constant.isShowHintRating, false).apply();
+        binding.btn1.setOnClickListener(v -> {
+            position = 0;
+            vibor();
         });
+
+        binding.btn2.setOnClickListener(v -> {
+            position = 1;
+            vibor();
+        });
+
+        binding.btn3.setOnClickListener(v -> {
+            position = 2;
+            vibor();
+        });
+
+
+        vibor();
+
 
         return binding.getRoot();
     }
 
-    class ViewPagerFragmentAdapter extends FragmentStateAdapter {
+    private void vibor(){
+        switch (position){
+            case 0:
 
-        public ViewPagerFragmentAdapter(@NonNull FragmentActivity fragmentActivity) {
-            super(fragmentActivity);
-        }
+                binding.btn1.setBackgroundResource(R.drawable.border_edit);
+                binding.btn2.setBackgroundResource(R.drawable.vibor_button);
+                binding.btn3.setBackgroundResource(R.drawable.vibor_button);
 
-        @NonNull
-        @Override
-        public Fragment createFragment(int position) {
-            switch(position){
-                case 0 :
-                    return RatingContentLuckFragment.newInstance();
-                case 1 :
-                    return RatingContentRichFragment.newInstance();
-            }
-            return RatingContentCustomFragment.newInstance();
-        }
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.container_rating_item, RatingContentLuckFragment.newInstance())
+                        .commit();
+                break;
+            case 1:
 
-        @Override
-        public int getItemCount() {
-            return titles.length;
+                binding.btn2.setBackgroundResource(R.drawable.border_edit);
+                binding.btn1.setBackgroundResource(R.drawable.vibor_button);
+                binding.btn3.setBackgroundResource(R.drawable.vibor_button);
+
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.container_rating_item, RatingContentRichFragment.newInstance())
+                        .commit();
+                break;
+            case 2:
+
+                binding.btn3.setBackgroundResource(R.drawable.border_edit);
+                binding.btn2.setBackgroundResource(R.drawable.vibor_button);
+                binding.btn1.setBackgroundResource(R.drawable.vibor_button);
+
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.container_rating_item, RatingContentCustomFragment.newInstance())
+                        .commit();
+                break;
         }
     }
+
 
     @Override
     public void onResume() {
         super.onResume();
-        if(!sharedPreferences.getBoolean(Constant.isShowHintRating, true)){
+        if(sharedPreferences.getInt(Constant.isShowHintRating, 2) != 0){
+            sharedPreferences.edit().putInt(Constant.isShowHintRating, SHOW_HINT).apply();
+            binding.constraintLayout4.setVisibility(View.VISIBLE);
+        } else {
             binding.constraintLayout4.setVisibility(View.GONE);
         }
     }

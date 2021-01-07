@@ -5,6 +5,7 @@ import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,19 +13,21 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
 import com.example.blackjackgame.R;
+import com.example.blackjackgame.ad.GoogleAds;
+import com.example.blackjackgame.ad.YandexBannerAds;
 import com.example.blackjackgame.databinding.FragmentWaitingGameBinding;
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdSize;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.LoadAdError;
-import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+import com.yandex.mobile.ads.AdEventListener;
+import com.yandex.mobile.ads.AdRequest;
+import com.yandex.mobile.ads.AdRequestError;
+import com.yandex.mobile.ads.AdSize;
+import com.yandex.mobile.ads.AdView;
 
 public class GameWaitingFragment extends Fragment {
 
     private FragmentWaitingGameBinding binding;
+    private static final String DEMO_BLOCK_ID = "R-M-DEMO-adaptive-sticky";
+
+    private AdView mAdView;
 
     public static GameWaitingFragment newInstance() {
 
@@ -54,56 +57,15 @@ public class GameWaitingFragment extends Fragment {
 
         }.start();
 
-        AdView mAdView = new AdView(getContext());
+        YandexBannerAds yandexBannerAds = new YandexBannerAds(binding, getContext());
+        yandexBannerAds.initYandex();
 
-        mAdView.setAdSize(AdSize.BANNER);
-
-        mAdView.setAdUnitId("ca-app-pub-3940256099942544/6300978111");
-
-        MobileAds.initialize(getContext(), new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(InitializationStatus initializationStatus) {
-            }
-        });
-
-        mAdView = binding.adView;
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
-
-        mAdView.setAdListener(new AdListener() {
-            @Override
-            public void onAdLoaded() {
-                // Code to be executed when an card_ad finishes loading.
-            }
-
-            @Override
-            public void onAdFailedToLoad(LoadAdError adError) {
-                // Code to be executed when an card_ad request fails.
-            }
-
-            @Override
-            public void onAdOpened() {
-                // Code to be executed when an card_ad opens an overlay that
-                // covers the screen.
-            }
-
-            @Override
-            public void onAdClicked() {
-                // Code to be executed when the user clicks on an card_ad.
-            }
-
-            @Override
-            public void onAdLeftApplication() {
-                // Code to be executed when the user has left the app.
-            }
-
-            @Override
-            public void onAdClosed() {
-                // Code to be executed when the user is about to return
-                // to the app after tapping on an card_ad.
-            }
-        });
+        GoogleAds googleAds = new GoogleAds(binding, getContext());
+        googleAds.initAd();
 
         return binding.getRoot();
     }
+
+
+
 }

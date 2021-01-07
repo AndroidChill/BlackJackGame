@@ -8,13 +8,15 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp">
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+
             android:elevation="10dp"
             app:cardCornerRadius="10dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -23,9 +25,42 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:background="#60B3A98A"
+                android:padding="8dp">
 
-                <de.hdodenhof.circleimageview.CircleImageView
+                <LinearLayout
+                    android:id="@+id/ll_tournament_start"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shape_button"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cl_example">
+
+                    <TextView
+                        style="@style/BaseTextView"
+                        android:layout_width="200dp"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="8dp"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:text="Перейти к турниру"
+                        android:textColor="@color/white"
+                        android:textSize="19sp" />
+
+                    <ImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/ic_baseline_keyboard_arrow_right_24" />
+
+                </LinearLayout>
+
+                <ImageView
                     android:id="@+id/circleImageView2"
                     android:layout_width="64dp"
                     android:layout_height="64dp"
@@ -51,11 +86,12 @@
                     style="@style/HeadTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="24dp"
                     android:maxWidth="350dp"
                     android:text="@string/description"
-                    app:layout_constraintStart_toStartOf="@+id/circleImageView2"
-                    app:layout_constraintTop_toBottomOf="@+id/circleImageView2" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/date" />
 
                 <TextView
                     android:id="@+id/date"
@@ -71,14 +107,12 @@
                     android:id="@+id/url"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
-                    android:maxWidth="300dp"
                     android:text="https://play.google.com/about/developer-distribution-agreement.html"
                     android:textColor="#1B4E9C"
                     android:textStyle="bold"
                     android:visibility="visible"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/description"
                     app:layout_constraintTop_toBottomOf="@+id/description" />
 
                 <ImageView
@@ -86,9 +120,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:adjustViewBounds="true"
-                    android:layout_marginTop="12dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.498"
+                    android:maxHeight="100dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/url"
                     app:srcCompat="@drawable/ic_form1"
@@ -103,33 +135,38 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/imageView5">
 
-                    <TextView
-                        android:id="@+id/secondTvDesc"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginBottom="16dp"
-                        android:text="@string/ost_start"
-                        android:textColor="#000"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="@+id/description"
-                        app:layout_constraintTop_toBottomOf="@+id/imageView5"
-                        tools:ignore="NotSibling" />
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent">
 
-                    <TextView
-                        android:id="@+id/secondTvTimer"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="12:00:04"
-                        android:textColor="#000"
-                        android:textSize="26sp"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="@+id/secondTvDesc"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/secondTvDesc"
-                        app:layout_constraintTop_toTopOf="@+id/secondTvDesc" />
+
+                        <TextView
+                            android:id="@+id/secondTvDesc"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/ost_start"
+                            android:textColor="#000"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:gravity="center" />
+
+                        <TextView
+                            android:id="@+id/secondTvTimer"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="12:00:04"
+                            android:layout_weight="1"
+                            android:textColor="#000"
+                            android:gravity="center"
+                            android:textSize="26sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -137,28 +174,27 @@
 
                 <Button
                     android:id="@+id/friendOtklonit"
-                    style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="32dp"
                     android:text="@string/otklonit"
+                    android:background="@null"
                     android:textAllCaps="false"
                     android:textSize="17sp"
-                    android:theme="@style/Theme.MaterialComponents.Light"
+                    android:textColor="#930D28"
                     app:layout_constraintEnd_toStartOf="@+id/friendPrinyat"
                     app:layout_constraintTop_toTopOf="@+id/friendPrinyat" />
 
                 <Button
                     android:id="@+id/friendPrinyat"
-                    style="@style/Widget.MaterialComponents.Button"
-                    android:layout_width="wrap_content"
+                    android:layout_width="120dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:layout_marginEnd="48dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="24dp"
+                    android:background="@drawable/border_edit_dark"
                     android:text="@string/prinyat"
                     android:textAllCaps="false"
                     android:textSize="17sp"
-                    android:theme="@style/Theme.MaterialComponents.Light"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/description" />
 

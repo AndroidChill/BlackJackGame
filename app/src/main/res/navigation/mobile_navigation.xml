@@ -19,7 +19,7 @@
 
     <fragment
         android:id="@+id/nav_rating"
-        android:name="com.example.blackjackgame.ui.fragment.rating.RatingFragment"
+        android:name="com.example.blackjackgame.ui.fragment.rating.content.RatingContentFragment"
         android:label="@string/nav_rating"
         tools:layout="@layout/fragment_rating"/>
 
@@ -49,7 +49,12 @@
 
     <fragment
         android:id="@+id/nav_start_game"
-        android:name="com.example.blackjackgame.ui.fragment.game.StartGameFragment"
+        android:name="com.example.blackjackgame.ui.fragment.game.content.GameWaitingFragment"
         android:label="@string/start_game"
         tools:layout="@layout/fragment_start_game"/>
+
+    <fragment
+        android:id="@+id/nav_history_coins"
+        android:name="com.example.blackjackgame.ui.fragment.historyCoins.HistoryCoinsFragment"
+        android:label="История выплат"/>
 </navigation>

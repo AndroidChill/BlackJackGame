@@ -32,6 +32,8 @@ import com.example.blackjackgame.rViewModel.signinemailstart.SignInEmailStartVie
 import com.example.blackjackgame.ui.activity.SignActivity;
 import com.example.blackjackgame.util.ImageLoader;
 
+import java.util.Locale;
+
 public class SignEmailFragment extends Fragment {
 
     private FragmentSignEmailBinding binding;
@@ -144,7 +146,8 @@ public class SignEmailFragment extends Fragment {
                 getModel(),
                 getManufacturer(),
                 getMarketName(),
-                sharedPreferences.getString("token", "")
+                sharedPreferences.getString("token", ""),
+                Locale.getDefault().getCountry()
         );
     }
 

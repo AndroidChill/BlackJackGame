@@ -149,18 +149,32 @@
 <!--            app:layout_constraintBottom_toBottomOf="parent"-->
 <!--            app:layout_constraintStart_toEndOf="@+id/checkBox" />-->
 
-        <CheckBox
-            android:id="@+id/checkBox"
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:maxWidth="400dp"
-            android:textColor="@color/white"
-            android:text="@string/private_term"
+            android:layout_height="wrap_content"
             app:layout_constraintBottom_toTopOf="@+id/signIn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView27"
-            app:layout_constraintVertical_bias="0.59000003" />
+            app:layout_constraintTop_toBottomOf="@+id/textView27">
+
+            <CheckBox
+                android:id="@+id/checkBox"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp" />
+
+            <TextView
+                android:id="@+id/politika"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:maxWidth="350dp"
+                android:gravity="center"
+                android:text="@string/private_term"
+                android:textColor="#9BC6CC" />
+
+        </LinearLayout>
+
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

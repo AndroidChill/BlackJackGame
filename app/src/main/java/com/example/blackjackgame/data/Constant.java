@@ -1,9 +1,11 @@
 package com.example.blackjackgame.data;
 
+import java.util.Locale;
+
 public class Constant {
 
     public static int app_ver = 20201105;
-    public static String ln = "ru";
+    public static String ln = Locale.getDefault().getCountry();
 
     //статусы
     public static String success = "success";

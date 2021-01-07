@@ -18,10 +18,9 @@
             android:id="@+id/logo"
             android:layout_width="80dp"
             android:layout_height="80dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="32dp"
             android:src="@drawable/avatar2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.24"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -29,12 +28,11 @@
             android:id="@+id/nickname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:text="@{model.nickname}"
             android:textColor="@color/white"
             android:textSize="17sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.22"
             app:layout_constraintStart_toEndOf="@+id/logo"
             app:layout_constraintTop_toTopOf="@+id/logo" />
 
@@ -50,16 +48,38 @@
             app:layout_constraintTop_toBottomOf="@+id/nickname" />
 
         <TextView
-            android:id="@+id/id"
+            android:id="@+id/user_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="@{model.id}"
+            android:text="@{String.valueOf(model.id)}"
             android:textColor="@color/white"
             android:textSize="17sp"
             app:layout_constraintBottom_toBottomOf="@+id/textView3"
             app:layout_constraintStart_toEndOf="@+id/textView3"
             app:layout_constraintTop_toTopOf="@+id/textView3" />
+
+        <TextView
+            android:id="@+id/coins"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="48dp"
+            android:text="@{String.valueOf(model.coins)}"
+            android:textColor="@color/white"
+            android:textSize="17sp"
+            app:layout_constraintBottom_toBottomOf="@+id/logo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/logo"
+            app:layout_constraintVertical_bias="0.24000001" />
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="8dp"
+            android:src="@drawable/money"
+            app:layout_constraintBottom_toBottomOf="@+id/coins"
+            app:layout_constraintStart_toEndOf="@+id/coins"
+            app:layout_constraintTop_toTopOf="@+id/coins" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/edit"

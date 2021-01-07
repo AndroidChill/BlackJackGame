@@ -1,5 +1,6 @@
 package com.example.blackjackgame.ui.adapter.profile;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -58,6 +59,15 @@ public class ProfileProgressAdapter extends RecyclerView.Adapter<ProfileProgress
         }
 
         void bind(Progress progress){
+            if(progress.getIcon() == null){
+                return;
+            }
+
+            String[] str = progress.getIcon().split(".png");
+            Context context = binding.item.getContext();
+            int id = context.getResources().getIdentifier("i" + str[0], "drawable", context.getPackageName());
+            binding.item.setImageResource(id);
+
             binding.amount.setText(String.valueOf(progress.getAmount()));
         }
 

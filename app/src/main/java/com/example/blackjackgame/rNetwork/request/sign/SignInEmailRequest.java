@@ -15,6 +15,7 @@ public class SignInEmailRequest {
     private String manufacturer;
     private String marketName;
     private String token;
+    private String country;
 
     public SignInEmailRequest(String menu, int appVer, String ln, String email, String captchaValue, String sdk, String model, String manufacturer, String marketName, String token) {
         this.menu = menu;
@@ -29,7 +30,27 @@ public class SignInEmailRequest {
         this.token = token;
     }
 
+    public SignInEmailRequest(String menu, int appVer, String ln, String email, String captchaValue, String sdk, String model, String manufacturer, String marketName, String token, String country) {
+        this.menu = menu;
+        this.appVer = appVer;
+        this.ln = ln;
+        this.email = email;
+        this.captchaValue = captchaValue;
+        this.sdk = sdk;
+        this.model = model;
+        this.manufacturer = manufacturer;
+        this.marketName = marketName;
+        this.token = token;
+        this.country = country;
+    }
 
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
 
     public String getToken() {
         return token;

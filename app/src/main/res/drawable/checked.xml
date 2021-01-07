@@ -9,9 +9,9 @@
                         android:width="1dp"
                         android:color="#777" />
                     <gradient
-                        android:startColor="#990000"
-                        android:centerColor="#990000"
-                        android:endColor="#990000"
+                        android:startColor="#595656"
+                        android:centerColor="#595656"
+                        android:endColor="#595656"
                         android:angle="270" />
                     <size
                         android:width="30dp"
@@ -20,10 +20,10 @@
             </item>
 
             <item
-                android:width="8dp"
+                android:width="6dp"
                 android:height="2dp"
-                android:top="20dp"
-                android:left="6dp">
+                android:top="16dp"
+                android:left="9.7dp">
                 <rotate
                     android:fromDegrees="45">
                     <shape android:shape="rectangle">
@@ -33,10 +33,10 @@
             </item>
 
             <item
-                android:width="19dp"
+                android:width="10dp"
                 android:height="2dp"
-                android:top="16dp"
-                android:left="9dp">
+                android:top="14.5dp"
+                android:left="12.27297795555555dp">
                 <rotate
                     android:fromDegrees="-45">
                     <shape android:shape="rectangle">

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,39 +20,46 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.example.blackjackgame.R;
 import com.example.blackjackgame.data.Constant;
 import com.example.blackjackgame.databinding.DialogProfileEditAvatarBinding;
-import com.example.blackjackgame.model.profile.avatar.Avatar;
 import com.example.blackjackgame.model.profile.avatar.AvatarBody;
 import com.example.blackjackgame.network.responce.profile.DataProfileRequest;
 import com.example.blackjackgame.network.responce.profile.avatar.AvatarChangeRequest;
+import com.example.blackjackgame.rModel.Avatar;
+import com.example.blackjackgame.rViewModel.profile.ProfileFactory;
+import com.example.blackjackgame.rViewModel.profile.ProfileViewModel;
+import com.example.blackjackgame.ui.activity.ProfileEditActivity;
+import com.example.blackjackgame.ui.adapter.AvatarChangeAdapter;
+import com.example.blackjackgame.ui.interfaceClick.ChangeAvatarClick;
 import com.example.blackjackgame.util.ConvertStringToImage;
-import com.example.blackjackgame.viewmodel.profile.ProfileFactory;
-import com.example.blackjackgame.viewmodel.profile.ProfileViewModel;
 import com.example.blackjackgame.viewmodel.rigthProfile.RightProfileFactory;
 import com.example.blackjackgame.viewmodel.rigthProfile.RightProfileViewModel;
+import com.google.gson.Gson;
 
-public class ProfileChangePhotoDialogFragment extends DialogFragment {
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+
+public class ProfileChangePhotoDialogFragment extends DialogFragment implements ChangeAvatarClick {
 
     private DialogProfileEditAvatarBinding binding;
+    private AvatarChangeAdapter adapter;
 
-    private RightProfileViewModel viewModel;
+    private ProfileViewModel viewModel;
 
     private String select = "";
-
-    private int[] coast = new int[3];
-    private int[] images = new int[3];
 
     private SharedPreferences shared;
     static ImageView view;
 
-    public static ProfileChangePhotoDialogFragment newInstance(ImageView view) {
+    public static ProfileChangePhotoDialogFragment newInstance() {
 
         Bundle args = new Bundle();
-
-        ProfileChangePhotoDialogFragment.view = view;
 
         ProfileChangePhotoDialogFragment fragment = new ProfileChangePhotoDialogFragment();
         fragment.setArguments(args);
@@ -65,118 +73,29 @@ public class ProfileChangePhotoDialogFragment extends DialogFragment {
 
         shared = getActivity().getSharedPreferences("shared", Context.MODE_PRIVATE);
 
-        AvatarChangeRequest request = new AvatarChangeRequest(
-                "avatar_change",
-                Constant.app_ver,
-                Constant.ln,
-                shared.getString("token", "null")
-        );
-
-        viewModel = new ViewModelProvider(this, new RightProfileFactory(initRequestProfile())).get(RightProfileViewModel.class);
-
-        viewModel.getAvatarList(request).observe(this, o -> {
-            binding.coins1.setText(String.valueOf(o.getAvatar().get(0).getCoast()));
-            binding.coins2.setText(String.valueOf(o.getAvatar().get(1).getCoast()));
-            binding.coins.setText(String.valueOf(o.getAvatar().get(2).getCoast()));
-
-            for(int i = 0; i < 3; i++){
-                coast[i] = o.getAvatar().get(i).getCoast();
-
-                if(o.getAvatar().get(i).getImage().equals("avatar1.png")){
-                    images[i] = R.drawable.avatar1;
-                } else {
-                    if(o.getAvatar().get(i).getImage().equals("avatar2.png")){
-                        images[i] = R.drawable.avatar2;
-                    } else {
-                        images[i] = R.drawable.avatar3;
-                    }
-                }
-
-            }
-
-            binding.avatar1.setImageResource(images[0]);
-            binding.avatar2.setImageResource(images[1]);
-            binding.avatar3.setImageResource(images[2]);
-
-            binding.coinsItog.setText(String.valueOf(coast[0]));
-        });
-
-
-
-
-        binding.layout1.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.M)
-            @Override
-            public void onClick(View v) {
-                binding.layout2.setForeground(getResources().getDrawable(R.color.dark_back));
-                binding.layout3.setForeground(getResources().getDrawable(R.color.dark_back));
-                binding.layout1.setForeground(getResources().getDrawable(R.color.white_back));
-
-                binding.coinsItog.setText(String.valueOf(coast[0]));
-
-
-                select = "avatar1.png";
-
-
-            }
-        });
-
-        binding.layout2.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.M)
-            @Override
-            public void onClick(View v) {
-                binding.layout1.setForeground(getResources().getDrawable(R.color.dark_back));
-                binding.layout3.setForeground(getResources().getDrawable(R.color.dark_back));
-                binding.layout2.setForeground(getResources().getDrawable(R.color.white_back));
-
-                binding.coinsItog.setText(String.valueOf(coast[1]));
-
-                select = "avatar2.png";
-}
-        });
-
-        binding.layout3.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.M)
-            @Override
-            public void onClick(View v) {
-                binding.layout2.setForeground(getResources().getDrawable(R.color.dark_back));
-                binding.layout1.setForeground(getResources().getDrawable(R.color.dark_back));
-                binding.layout3.setForeground(getResources().getDrawable(R.color.white_back));
-
-                binding.coinsItog.setText(String.valueOf(coast[2]));
-
-                select = "avatar3.png";
-
-            }
-        });
+        adapter = new AvatarChangeAdapter(getContext(), binding.coinsItog, this::onClick);
+        Log.d("tag", "onCreateView: adapter");
+        List<Avatar> avatars = ((ProfileEditActivity)getActivity()).getAvatar();
+        Log.d("tag", "onCreateView: list");
+        adapter.setAvatars(avatars);
+        Log.d("tag", "onCreateView: setAvatars");
+        StaggeredGridLayoutManager _sGridLayoutManager = new StaggeredGridLayoutManager(2,
+                StaggeredGridLayoutManager.VERTICAL);
+        binding.recyclerView3.setLayoutManager(_sGridLayoutManager);
+        binding.recyclerView3.setAdapter(adapter);
 
         binding.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                shared.edit().putBoolean("isEditImage", true).apply();
-                shared.edit().putString("selectImage", select).apply();
-                onDismiss(getDialog());
+                ProfileChangePhotoDialogFragment.this.dismiss();
             }
         });
 
         return binding.getRoot();
     }
 
-    //создание запроса с инфой о пользователе
-    private DataProfileRequest initRequestProfile(){
-        return new DataProfileRequest(
-                "profile",
-                Constant.app_ver,
-                Constant.ln,
-                shared.getString("token", "null")
-        );
-    }
-
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        ConvertStringToImage.convert(ProfileChangePhotoDialogFragment.view, select);
-        shared.edit().putString("selectImage", select).commit();
+    public boolean onClick(Avatar avatar) {
+        return ((ProfileEditActivity)getActivity()).setAvatar(avatar);
     }
 }

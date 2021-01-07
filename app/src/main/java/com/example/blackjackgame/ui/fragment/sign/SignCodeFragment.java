@@ -27,6 +27,8 @@ import com.example.blackjackgame.rViewModel.signInEmailCode.SignInEmailCodeViewM
 import com.example.blackjackgame.ui.activity.NavigationActivity;
 import com.example.blackjackgame.ui.activity.SignActivity;
 
+import java.util.Locale;
+
 public class SignCodeFragment extends Fragment {
 
     private FragmentSignCodeBinding binding;
@@ -88,8 +90,8 @@ public class SignCodeFragment extends Fragment {
                 getModel(),
                 getManufacturer(),
                 getMarketName(),
-                sharedPreferences.getString("token", "")
-        );
+                sharedPreferences.getString("token", ""),
+                Locale.getDefault().getCountry()        );
     }
 
     private int getSDK(){

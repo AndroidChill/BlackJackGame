@@ -20,6 +20,7 @@ import com.example.blackjackgame.databinding.FragmentStartGameBinding;
 import com.example.blackjackgame.ui.adapter.startGame.StartGameFriendsAdapter;
 import com.example.blackjackgame.ui.fragment.game.content.GameWaitingFragment;
 import com.example.blackjackgame.ui.fragment.game.content.StartGameContentFragment;
+import com.example.blackjackgame.ui.fragment.game.content.StartGameSettingsFragment;
 
 public class StartGameFragment extends Fragment {
 
@@ -45,9 +46,11 @@ public class StartGameFragment extends Fragment {
 
         typeAds = sharedPreferences.getInt(Constant.typeAdsForLoadGame, 0);
         getFragmentManager().beginTransaction()
-                .add(R.id.container_start_game, GameWaitingFragment.newInstance())
+                .add(R.id.container_start_game, StartGameSettingsFragment.newInstance())
                 .commit();
 
         return binding.getRoot();
     }
+
+
 }

@@ -16,6 +16,28 @@ public class SignInGuestRequest {
     @SerializedName("market_name")
     private String marketName;
     private String manufacturer;
+    private String country;
+
+    public SignInGuestRequest(String menu, int appVer, String ln, String token, String refCode, String sdk, String model, String marketName, String manufacturer, String country) {
+        this.menu = menu;
+        this.appVer = appVer;
+        this.ln = ln;
+        this.token = token;
+        this.refCode = refCode;
+        this.sdk = sdk;
+        this.model = model;
+        this.marketName = marketName;
+        this.manufacturer = manufacturer;
+        this.country = country;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
 
     public SignInGuestRequest(String menu, int appVer, String ln, String token, String refCode, String sdk, String model, String marketName, String manufacturer) {
         this.menu = menu;

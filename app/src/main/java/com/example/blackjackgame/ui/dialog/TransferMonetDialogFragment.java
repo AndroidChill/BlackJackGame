@@ -29,6 +29,8 @@ public class TransferMonetDialogFragment extends DialogFragment {
     private ProfileViewModel viewModel;
     private SharedPreferences sharedPreferences;
 
+    private int itogo = 0;
+
     public static TransferMonetDialogFragment newInstance() {
 
         Bundle args = new Bundle();
@@ -87,6 +89,12 @@ public class TransferMonetDialogFragment extends DialogFragment {
                 Toast.makeText(getContext(), "Слишком большая сумма", Toast.LENGTH_SHORT).show();
             } else {
                 binding.tvCount.setText(String.valueOf(count * 10 +1));
+                int current = Integer.parseInt(binding.tvCount.getText().toString());
+                int commission = (int)Math.ceil(current * 0.01);
+                itogo = current - commission;
+                binding.commission.setText(String.valueOf(commission));
+                binding.itogo.setText(String.valueOf(itogo));
+
             }
         });
         binding.button4.setOnClickListener(v -> {
@@ -95,6 +103,11 @@ public class TransferMonetDialogFragment extends DialogFragment {
                 Toast.makeText(getContext(), "Слишком большая сумма", Toast.LENGTH_SHORT).show();
             } else {
                 binding.tvCount.setText(String.valueOf(count * 10 +2));
+                int current = Integer.parseInt(binding.tvCount.getText().toString());
+                int commission = (int)Math.ceil(current * 0.01);
+                itogo = current - commission;
+                binding.commission.setText(String.valueOf(commission));
+                binding.itogo.setText(String.valueOf(itogo));
             }
         });
         binding.button8.setOnClickListener(v -> {
@@ -103,6 +116,11 @@ public class TransferMonetDialogFragment extends DialogFragment {
                 Toast.makeText(getContext(), "Слишком большая сумма", Toast.LENGTH_SHORT).show();
             } else {
                 binding.tvCount.setText(String.valueOf(count * 10 + 3));
+                int current = Integer.parseInt(binding.tvCount.getText().toString());
+                int commission = (int)Math.ceil(current * 0.01);
+                itogo = current - commission;
+                binding.commission.setText(String.valueOf(commission));
+                binding.itogo.setText(String.valueOf(itogo));
             }
         });
         binding.button6.setOnClickListener(v -> {
@@ -111,6 +129,11 @@ public class TransferMonetDialogFragment extends DialogFragment {
                 Toast.makeText(getContext(), "Слишком большая сумма", Toast.LENGTH_SHORT).show();
             } else {
                 binding.tvCount.setText(String.valueOf(count * 10 + 4));
+                int current = Integer.parseInt(binding.tvCount.getText().toString());
+                int commission = (int)Math.ceil(current * 0.01);
+                itogo = current - commission;
+                binding.commission.setText(String.valueOf(commission));
+                binding.itogo.setText(String.valueOf(itogo));
             }
         });
         binding.button7.setOnClickListener(v -> {
@@ -119,6 +142,11 @@ public class TransferMonetDialogFragment extends DialogFragment {
                 Toast.makeText(getContext(), "Слишком большая сумма", Toast.LENGTH_SHORT).show();
             } else {
                 binding.tvCount.setText(String.valueOf(count * 10 + 5));
+                int current = Integer.parseInt(binding.tvCount.getText().toString());
+                int commission = (int)Math.ceil(current * 0.01);
+                itogo = current - commission;
+                binding.commission.setText(String.valueOf(commission));
+                binding.itogo.setText(String.valueOf(itogo));
             }
         });
         binding.button11.setOnClickListener(v -> {
@@ -127,6 +155,11 @@ public class TransferMonetDialogFragment extends DialogFragment {
                 Toast.makeText(getContext(), "Слишком большая сумма", Toast.LENGTH_SHORT).show();
             } else {
                 binding.tvCount.setText(String.valueOf(count * 10 + 6));
+                int current = Integer.parseInt(binding.tvCount.getText().toString());
+                int commission = (int)Math.ceil(current * 0.01);
+                itogo = current - commission;
+                binding.commission.setText(String.valueOf(commission));
+                binding.itogo.setText(String.valueOf(itogo));
             }
         });
         binding.button9.setOnClickListener(v -> {
@@ -135,6 +168,11 @@ public class TransferMonetDialogFragment extends DialogFragment {
                 Toast.makeText(getContext(), "Слишком большая сумма", Toast.LENGTH_SHORT).show();
             } else {
                 binding.tvCount.setText(String.valueOf(count * 10 + 7));
+                int current = Integer.parseInt(binding.tvCount.getText().toString());
+                int commission = (int)Math.ceil(current * 0.01);
+                itogo = current - commission;
+                binding.commission.setText(String.valueOf(commission));
+                binding.itogo.setText(String.valueOf(itogo));
             }
         });
         binding.button10.setOnClickListener(v -> {
@@ -143,6 +181,11 @@ public class TransferMonetDialogFragment extends DialogFragment {
                 Toast.makeText(getContext(), "Слишком большая сумма", Toast.LENGTH_SHORT).show();
             } else {
                 binding.tvCount.setText(String.valueOf(count * 10 + 8));
+                int current = Integer.parseInt(binding.tvCount.getText().toString());
+                int commission = (int)Math.ceil(current * 0.01);
+                itogo = current - commission;
+                binding.commission.setText(String.valueOf(commission));
+                binding.itogo.setText(String.valueOf(itogo));
             }
         });
         binding.button13.setOnClickListener(v -> {
@@ -151,11 +194,21 @@ public class TransferMonetDialogFragment extends DialogFragment {
                 Toast.makeText(getContext(), "Слишком большая сумма", Toast.LENGTH_SHORT).show();
             } else {
                 binding.tvCount.setText(String.valueOf(count * 10 + 9));
+                int current = Integer.parseInt(binding.tvCount.getText().toString());
+                int commission = (int)Math.ceil(current * 0.01);
+                itogo = current - commission;
+                binding.commission.setText(String.valueOf(commission));
+                binding.itogo.setText(String.valueOf(itogo));
             }
         });
         binding.btnClear.setOnClickListener(v -> {
             long count = Long.parseLong(binding.tvCount.getText().toString());
             binding.tvCount.setText(String.valueOf(0));
+            int current = Integer.parseInt(binding.tvCount.getText().toString());
+            int commission = (int)Math.ceil(current * 0.01);
+            itogo = current - commission;
+            binding.commission.setText(String.valueOf(commission));
+            binding.itogo.setText(String.valueOf(itogo));
         });
         binding.button14.setOnClickListener(v -> {
             long count = Long.parseLong(binding.tvCount.getText().toString());
@@ -163,11 +216,21 @@ public class TransferMonetDialogFragment extends DialogFragment {
                 Toast.makeText(getContext(), "Слишком большая сумма", Toast.LENGTH_SHORT).show();
             } else {
                 binding.tvCount.setText(String.valueOf(count * 10));
+                int current = Integer.parseInt(binding.tvCount.getText().toString());
+                int commission = (int)Math.ceil(current * 0.01);
+                itogo = current - commission;
+                binding.commission.setText(String.valueOf(commission));
+                binding.itogo.setText(String.valueOf(itogo));
             }
         });
         binding.button15.setOnClickListener(v -> {
             long count = Long.parseLong(binding.tvCount.getText().toString());
             binding.tvCount.setText(String.valueOf((int)(Math.floor(count/10))));
+            int current = Integer.parseInt(binding.tvCount.getText().toString());
+            int commission = (int)Math.ceil(current * 0.01);
+            itogo = current - commission;
+            binding.commission.setText(String.valueOf(commission));
+            binding.itogo.setText(String.valueOf(itogo));
         });
     }
 }

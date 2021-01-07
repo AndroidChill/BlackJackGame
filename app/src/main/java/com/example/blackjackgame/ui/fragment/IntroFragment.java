@@ -3,6 +3,7 @@ package com.example.blackjackgame.ui.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -68,6 +69,11 @@ public class    IntroFragment extends Fragment {
 
         shared = getActivity().getSharedPreferences("shared", Context.MODE_PRIVATE);
 
+        binding.politika.setOnClickListener(v -> {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.mylink.com"));
+            startActivity(browserIntent);
+        });
+
         binding.guest.setOnClickListener(v -> {
 
             if(binding.checkBox.isChecked()){
@@ -87,8 +93,6 @@ public class    IntroFragment extends Fragment {
             } else {
                 Snackbar.make(binding.layout, "Для начала вы должны ознакомиться с политикой нашего приложения", BaseTransientBottomBar.LENGTH_LONG).show();
             }
-
-
         });
 
         binding.signIn.setOnClickListener(v -> {

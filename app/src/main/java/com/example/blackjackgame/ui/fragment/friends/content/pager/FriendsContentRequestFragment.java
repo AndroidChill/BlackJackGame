@@ -64,173 +64,173 @@ public class FriendsContentRequestFragment extends Fragment implements FriendReq
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_friends_content_request, container, false);
-
-        sharedPreferences = getActivity().getSharedPreferences("shared", Context.MODE_PRIVATE);
-
-        viewModel = new ViewModelProvider(this, new FriendsFactory(getActivity().getApplication())).get(FriendsViewModel.class);
-
-        FriendsZaprosRequest request = new FriendsZaprosRequest(
-                "friends_request",
-                Constant.app_ver,
-                Constant.ln,
-                sharedPreferences.getString("token", "null")
-        );
-
-        binding.tv2.setOnClickListener(v -> {
-            PopupMenu popupMenu = new PopupMenu(getContext(), v);
-            popupMenu.inflate(R.menu.menu_friends_request);
-
-            popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                @Override
-                public boolean onMenuItemClick(MenuItem item) {
-                    switch (item.getItemId()) {
-                        case R.id.menu1:
-                            binding.btn.setText("Входящие");
-                            viewModel.getRequestFriends(request).observe(getViewLifecycleOwner(), new Observer<FriendsZaprosBody>() {
-                                @Override
-                                public void onChanged(FriendsZaprosBody friendsZaprosBody) {
-
-                                    if(friendsZaprosBody.getStatus().equals(Constant.success)){
-                                        List<FriendsZapros> actualList = new ArrayList<>();
-
-                                        for(FriendsZapros zapros : friendsZaprosBody.getFriends_request()){
-                                            if(type == zapros.getType()){
-                                                actualList.add(zapros);
-                                            } else {
-                                                if(type == 2){
-                                                    actualList.add(zapros);
-                                                }
-                                            }
-                                        }
-
-                                        adapter = new FriendsRequestAdapter(actualList, FriendsContentRequestFragment.this::onClick, getFragmentManager());
-
-                                        binding.rv.setLayoutManager(new LinearLayoutManager(getContext()));
-                                        binding.rv.setAdapter(adapter);
-                                    } else {
-
-                                        if(friendsZaprosBody.getError_text().equals(Constant.failed_token)){
-                                            failedToken();
-                                        }
-                                        //TODO: обработка ошибки сервера
-                                    }
-                                }
-                            });
-                            type = 0;
-                            return true;
-                        case R.id.menu2:
-                            binding.btn.setText("Исходящие");
-                            viewModel.getRequestFriends(request).observe(getViewLifecycleOwner(), new Observer<FriendsZaprosBody>() {
-                                @Override
-                                public void onChanged(FriendsZaprosBody friendsZaprosBody) {
-
-                                    if(friendsZaprosBody.getStatus().equals(Constant.success)){
-                                        List<FriendsZapros> actualList = new ArrayList<>();
-
-                                        for(FriendsZapros zapros : friendsZaprosBody.getFriends_request()){
-                                            if(type == zapros.getType()){
-                                                actualList.add(zapros);
-                                            } else {
-                                                if(type == 2){
-                                                    actualList.add(zapros);
-                                                }
-                                            }
-                                        }
-
-                                        adapter = new FriendsRequestAdapter(actualList, FriendsContentRequestFragment.this::onClick,getFragmentManager());
-
-                                        binding.rv.setLayoutManager(new LinearLayoutManager(getContext()));
-                                        binding.rv.setAdapter(adapter);
-                                    } else {
-                                        if(friendsZaprosBody.getError_text().equals(Constant.failed_token)){
-                                            failedToken();
-                                        }
-                                        //TODO: обработка ошибки с сервера
-                                    }
-                                }
-                            });
-                            type = 1;
-                            return true;
-                        case R.id.menu3:
-                            binding.btn.setText("Все заявки");
-                            type = 2;
-                            viewModel.getRequestFriends(request).observe(getViewLifecycleOwner(), new Observer<FriendsZaprosBody>() {
-                                @Override
-                                public void onChanged(FriendsZaprosBody friendsZaprosBody) {
-
-                                    if(friendsZaprosBody.getStatus().equals(Constant.success)){
-                                        List<FriendsZapros> actualList = new ArrayList<>();
-
-                                        for(FriendsZapros zapros : friendsZaprosBody.getFriends_request()){
-                                            if(type == zapros.getType()){
-                                                actualList.add(zapros);
-                                            } else {
-                                                if(type == 2){
-                                                    actualList.add(zapros);
-                                                }
-                                            }
-                                        }
-
-                                        adapter = new FriendsRequestAdapter(actualList, FriendsContentRequestFragment.this::onClick, getFragmentManager());
-
-                                        binding.rv.setLayoutManager(new LinearLayoutManager(getContext()));
-                                        binding.rv.setAdapter(adapter);
-                                    } else {
-                                        if(friendsZaprosBody.getError_text().equals(Constant.failed_token)){
-                                            failedToken();
-                                        }
-                                        //TODO: обработка ошибки с сервера
-                                    }
-
-                                }
-                            });
-                            return true;
-                        default:
-                            return false;
-                    }
-                }
-            });
-
-            popupMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
-                @Override
-                public void onDismiss(PopupMenu menu) {
-
-                }
-            });
-
-            popupMenu.show();
-
-        });
-
-        viewModel.getRequestFriends(request).observe(getViewLifecycleOwner(), new Observer<FriendsZaprosBody>() {
-            @Override
-            public void onChanged(FriendsZaprosBody friendsZaprosBody) {
-
-                if(friendsZaprosBody.getStatus().equals(Constant.success)){
-                    List<FriendsZapros> actualList = new ArrayList<>();
-
-                    for(FriendsZapros zapros : friendsZaprosBody.getFriends_request()){
-                        if(type == zapros.getType()){
-                            actualList.add(zapros);
-                        } else {
-                            if(type == 2){
-                                actualList.add(zapros);
-                            }
-                        }
-                    }
-
-                    adapter = new FriendsRequestAdapter(actualList, FriendsContentRequestFragment.this::onClick, getFragmentManager());
-
-                    binding.rv.setLayoutManager(new LinearLayoutManager(getContext()));
-                    binding.rv.setAdapter(adapter);
-                } else {
-                    if(friendsZaprosBody.getError_text().equals(Constant.failed_token)){
-                        failedToken();
-                    }
-                    //TODO: обработка ошибки с сервера
-                }
-            }
-        });
+    //
+    //        sharedPreferences = getActivity().getSharedPreferences("shared", Context.MODE_PRIVATE);
+    //
+    //        viewModel = new ViewModelProvider(this, new FriendsFactory(getActivity().getApplication())).get(FriendsViewModel.class);
+    //
+    //        FriendsZaprosRequest request = new FriendsZaprosRequest(
+    //                "friends_request",
+    //                Constant.app_ver,
+    //                Constant.ln,
+    //                sharedPreferences.getString("token", "null")
+    //        );
+    //
+    //        binding.tv2.setOnClickListener(v -> {
+    //            PopupMenu popupMenu = new PopupMenu(getContext(), v);
+    //            popupMenu.inflate(R.menu.menu_friends_request);
+    //
+    //            popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+    //                @Override
+    //                public boolean onMenuItemClick(MenuItem item) {
+    //                    switch (item.getItemId()) {
+    //                        case R.id.menu1:
+    //                            binding.btn.setText("Входящие");
+    //                            viewModel.getRequestFriends(request).observe(getViewLifecycleOwner(), new Observer<FriendsZaprosBody>() {
+    //                                @Override
+    //                                public void onChanged(FriendsZaprosBody friendsZaprosBody) {
+    //
+    //                                    if(friendsZaprosBody.getStatus().equals(Constant.success)){
+    //                                        List<FriendsZapros> actualList = new ArrayList<>();
+    //
+    //                                        for(FriendsZapros zapros : friendsZaprosBody.getFriends_request()){
+    //                                            if(type == zapros.getType()){
+    //                                                actualList.add(zapros);
+    //                                            } else {
+    //                                                if(type == 2){
+    //                                                    actualList.add(zapros);
+    //                                                }
+    //                                            }
+    //                                        }
+    //
+    //                                        adapter = new FriendsRequestAdapter(actualList, FriendsContentRequestFragment.this::onClick, getFragmentManager());
+    //
+    //                                        binding.rv.setLayoutManager(new LinearLayoutManager(getContext()));
+    //                                        binding.rv.setAdapter(adapter);
+    //                                    } else {
+    //
+    //                                        if(friendsZaprosBody.getError_text().equals(Constant.failed_token)){
+    //                                            failedToken();
+    //                                        }
+    //                                        //TODO: обработка ошибки сервера
+    //                                    }
+    //                                }
+    //                            });
+    //                            type = 0;
+    //                            return true;
+    //                        case R.id.menu2:
+    //                            binding.btn.setText("Исходящие");
+    //                            viewModel.getRequestFriends(request).observe(getViewLifecycleOwner(), new Observer<FriendsZaprosBody>() {
+    //                                @Override
+    //                                public void onChanged(FriendsZaprosBody friendsZaprosBody) {
+    //
+    //                                    if(friendsZaprosBody.getStatus().equals(Constant.success)){
+    //                                        List<FriendsZapros> actualList = new ArrayList<>();
+    //
+    //                                        for(FriendsZapros zapros : friendsZaprosBody.getFriends_request()){
+    //                                            if(type == zapros.getType()){
+    //                                                actualList.add(zapros);
+    //                                            } else {
+    //                                                if(type == 2){
+    //                                                    actualList.add(zapros);
+    //                                                }
+    //                                            }
+    //                                        }
+    //
+    //                                        adapter = new FriendsRequestAdapter(actualList, FriendsContentRequestFragment.this::onClick,getFragmentManager());
+    //
+    //                                        binding.rv.setLayoutManager(new LinearLayoutManager(getContext()));
+    //                                        binding.rv.setAdapter(adapter);
+    //                                    } else {
+    //                                        if(friendsZaprosBody.getError_text().equals(Constant.failed_token)){
+    //                                            failedToken();
+    //                                        }
+    //                                        //TODO: обработка ошибки с сервера
+    //                                    }
+    //                                }
+    //                            });
+    //                            type = 1;
+    //                            return true;
+    //                        case R.id.menu3:
+    //                            binding.btn.setText("Все заявки");
+    //                            type = 2;
+    //                            viewModel.getRequestFriends(request).observe(getViewLifecycleOwner(), new Observer<FriendsZaprosBody>() {
+    //                                @Override
+    //                                public void onChanged(FriendsZaprosBody friendsZaprosBody) {
+    //
+    //                                    if(friendsZaprosBody.getStatus().equals(Constant.success)){
+    //                                        List<FriendsZapros> actualList = new ArrayList<>();
+    //
+    //                                        for(FriendsZapros zapros : friendsZaprosBody.getFriends_request()){
+    //                                            if(type == zapros.getType()){
+    //                                                actualList.add(zapros);
+    //                                            } else {
+    //                                                if(type == 2){
+    //                                                    actualList.add(zapros);
+    //                                                }
+    //                                            }
+    //                                        }
+    //
+    //                                        adapter = new FriendsRequestAdapter(actualList, FriendsContentRequestFragment.this::onClick, getFragmentManager());
+    //
+    //                                        binding.rv.setLayoutManager(new LinearLayoutManager(getContext()));
+    //                                        binding.rv.setAdapter(adapter);
+    //                                    } else {
+    //                                        if(friendsZaprosBody.getError_text().equals(Constant.failed_token)){
+    //                                            failedToken();
+    //                                        }
+    //                                        //TODO: обработка ошибки с сервера
+    //                                    }
+    //
+    //                                }
+    //                            });
+    //                            return true;
+    //                        default:
+    //                            return false;
+    //                    }
+    //                }
+    //            });
+    //
+    //            popupMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
+    //                @Override
+    //                public void onDismiss(PopupMenu menu) {
+    //
+    //                }
+    //            });
+    //
+    //            popupMenu.show();
+    //
+    //        });
+    //
+    //        viewModel.getRequestFriends(request).observe(getViewLifecycleOwner(), new Observer<FriendsZaprosBody>() {
+    //            @Override
+    //            public void onChanged(FriendsZaprosBody friendsZaprosBody) {
+    //
+    //                if(friendsZaprosBody.getStatus().equals(Constant.success)){
+    //                    List<FriendsZapros> actualList = new ArrayList<>();
+    //
+    //                    for(FriendsZapros zapros : friendsZaprosBody.getFriends_request()){
+    //                        if(type == zapros.getType()){
+    //                            actualList.add(zapros);
+    //                        } else {
+    //                            if(type == 2){
+    //                                actualList.add(zapros);
+    //                            }
+    //                        }
+    //                    }
+    //
+    //                    adapter = new FriendsRequestAdapter(actualList, FriendsContentRequestFragment.this::onClick, getFragmentManager());
+    //
+    //                    binding.rv.setLayoutManager(new LinearLayoutManager(getContext()));
+    //                    binding.rv.setAdapter(adapter);
+    //                } else {
+    //                    if(friendsZaprosBody.getError_text().equals(Constant.failed_token)){
+    //                        failedToken();
+    //                    }
+    //                    //TODO: обработка ошибки с сервера
+    //                }
+    //            }
+    //        });
 
         return binding.getRoot();
     }
@@ -291,5 +291,10 @@ public class FriendsContentRequestFragment extends Fragment implements FriendReq
                 });
                 break;
         }
+    }
+
+    @Override
+    public void showUser(int id) {
+
     }
 }

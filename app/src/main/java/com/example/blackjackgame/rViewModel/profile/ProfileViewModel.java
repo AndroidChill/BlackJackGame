@@ -1,12 +1,16 @@
 package com.example.blackjackgame.rViewModel.profile;
 
 
+import android.content.Context;
+
 import androidx.databinding.ObservableInt;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.blackjackgame.rModel.AvatarChangeBody;
 import com.example.blackjackgame.rModel.profile.ProfileBody;
 import com.example.blackjackgame.rModel.profileSend.ProfileSendBody;
+import com.example.blackjackgame.rNetwork.request.ChangePhotoRequest;
 import com.example.blackjackgame.rNetwork.request.profile.ProfileRequest;
 import com.example.blackjackgame.rNetwork.request.profileSend.ProfileSendRequest;
 
@@ -26,6 +30,10 @@ public class ProfileViewModel extends ViewModel {
 
     public MutableLiveData<ProfileSendBody> sendProfile(ProfileSendRequest request){
         return repository.sendProfile(request);
+    }
+
+    public MutableLiveData<AvatarChangeBody> getChangeAvatar(Context context, ChangePhotoRequest request){
+        return repository.getAvatarChange(context, request);
     }
 
     public void update(ProfileRequest request){

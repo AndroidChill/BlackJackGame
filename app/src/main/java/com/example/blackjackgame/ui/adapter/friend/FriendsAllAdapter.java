@@ -1,6 +1,7 @@
 package com.example.blackjackgame.ui.adapter.friend;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -9,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.blackjackgame.R;
 import com.example.blackjackgame.databinding.FragmentFriendsContentItemBinding;
-import com.example.blackjackgame.model.friend.Friend;
+import com.example.blackjackgame.rModel.friends.all.Friends;
 import com.example.blackjackgame.ui.interfaceClick.friend.MyFriendOnClick;
 import com.example.blackjackgame.util.ConvertStringToImage;
 
@@ -17,10 +18,10 @@ import java.util.List;
 
 public class FriendsAllAdapter extends RecyclerView.Adapter<FriendsAllAdapter.ViewHolder> {
 
-    private List<Friend> friends;
+    private List<Friends> friends;
     private MyFriendOnClick listener;
 
-    public FriendsAllAdapter(List<Friend> friends, MyFriendOnClick listener){
+    public FriendsAllAdapter(List<Friends> friends, MyFriendOnClick listener){
         this.friends = friends;
         this.listener = listener;
     }
@@ -36,7 +37,6 @@ public class FriendsAllAdapter extends RecyclerView.Adapter<FriendsAllAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.bind(friends.get(position));
-        holder.binding.cardView.setOnClickListener(v -> listener.onClick(friends.get(position).getNick()));
     }
 
     @Override
@@ -53,9 +53,12 @@ public class FriendsAllAdapter extends RecyclerView.Adapter<FriendsAllAdapter.Vi
             this.binding = binding;
         }
 
-        void bind(Friend friend){
-            ConvertStringToImage.convert(binding.image, friend.getUserAvatar());
+        void bind(Friends friend){
+            binding.cancelRequest.setVisibility(View.GONE);
+            ConvertStringToImage.convert(binding.image, friend.getAvatar());
             binding.nick.setText(friend.getNick());
+
+            binding.main.setOnClickListener(v -> listener.onClick(friend.getId()));
         }
 
     }

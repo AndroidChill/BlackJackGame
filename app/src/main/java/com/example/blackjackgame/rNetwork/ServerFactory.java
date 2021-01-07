@@ -5,7 +5,13 @@ import com.example.blackjackgame.network.ApiService;
 import com.example.blackjackgame.rModel.profile.Profile;
 import com.example.blackjackgame.rNetwork.service.AuthService;
 import com.example.blackjackgame.rNetwork.service.CoinsGetService;
+import com.example.blackjackgame.rNetwork.service.CoinsService;
+import com.example.blackjackgame.rNetwork.service.FriendsService;
+import com.example.blackjackgame.rNetwork.service.GameService;
+import com.example.blackjackgame.rNetwork.service.MoneyTransferService;
+import com.example.blackjackgame.rNetwork.service.NewsService;
 import com.example.blackjackgame.rNetwork.service.ProfileService;
+import com.example.blackjackgame.rNetwork.service.RatingService;
 
 import java.util.concurrent.TimeUnit;
 
@@ -16,9 +22,9 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ServerFactory<T> {
-
+//game21/debug6
     private static ServerFactory mInstance;
-    private static final String BASE_URL = "http://mazit.ru/api/game/debug4.php/";
+    private static final String BASE_URL = "http://mazit.ru/api/game21/debug6.php/";
     private Retrofit retrofit;
 
     private ServerFactory() {
@@ -55,5 +61,30 @@ public class ServerFactory<T> {
     public CoinsGetService getCoinsGetApi(){
         return retrofit.create(CoinsGetService.class);
     }
+
+    public FriendsService getFriendsApi(){
+        return retrofit.create(FriendsService.class);
+    }
+
+    public RatingService getRatingApi(){
+        return retrofit.create(RatingService.class);
+    }
+
+    public GameService getGameApi(){
+        return retrofit.create(GameService.class);
+    }
+
+    public NewsService getNewsApi(){
+        return retrofit.create(NewsService.class);
+    }
+
+    public CoinsService getCoinsApi(){
+        return retrofit.create(CoinsService.class);
+    }
+
+    public MoneyTransferService getMoneyTransferApi(){
+        return retrofit.create(MoneyTransferService.class);
+    }
+
 
 }

@@ -21,6 +21,8 @@ public class InfoGetMonetActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this,  R.layout.activity_info_get_monet);
 
+        initValue();
+
     }
 
     private void initValue(){
@@ -41,6 +43,8 @@ public class InfoGetMonetActivity extends AppCompatActivity {
         if(!coins.getText().isEmpty()){
             binding.description.setVisibility(View.GONE);
         }
+
+        binding.cancel.setOnClickListener(v -> finish());
 
         binding.header.setText(choose);
         binding.setModel(coins);

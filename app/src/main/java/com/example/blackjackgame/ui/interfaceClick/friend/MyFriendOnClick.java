@@ -4,6 +4,6 @@ import android.view.View;
 
 public interface MyFriendOnClick {
 
-    public void onClick(String name);
+    public void onClick(int name);
 
 }

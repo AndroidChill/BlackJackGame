@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,36 +16,41 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.sqlite.db.SupportSQLiteDatabase;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.blackjackgame.R;
 import com.example.blackjackgame.data.Constant;
 import com.example.blackjackgame.databinding.FragmentRatingContentCustomBinding;
-import com.example.blackjackgame.model.profile.Profile;
-import com.example.blackjackgame.model.profile.ProfileBody;
-import com.example.blackjackgame.model.rating.RatingCustom;
-import com.example.blackjackgame.model.rating.RatingUserList;
-import com.example.blackjackgame.network.responce.profile.DataProfileRequest;
-import com.example.blackjackgame.network.responce.rating.RatingRequest;
+import com.example.blackjackgame.rModel.profileAny.ProfileAnyBody;
+import com.example.blackjackgame.rModel.rating.RatingBody;
+import com.example.blackjackgame.rModel.rating.RatingUser;
+import com.example.blackjackgame.rNetwork.request.profileAny.ProfileAnyRequest;
+import com.example.blackjackgame.rNetwork.request.rating.RatingRequest;
+import com.example.blackjackgame.rViewModel.profileAny.ProfileAnyFactory;
+import com.example.blackjackgame.rViewModel.profileAny.ProfileAnyViewModel;
+import com.example.blackjackgame.rViewModel.rating.RatingFactory;
+import com.example.blackjackgame.rViewModel.rating.RatingViewModel;
 import com.example.blackjackgame.ui.activity.MainActivity;
 import com.example.blackjackgame.ui.activity.NavigationActivity;
+import com.example.blackjackgame.ui.adapter.friend.FriendsAllAdapter;
 import com.example.blackjackgame.ui.adapter.rating.RatingAdapter;
+import com.example.blackjackgame.ui.dialog.CaptchaDialog;
+import com.example.blackjackgame.ui.dialog.ReviewDialogHelper;
 import com.example.blackjackgame.ui.dialog.UserInfoDialogFragment;
+import com.example.blackjackgame.ui.fragment.friends.content.pager.FriendsContentAllFragment;
 import com.example.blackjackgame.ui.interfaceClick.rating.RatingItemOnClick;
 import com.example.blackjackgame.util.ConvertStringToImage;
-import com.example.blackjackgame.viewmodel.profile.ProfileFactory;
-import com.example.blackjackgame.viewmodel.profile.ProfileViewModel;
-import com.example.blackjackgame.viewmodel.rating.RatingFactory;
-import com.example.blackjackgame.viewmodel.rating.RatingViewModel;
+import com.google.gson.Gson;
 
 public class RatingContentCustomFragment extends Fragment implements RatingItemOnClick {
 
     private FragmentRatingContentCustomBinding binding;
     private RatingViewModel viewModel;
-    private ProfileViewModel profileViewModel;
+    private RatingRequest request;
     private RatingAdapter adapter;
+    private ProfileAnyViewModel profileAnyViewModel;
     private SharedPreferences sharedPreferences;
-
-    private int user_id;
 
     public static RatingContentCustomFragment newInstance() {
 
@@ -61,88 +67,174 @@ public class RatingContentCustomFragment extends Fragment implements RatingItemO
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_rating_content_custom, container, false);
 
         sharedPreferences = getActivity().getSharedPreferences("shared", Context.MODE_PRIVATE);
+        initRequest();
+        viewModel = new ViewModelProvider(this, new RatingFactory(request)).get(RatingViewModel.class);
 
-        viewModel = new ViewModelProvider(this, new RatingFactory(getActivity().getApplication())).get(RatingViewModel.class);
-        profileViewModel = new ViewModelProvider(this, new ProfileFactory(getActivity().getApplication())).get(ProfileViewModel.class);
+        binding.setViewModel(viewModel);
 
-        RatingRequest request = new RatingRequest(
-                "rating",
-                Constant.app_ver,
-                Constant.ln,
-                sharedPreferences.getString("token", "null")
-        );
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        viewModel.getRating(request).observe(getViewLifecycleOwner(), new Observer<RatingCustom>() {
-            @Override
-            public void onChanged(RatingCustom ratingCustom) {
-
-                if(ratingCustom.getStatus().equals(Constant.success)){
-                    DataProfileRequest dataProfileRequest = new DataProfileRequest(
-                            "profile",
-                            Constant.app_ver,
-                            Constant.ln,
-                            sharedPreferences.getString("token", "null")
-                    );
-
-//                    profileViewModel.getProfileData(dataProfileRequest).observe(getViewLifecycleOwner(), (Observer<ProfileBody>) profileBody -> {
-//
-//                        if(profileBody.getStatus().equals(Constant.success)){
-//                            Profile profile = profileBody.getProfile();
-//
-//                            for(RatingUserList user : ratingCustom.getRating()){
-//                                if(profile.getUser_nickname().equals(user.getNick())){
-//                                    //TODO: добавить в вывод номер позиции(или как возможность сделать это в данном классе)
-//                                    binding.currentPosition.number.setText(String.valueOf(profile.getUser_rating_position()));
-//                                    ConvertStringToImage.convert(binding.currentPosition.imageView4, profile.getUser_avatar());
-//                                    binding.currentPosition.name.setText(profile.getUser_nickname());
-//                                    binding.currentPosition.money.setText(String.valueOf(profile.getUser_coins()));
-//                                    binding.currentPosition.number.setText(getNumber(ratingCustom.getRatingUser().getPosition()));
-//                                    user_id = user.getUser_id();
-//                                }
-//                            }
-//                        } else {
-//                            if (profileBody.getError_text().equals(Constant.failed_token)){
-//                                failedToken();
-//                            }
-//                            //TODO: обработка ошибки с сервера
-//                        }
-//                    });
-
-                    binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-                    binding.recyclerView.setAdapter(new RatingAdapter(ratingCustom.getRating(), RatingContentCustomFragment.this::onCLick));
-                } else {
-                    if(ratingCustom.getError_text().equals(Constant.failed_token)){
-                        failedToken();
-                    }
-                    //TODO: обработка ошибки с сервера
-                }
-
-
-
-            }
-        });
+        refresh();
+        update();
 
         return binding.getRoot();
     }
 
-    @Override
-    public void onCLick(int id) {
-        UserInfoDialogFragment dialog = new UserInfoDialogFragment();
-
-        Bundle bundle = new Bundle();
-        bundle.putInt("id", id);
-
-        dialog.setArguments(bundle);
-
-        dialog.show(getFragmentManager(), "dialog");
+    private void refresh(){
+        binding.refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                initRequest();
+                viewModel.update(request);
+                update();
+                binding.refresh.setRefreshing(false);
+            }
+        });
     }
 
-    private void failedToken(){
-        //обнуляем вход
-        sharedPreferences.edit().putBoolean(Constant.isSign, false).apply();
-        Intent intent = new Intent(getContext(), MainActivity.class);
-        startActivity(intent);
+    private void update(){
+        viewModel.getLiveData().observe(getViewLifecycleOwner(), new Observer<RatingBody>() {
+            @Override
+            public void onChanged(RatingBody ratingBody) {
+                if(ratingBody.getToken() != null){
+                    if(ratingBody.getToken().equals("error")){
+                        startBaseActivity();
+                    }
+                }
+
+                if(ratingBody.getStatus().equals("success")){
+
+                    //проверка на капчу
+                    if(ratingBody.getCaptchaImageUrl() != null){
+                        createCaptchaDialog(ratingBody.getCaptchaImageUrl());
+                    }
+
+                    //проверка на отзывы
+                    if(ratingBody.getPopup() != null){
+                        if(ratingBody.getPopup().equals("comment")){
+                            createReviewDialog();
+                        }
+                    }
+
+                    if(ratingBody.getUser() != null){
+                        initMainUser(ratingBody.getUser());
+                    }
+
+                    if(ratingBody.getUsers() != null){
+                        adapter = new RatingAdapter(ratingBody.getUsers(), RatingContentCustomFragment.this::onCLick);
+                        binding.recyclerView.setAdapter(adapter);
+                    }
+
+                } else {
+                    Toast.makeText(getContext(), ratingBody.getStatusText(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void initMainUser(RatingUser user){
+        ConvertStringToImage.convert(binding.currentPosition.imageView4, user.getAvatar());
+        binding.currentPosition.name.setText(user.getNick());
+        binding.currentPosition.number.setText(String.valueOf(user.getPosition()));
+        binding.currentPosition.money.setText(String.valueOf(user.getRating()));
+    }
+
+    private void initRequest(){
+        request = new RatingRequest(
+                "rating",
+                Constant.app_ver,
+                Constant.ln,
+                sharedPreferences.getString("token", "")
+        );
+    }
+
+    @Override
+    public void onCLick(int id) {
+
+        if (profileAnyViewModel == null){
+            profileAnyViewModel = new ViewModelProvider(getViewModelStore(), new ProfileAnyFactory(initProfileAnyRequest(id))).get(ProfileAnyViewModel.class);
+        } else {
+            profileAnyViewModel.update(initProfileAnyRequest(id));
+        }
+        profileAnyViewModel.getLiveData().observe(getViewLifecycleOwner(), new Observer<ProfileAnyBody>() {
+            @Override
+            public void onChanged(ProfileAnyBody profileAnyBody) {
+                if(profileAnyBody.getToken() != null){
+                    if(profileAnyBody.getToken().equals("error")){
+                        startBaseActivity();
+                    }
+                }
+
+                if(profileAnyBody.getStatus().equals("success")){
+
+                    //проверка на капчу
+                    if(profileAnyBody.getCaptchaImageUrl() != null){
+                        createCaptchaDialog(profileAnyBody.getCaptchaImageUrl());
+                    }
+
+                    //проверка на отзывы
+                    if(profileAnyBody.getPopup() != null){
+                        if(profileAnyBody.getPopup().equals("comment")){
+                            createReviewDialog();
+                        }
+                    }
+
+                    if(profileAnyBody != null){
+
+                        if(profileAnyBody.getProfileAny() != null){
+                            String json = new Gson().toJson(profileAnyBody.getProfileAny());
+                            UserInfoDialogFragment dialog = new UserInfoDialogFragment();
+                            Bundle bundle = new Bundle();
+                            dialog.setArguments(bundle);
+                            bundle.putString("model", json);
+                            dialog.show(getFragmentManager(), "dialog");
+                        }
+
+                    } else {
+                        Toast.makeText(getContext(), "null object", Toast.LENGTH_SHORT).show();
+                    }
+
+                } else {
+                    Toast.makeText(getContext(), profileAnyBody.getStatusText(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private ProfileAnyRequest initProfileAnyRequest(int id){
+        return new ProfileAnyRequest(
+                "profile_any",
+                Constant.app_ver,
+                Constant.ln,
+                sharedPreferences.getString("token", ""),
+                id
+        );
+    }
+
+    private void startBaseActivity(){
+        startActivity(new Intent(getContext(), MainActivity.class));
         ((NavigationActivity)getActivity()).finish();
+    }
+
+    //создание диалога с капчей
+    private void createCaptchaDialog(String url){
+        CaptchaDialog.createCaptchaDialog(
+                getContext(),
+                getLayoutInflater(),
+                url,
+                getViewModelStore(),
+                getViewLifecycleOwner()
+        );
+    }
+
+    //создание диалога с отзывами
+    private void createReviewDialog(){
+        ReviewDialogHelper.buildReview(
+                getContext(),
+                getLayoutInflater(),
+                getViewModelStore(),
+                getViewLifecycleOwner()
+        );
     }
 
     private String getNumber(int i){

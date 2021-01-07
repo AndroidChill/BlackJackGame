@@ -9,7 +9,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.blackjackgame.R;
 import com.example.blackjackgame.databinding.LayoutProfileProgressItemBinding;
-import com.example.blackjackgame.model.profile.any.Progress;
+import com.example.blackjackgame.rModel.profileAny.Progress;
+import com.example.blackjackgame.util.ConvertStringToImage;
 
 import java.util.List;
 
@@ -49,6 +50,8 @@ public class ProfileAnyProgressAdapter extends RecyclerView.Adapter<ProfileAnyPr
         }
 
         void bind(Progress progress){
+            ConvertStringToImage.convert(binding.item, progress.getIcon()
+            );
             binding.amount.setText(String.valueOf(progress.getAmount()));
         }
 

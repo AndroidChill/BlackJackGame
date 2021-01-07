@@ -6,7 +6,7 @@
     <data>
         <variable
             name="profile"
-            type="com.example.blackjackgame.model.profile.any.ProfileAny" />
+            type="com.example.blackjackgame.rModel.profileAny.ProfileAny" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -23,7 +23,7 @@
                 android:id="@+id/surname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@={profile.user_surname}"
+                android:text="@={profile.surname}"
                 android:textStyle="bold"
                 style="@style/BaseTextView"
                 app:layout_constraintBottom_toBottomOf="@+id/textView5"
@@ -36,7 +36,7 @@
                 style="@style/BaseTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{String.valueOf(profile.user_rating)}"
+                android:text="@{String.valueOf(profile.rating)}"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/tv3"
                 app:layout_constraintStart_toStartOf="@+id/surname"
@@ -81,7 +81,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="64dp"
-                android:text="@{profile.user_name}"
+                android:text="@{profile.name}"
                 style="@style/BaseTextView"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/txtMonet"
@@ -101,12 +101,25 @@
                 app:layout_constraintTop_toBottomOf="@+id/tv3" />
 
             <TextView
+                android:id="@+id/textView67"
+                style="@style/BaseTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:maxWidth="300dp"
+                android:singleLine="false"
+                android:text="@{profile.info}"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/textView11"
+                app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
+            <TextView
                 android:id="@+id/textView8"
                 style="@style/BaseTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="@{String.valueOf(profile.user_coins)}"
+                android:text="@{String.valueOf(profile.coins)}"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@+id/userrating"
                 app:layout_constraintTop_toBottomOf="@+id/userrating" />
@@ -116,18 +129,18 @@
                 style="@style/HeadTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="8dp"
                 android:text="@string/progress"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@+id/textView7"
-                app:layout_constraintTop_toBottomOf="@+id/textView7" />
+                app:layout_constraintTop_toBottomOf="@+id/textView67" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="4dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
@@ -149,7 +162,7 @@
                 android:layout_marginBottom="8dp"
                 style="@style/BaseTextView"
                 android:textStyle="bold"
-                android:text="@{String.valueOf(profile.user_id)}"
+                android:text="@{String.valueOf(profile.id)}"
                 app:layout_constraintBottom_toTopOf="@+id/username"
                 app:layout_constraintStart_toStartOf="@+id/username" />
 

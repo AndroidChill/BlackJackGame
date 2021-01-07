@@ -9,7 +9,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@drawable/separator">
 
         <TextView
             android:id="@+id/textView49"
@@ -17,33 +18,107 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="Введите количество монет"
+            android:textColor="@color/white"
+            android:textSize="19sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
+        <EditText
             android:id="@+id/tv_count"
+            android:layout_width="200dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/border_edit"
+            android:text="0"
+            android:textColor="@color/black"
+            android:textSize="19sp"
+            android:cursorVisible="false"
+            android:enabled="false"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView49" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Коммиссия  1 %  : "
+            android:textColor="@color/white"
+            android:textSize="19sp"
+            app:layout_constraintStart_toStartOf="@+id/textView49"
+            app:layout_constraintTop_toBottomOf="@+id/tv_count" />
+
+        <TextView
+            android:id="@+id/commission"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="0"
+            android:textColor="@color/white"
+            android:textSize="19sp"
+            app:layout_constraintStart_toEndOf="@+id/textView"
+            app:layout_constraintTop_toBottomOf="@+id/tv_count" />
+
+        <TextView
+            android:id="@+id/textView74"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Итого : "
+            android:textColor="@color/white"
+            android:textSize="19sp"
+            app:layout_constraintStart_toStartOf="@+id/textView"
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+        <TextView
+            android:id="@+id/itogo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="0"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView49" />
+            android:textColor="@color/white"
+            android:textSize="19sp"
+            app:layout_constraintEnd_toEndOf="@+id/commission"
+            app:layout_constraintTop_toBottomOf="@+id/commission" />
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="4dp"
+            android:src="@drawable/money"
+            app:layout_constraintBottom_toBottomOf="@+id/commission"
+            app:layout_constraintStart_toEndOf="@+id/commission"
+            app:layout_constraintTop_toTopOf="@+id/commission" />
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="4dp"
+            android:src="@drawable/money"
+            app:layout_constraintBottom_toBottomOf="@+id/itogo"
+            app:layout_constraintStart_toEndOf="@+id/itogo"
+            app:layout_constraintTop_toTopOf="@+id/itogo" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_count">
+            app:layout_constraintTop_toBottomOf="@+id/textView74">
 
             <Button
                 android:id="@+id/button3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/vibor_button"
                 android:text="1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -52,6 +127,9 @@
                 android:id="@+id/button4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/vibor_button"
                 android:text="2"
                 app:layout_constraintStart_toEndOf="@+id/button3"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -60,6 +138,9 @@
                 android:id="@+id/button8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/vibor_button"
                 android:text="3"
                 app:layout_constraintStart_toEndOf="@+id/button4"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -68,6 +149,9 @@
                 android:id="@+id/button6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/vibor_button"
                 android:text="4"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/button3" />
@@ -76,6 +160,9 @@
                 android:id="@+id/button7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/vibor_button"
                 android:text="5"
                 app:layout_constraintStart_toEndOf="@+id/button6"
                 app:layout_constraintTop_toBottomOf="@+id/button4" />
@@ -84,6 +171,9 @@
                 android:id="@+id/button11"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/vibor_button"
                 android:text="6"
                 app:layout_constraintStart_toEndOf="@+id/button7"
                 app:layout_constraintTop_toBottomOf="@+id/button8" />
@@ -92,6 +182,9 @@
                 android:id="@+id/button9"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/vibor_button"
                 android:text="7"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/button6" />
@@ -101,6 +194,9 @@
                 android:id="@+id/button10"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/vibor_button"
                 android:text="8"
                 app:layout_constraintStart_toEndOf="@+id/button9"
                 app:layout_constraintTop_toBottomOf="@+id/button7" />
@@ -109,6 +205,9 @@
                 android:id="@+id/button13"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/vibor_button"
                 android:text="9"
                 app:layout_constraintStart_toEndOf="@+id/button10"
                 app:layout_constraintTop_toBottomOf="@+id/button11" />
@@ -117,7 +216,8 @@
                 android:id="@+id/btn_clear"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:src="@drawable/ic_baseline_close_24"
+                android:layout_marginTop="4dp"
+                android:src="@drawable/ic_baseline_close_24_white"
                 app:layout_constraintEnd_toStartOf="@+id/button14"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/button9" />
@@ -126,6 +226,10 @@
                 android:id="@+id/button14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="4dp"
+                android:background="@drawable/vibor_button"
                 android:text="0"
                 app:layout_constraintEnd_toEndOf="@+id/button10"
                 app:layout_constraintStart_toEndOf="@+id/button9"
@@ -135,8 +239,9 @@
                 android:id="@+id/button15"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
+                android:layout_marginTop="4dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/ic_baseline_arrow_back_ios_24"
+                android:src="@drawable/ic_baseline_arrow_back_ios_24_white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.83"
                 app:layout_constraintStart_toEndOf="@+id/button14"

@@ -174,17 +174,17 @@
 
             <View
                 android:id="@+id/iv_ref"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="18dp"
+                android:layout_height="17dp"
+                android:layout_marginStart="8dp"
                 android:background="@drawable/question"
-                app:layout_constraintStart_toEndOf="@id/tv_ref_head"
                 app:layout_constraintBottom_toBottomOf="@id/tv_ref_head"
-                app:layout_constraintTop_toTopOf="@id/tv_ref_head"
-                android:layout_marginStart="8dp"/>
+                app:layout_constraintStart_toEndOf="@id/tv_ref_head"
+                app:layout_constraintTop_toTopOf="@id/tv_ref_head" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_hint"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:visibility="gone"

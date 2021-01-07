@@ -1,15 +1,20 @@
 package com.example.blackjackgame.rViewModel.profile;
 
+import android.content.Context;
 import android.opengl.Visibility;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.databinding.ObservableInt;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.blackjackgame.network.responce.profile.avatar.AvatarChangeRequest;
+import com.example.blackjackgame.rModel.AvatarChangeBody;
 import com.example.blackjackgame.rModel.profile.ProfileBody;
 import com.example.blackjackgame.rModel.profileAvatar.ProfileAvatarBody;
 import com.example.blackjackgame.rModel.profileSend.ProfileSendBody;
 import com.example.blackjackgame.rNetwork.ServerFactory;
+import com.example.blackjackgame.rNetwork.request.ChangePhotoRequest;
 import com.example.blackjackgame.rNetwork.request.profile.ProfileRequest;
 import com.example.blackjackgame.rNetwork.request.profileAvatar.ProfileAvatarRequest;
 import com.example.blackjackgame.rNetwork.request.profileSend.ProfileSendRequest;
@@ -150,6 +155,37 @@ public class ProfileRepository {
                     @Override
                     public void onError(@NonNull Throwable e) {
                         errorSend.set(View.VISIBLE);
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+
+        return liveData;
+    }
+
+    public MutableLiveData<AvatarChangeBody> getAvatarChange(Context context, ChangePhotoRequest request){
+        MutableLiveData<AvatarChangeBody> liveData = new MutableLiveData<>();
+
+        service.getAvatarChange(request)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<AvatarChangeBody>() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(@NonNull AvatarChangeBody profileSendBody) {
+                        liveData.setValue(profileSendBody);
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+                        Toast.makeText(context, "Ошибка сервера. Попробуйте еще раз", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override

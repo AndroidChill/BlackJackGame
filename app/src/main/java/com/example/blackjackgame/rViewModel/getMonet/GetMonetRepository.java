@@ -84,7 +84,7 @@ public class GetMonetRepository {
 
         return liveData;
     }
-    
+
 
     public ObservableInt getError() {
         return error;

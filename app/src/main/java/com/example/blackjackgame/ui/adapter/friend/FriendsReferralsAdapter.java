@@ -1,6 +1,7 @@
 package com.example.blackjackgame.ui.adapter.friend;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -11,6 +12,7 @@ import com.example.blackjackgame.R;
 import com.example.blackjackgame.databinding.FragmentFriendsContentItemBinding;
 import com.example.blackjackgame.model.friend.Friend;
 import com.example.blackjackgame.model.friend.referrals.Referrals;
+import com.example.blackjackgame.rModel.friends.referrals.Friends;
 import com.example.blackjackgame.ui.interfaceClick.friend.MyFriendOnClick;
 import com.example.blackjackgame.util.ConvertStringToImage;
 
@@ -19,10 +21,10 @@ import java.util.List;
 
 public class FriendsReferralsAdapter extends RecyclerView.Adapter<FriendsReferralsAdapter.ViewHolder> {
 
-    private List<Referrals> list = new ArrayList<>();
+    private List<Friends> list = new ArrayList<>();
     private MyFriendOnClick listener;
 
-    public FriendsReferralsAdapter(List<Referrals> friends, MyFriendOnClick listener){
+    public FriendsReferralsAdapter(List<Friends> friends, MyFriendOnClick listener){
         this.list = friends;
         this.listener = listener;
     }
@@ -38,7 +40,7 @@ public class FriendsReferralsAdapter extends RecyclerView.Adapter<FriendsReferra
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.bind(list.get(position));
-        holder.binding.cardView.setOnClickListener(v -> listener.onClick(list.get(position).getNick()));
+        holder.binding.main.setOnClickListener(v -> listener.onClick(list.get(position).getId()));
     }
 
     @Override
@@ -55,8 +57,9 @@ public class FriendsReferralsAdapter extends RecyclerView.Adapter<FriendsReferra
             this.binding = binding;
         }
 
-        void bind(Referrals referrals){
-            ConvertStringToImage.convert(binding.image, referrals.getUser_avatar());
+        void bind(Friends referrals){
+            binding.cancelRequest.setVisibility(View.GONE);
+            ConvertStringToImage.convert(binding.image, referrals.getAvatar());
             binding.nick.setText(referrals.getNick());
         }
 

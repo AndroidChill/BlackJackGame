@@ -77,171 +77,91 @@ public class StartGameContentFragment extends Fragment implements FriendsOnClick
 
         sharedPreferences = getActivity().getSharedPreferences("shared", Context.MODE_PRIVATE);
 
-        FriendRequest request = new FriendRequest(
-                "friends",
-                Constant.app_ver,
-                Constant.ln,
-                sharedPreferences.getString("token", "null")
-        );
-
-        binding.countPlayer.seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @SuppressLint("SetTextI18n")
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                countPlayer = progress + 2;
-                Log.d("player", "onProgressChanged: " + progress);
-                binding.countPlayer.tvCount.setText(countPlayer + "/5");
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });
-
-        binding.countStavka.seekBar2.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @SuppressLint("SetTextI18n")
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                binding.countStavka.tvCount.setText(countStavka[progress] + "/" + 1000000);
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });
-
-        //заполнение информации с друзьями
-        viewModel.getFriends(request).observe(getViewLifecycleOwner(), new Observer<FriendBody>() {
-            @Override
-            public void onChanged(FriendBody friendBody) {
-                if(friendBody.getStatus().equals(Constant.success)){
-
-                    friends = friendBody.getFriends();
-                    adapter = new StartGameFriendsAdapter(friends, StartGameContentFragment.this);
-
-                    binding.friend.recyclerViewMyFriend.setLayoutManager(new LinearLayoutManager(getContext()));
-                    binding.friend.recyclerViewMyFriend.setAdapter(adapter);
 
 
 
-                } else {
-                    if(friendBody.getError_text().equals(Constant.failed_token)){
-                        failedToken();
-                    }
-                    //TODO: обработать ошибку с сервера
-                }
-            }
-        });
 
-        binding.friend.materialButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if(adapter != null){
-                    if(!isCheckedAllFriends){
-                        adapter.selectAll();
-                        binding.friend.materialButton.setText("Отменить все");
-                    } else {
-                        adapter.unselectall();
-                        binding.friend.materialButton.setText("Выбрать всех");
-                    }
-
-                    isCheckedAllFriends = !isCheckedAllFriends;
-
-                }
-
-            }
-        });
-
-        //поиск друзей
-        binding.friend.btnSearch.setOnClickListener(v -> {
-
-            String search = binding.friend.search.getText().toString();
-
-            currentFriends = new ArrayList<>();
-
-            //заполнение информации с друзьями
-            viewModel.getFriends(request).observe(getViewLifecycleOwner(), new Observer<FriendBody>() {
-                @Override
-                public void onChanged(FriendBody friendBody) {
-                    if(friendBody.getStatus().equals(Constant.success)){
-
-                        //выборка по имени
-                        for(Friend friend : friendBody.getFriends()){
-                            if(friend.getNick().contains(search)){
-                                currentFriends.add(friend);
-                            }
-                        }
-
-                        adapter = new StartGameFriendsAdapter(currentFriends, StartGameContentFragment.this);
-
-                        binding.friend.recyclerViewMyFriend.setLayoutManager(new LinearLayoutManager(getContext()));
-                        binding.friend.recyclerViewMyFriend.setAdapter(adapter);
-
-                    } else {
-                        if(friendBody.getError_text().equals(Constant.failed_token)){
-                            failedToken();
-                        }
-                        //TODO: обработать ошибку с сервера
-                    }
-                }
-            });
-        });
-
-        //проверка, игра приватная или нет
-        binding.typeGame.checkBox2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(!b){
-//                    binding.typeGame.startGame.setVisibility(View.GONE);
-                    binding.clFriend.setVisibility(View.GONE);
-                } else {
-//                    binding.typeGame.startGame.setVisibility(View.VISIBLE);
-                    binding.clFriend.setVisibility(View.VISIBLE);
-                }
-            }
-        });
-
-        binding.typeGame.startGame.setOnClickListener(v -> {
-            switch(countPlayer){
-                case 2:
-                    Intent intent2 = new Intent(getContext(), Game2Activity.class);
-                    startActivity(intent2);
-                    break;
-                case 3:
-                    Intent intent3 = new Intent(getContext(), Game3Activity.class);
-                    startActivity(intent3);
-                    break;
-                case 4:
-                    Intent intent4 = new Intent(getContext(), Game4Activity.class);
-                    startActivity(intent4);
-                    break;
-                case 5:
-                    Intent intent5 = new Intent(getContext(), GameFiveActivity.class);
-                    startActivity(intent5);
-                    break;
-            }
-        });
 
         return binding.getRoot();
     }
 
-    private void failedToken(){
-        sharedPreferences.edit().putBoolean(Constant.isSign, false).apply();
-        Intent intent = new Intent(getContext(), MainActivity.class);
-        startActivity(intent);
+    private void checkPrivate(){
+        //проверка, игра приватная или нет
+//        binding.typeGame.checkBox2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+//                if(!b){
+////                    binding.typeGame.startGame.setVisibility(View.GONE);
+//                    binding.clFriend.setVisibility(View.GONE);
+//                } else {
+////                    binding.typeGame.startGame.setVisibility(View.VISIBLE);
+//                    binding.clFriend.setVisibility(View.VISIBLE);
+//                }
+//            }
+//        });
+    }
+
+    private void initSeekbar(){
+//        binding.countPlayer.seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+//            @SuppressLint("SetTextI18n")
+//            @Override
+//            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+//                countPlayer = progress + 2;
+//                Log.d("player", "onProgressChanged: " + progress);
+//                binding.countPlayer.tvCount.setText(countPlayer + "/5");
+//            }
+//
+//            @Override
+//            public void onStartTrackingTouch(SeekBar seekBar) {
+//
+//            }
+//
+//            @Override
+//            public void onStopTrackingTouch(SeekBar seekBar) {
+//
+//            }
+//        });
+//
+//        binding.countStavka.seekBar2.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+//            @SuppressLint("SetTextI18n")
+//            @Override
+//            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+//                binding.countStavka.tvCount.setText(countStavka[progress] + "/" + 1000000);
+//            }
+//
+//            @Override
+//            public void onStartTrackingTouch(SeekBar seekBar) {
+//
+//            }
+//
+//            @Override
+//            public void onStopTrackingTouch(SeekBar seekBar) {
+//
+//            }
+//        });
+    }
+
+    private void choiceTypeGame(){
+//        binding.typeGame.startGame.setOnClickListener(v -> {
+//            switch(countPlayer){
+//                case 2:
+//                    Intent intent2 = new Intent(getContext(), Game2Activity.class);
+//                    startActivity(intent2);
+//                    break;
+//                case 3:
+//                    Intent intent3 = new Intent(getContext(), Game3Activity.class);
+//                    startActivity(intent3);
+//                    break;
+//                case 4:
+//                    Intent intent4 = new Intent(getContext(), Game4Activity.class);
+//                    startActivity(intent4);
+//                    break;
+//                case 5:
+//                    Intent intent5 = new Intent(getContext(), GameFiveActivity.class);
+//                    startActivity(intent5);
+//                    break;
+//            }
+//        });
     }
 
     @Override

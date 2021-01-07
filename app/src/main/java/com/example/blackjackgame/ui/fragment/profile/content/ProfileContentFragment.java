@@ -48,6 +48,7 @@ import com.example.blackjackgame.ui.adapter.profile.ProfileReferalsAdapter;
 import com.example.blackjackgame.ui.dialog.CaptchaDialog;
 import com.example.blackjackgame.ui.dialog.ReviewDialogHelper;
 import com.example.blackjackgame.ui.fragment.profile.content.edit.ProfileContentEditFragment;
+import com.example.blackjackgame.util.ConvertStringToImage;
 
 public class ProfileContentFragment extends Fragment {
 
@@ -94,11 +95,6 @@ public class ProfileContentFragment extends Fragment {
 
             startActivity(new Intent(getContext(), ProfileEditActivity.class));
 
-//            Fragment fragment = ProfileContentEditFragment.newInstance(profile);
-//
-//            NavigationActivity.fragmentManager.beginTransaction()
-//                    .replace(R.id.container_profile, fragment)
-//                    .commit();
         });
 
         refresh();
@@ -175,11 +171,18 @@ public class ProfileContentFragment extends Fragment {
                     binding.info.setProfile(profile);
                     binding.includeHeader.setModel(profile);
                     binding.setProfile(profile);
-                    initAvatar();
+                    if(profile.getAvatar() != null){
+                        ConvertStringToImage.convert(binding.includeHeader.logo, profile.getAvatar());
+                    }
 
-                    adapter = new ProfileProgressAdapter(profile.getProgresses());
-                    binding.progress.rvProgress.setAdapter(adapter);
-
+                    if(profile.getProgresses() != null){
+                        if(profile.getProgresses().size() == 0){
+                            binding.progress.cardView1.setVisibility(View.GONE);
+                        } else {
+                            adapter = new ProfileProgressAdapter(profile.getProgresses());
+                            binding.progress.rvProgress.setAdapter(adapter);
+                        }
+                    }
                     refAdapter = new ProfileReferalsAdapter(profile.getRefs(), getContext());
                     binding.info.rvRef.setAdapter(refAdapter);
 
@@ -195,19 +198,6 @@ public class ProfileContentFragment extends Fragment {
         ((NavigationActivity)getActivity()).finish();
     }
 
-    private void initAvatar(){
-        switch (profile.getAvatar()){
-            case "avatar1.png":
-                binding.includeHeader.logo.setImageResource(R.drawable.avatar1);
-                break;
-            case "avatar2.png":
-                binding.includeHeader.logo.setImageResource(R.drawable.avatar2);
-                break;
-            case "avatar3.png":
-                binding.includeHeader.logo.setImageResource(R.drawable.avatar3);
-                break;
-        }
-    }
 
     //создание диалога с капчей
     private void createCaptchaDialog(String url){
@@ -244,4 +234,12 @@ public class ProfileContentFragment extends Fragment {
         ((NavigationActivity)getActivity()).finish();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        initRequest();
+        viewModel.update(request);
+        updateUI();
+        binding.refresh.setRefreshing(false);
+    }
 }
